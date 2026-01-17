@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olaoluwa Age Group - United by Heritage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo-section" style="text-decoration: none; color: inherit;">
+                <div class="logo-placeholder">
+                    <img id="navbar-logo" src="logo.jpg" alt="Olaoluwa Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div>
+                    <div class="logo"><h3>Olaoluwa Age Group</h3></div>
+                    <div class="tagline">Olaoluwa • Ajejentan</div>
+                </div>
+            </a>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="scrollToSection('home'); return false;">Home</a></li>
+                <li><a href="#about" onclick="scrollToSection('about'); return false;">About</a></li>
+                <li><a href="#programs" onclick="scrollToSection('programs'); return false;">Programs</a></li>
+                <li><a href="#team" onclick="scrollToSection('team'); return false;">Team</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#contact" onclick="scrollToSection('contact'); return false;">Contact</a></li>
+            </ul>
+            <button onclick="scrollToSection('contact'); return false;" class="cta-button">Get in Touch</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Uniting Our <span class="highlight">Community</span> Through Shared Beliefs</h1>
+                <p>Olaoluwa is a collection of youths of Owalusin descent and long-term residents dedicated to community development, social integration, and building a better tomorrow for all.</p>
+                <div class="hero-buttons">
+                    <button onclick="scrollToSection('contact'); return false;" class="primary-btn">Join Us Today</button>
+                    <button onclick="scrollToSection('about'); return false;" class="secondary-btn">Learn More</button>
+                </div>
+            </div>
+    </section>
+
+    <!-- Stats Section - Dynamic -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter" data-target="65">20</span>+
+                </div>
+                <div class="stat-label">Active Members</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter" data-target="40">20</span>+
+                </div>
+                <div class="stat-label">Students Supported</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter" data-target="1400">20</span>+
+                </div>
+                <div class="stat-label">Community Members Impacted</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter" data-target="3">20</span>
+                </div>
+                <div class="stat-label">Major Programs</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="section-header">
+                <h2>Who We Are?</h2>
+                <p>Rooted in culture, driven by purpose</p>
+            </div>
+            <div class="about-content">
+                <p class="about-text">Olaoluwa is a collection of youths of Owalusin descent and long-time residents who were born, raised, or educated within the community.</p>
+                <p class="about-text hidden" id="more-text">We are deeply rooted in the spatial, cultural, and traditional values of Owalusin, not as outsiders but as true stakeholders. United by shared goals in community development, social interaction, and integration, we work together for progress. Guided by the ọmiye spirit of unity, we stand as a cohesive force committed to the growth of a better Owalusin.</p>
+                <button class="show-more-btn" id="show-more-btn" onclick="toggleAbout()">Show More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section with Image Frames -->
+    <section class="programs" id="programs">
+        <div class="programs-container">
+            <div class="section-header">
+                <h2>Our Programs</h2>
+                <p>Creating lasting impact in our community</p>
+            </div>
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="spelling-bee.jpg" alt="Spelling Bee" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="program-content">
+                        <h3>Spelling Bee</h3>
+                        <p>Our Spelling Bee program encourages academic excellence and healthy competition among students. We provide a platform for young minds to showcase their spelling skills while building confidence and fostering intellectual growth.</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="medical-outreach.jpg" alt="Medical Outreach" style="width: 100%; height: 180%; object-fit: cover;">
+                    </div>
+                    <div class="program-content">
+                        <h3>Medical Outreach</h3>
+                        <p>We are committed to improving community health through our Medical Outreach initiatives. Our program brings quality healthcare services and health education to underserved members of the Owalusin community.</p>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="street-games.jpg" alt="Street Games" style="width: 100%; height: 180%; object-fit: cover;">
+                    </div>
+                    <div class="program-content">
+                        <h3>Street Games</h3>
+                        <p>Street Games promotes social bonding and community spirit. Through organized recreational activities, we bring together members of all ages for fun, health, and lasting friendships.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="team-container">
+            <div class="section-header">
+                <h2>Meet Our Executives</h2>
+                <p>Dedicated leaders shaping our community</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="shittu1.jpg" alt="Mr Shittu Funsho" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Shittu Funsho</h3>
+                        <div class="team-role">Chairman</div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="joachim.jpg" alt="Mr Joachim Taiwo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 70%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Joachim Taiwo</h3>
+                        <div class="team-role">Vice Chairman</div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="samuel.jpg" alt="Mr Ehinola Femi" style="width: 100%; height: 100%; object-fit: cover; border-radius: 70%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Ehinola Oluwafemi</h3>
+                        <div class="team-role">General Secretary</div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="franklin.jpg" alt="Mr Adedoyin Franklin" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Adedoyin Franklin</h3>
+                        <div class="team-role">Treasurer</div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="olawale.jpg" alt="Mr Olawale Dare" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Olawale Dare</h3>
+                        <div class="team-role">Public Relation Officer</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team-grid mt-4" id="hidden-team" style="display: none;">
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="blessing.jpg" alt="Mr Adeyeri Blessing" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Adeyeri Blessing</h3>
+                        <div class="team-role">Financial Secretary</div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <div class="team-photo-circle">
+                            <img src="aliu.jpg" alt="Mr Aliu Johnson" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>Mr Aliu Johnson</h3>
+                        <div class="team-role">Assistant General Secretary</div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="primary-btn" id="see-more-team" onclick="toggleTeam()">See More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonial-section">
+        <div class="testimonial-container">
+            <div class="section-header" style="margin-bottom: 2rem;">
+                <h2 style="color: white;">Testimonials From Community Members</h2>
+            </div>
+            <p class="testimonial-text" id="testimonial-text">"Since its inception, Olaoluwa has set a high standard for how community-based age groups should function, bringing about a paradigm shift. It is no longer about merriment as usual, but about driving meaningful and lasting change."</p>
+            <div class="testimonial-author">
+                <div class="testimonial-photo">
+                    <img src="marius.jpg" alt="Testimonial" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <div>
+                    <div class="testimonial-name" id="testimonial-name">Marius Adeniyi</div>
+                    <div class="testimonial-role" id="testimonial-role">Medical Doctor</div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <button onclick="prevTestimonial()">← Previous</button>
+                <button onclick="nextTestimonial()">Next →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section">
+        <div class="countdown-container">
+            <div class="section-header" style="margin-bottom: 0;">
+                <h2 style="color: white;">Countdown to our Oka Day Program</h2>
+                <p style="color: rgba(255, 249, 240, 0.8);">July 31, 2026</p>
+            </div>
+            <div class="countdown-grid">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="countdown-days">0</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="countdown-hours">0</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="countdown-minutes">0</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="countdown-seconds">0</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="contact-content">
+                <h2>Get in Touch</h2>
+                <p>Have questions or want to join us? Reach out to the Olaoluwa Age Group. We'd love to hear from you!</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <div>
+                            <strong>Address</strong><br>
+                            No 1 Upare Owalusin, Iwaro-Oka Akoko
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span>📞</span>
+                        <div>
+                            <strong>Phone</strong><br>
+                            +234 813 030 5319
+                            +234 814 846 8721
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <div>
+                            <strong>Email</strong><br>
+                            Olaoluwaagegroup@gmail.com
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <input type="hidden" name="_captcha" value="false">
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home" onclick="scrollToSection('home'); return false;">Home</a>
+                <a href="#about" onclick="scrollToSection('about'); return false;">About</a>
+                <a href="#programs" onclick="scrollToSection('programs'); return false;">Programs</a>
+                <a href="#team" onclick="scrollToSection('team'); return false;">Team</a>
+                <a href="blog.html">Blog</a>
+                <a href="#contact" onclick="scrollToSection('contact'); return false;">Contact</a>
+            </div>
+            <p>&copy; 2026 Olaoluwa Age Group. All rights reserved. Olaoluwa • Ajejentan</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
