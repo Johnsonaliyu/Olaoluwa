@@ -405,11 +405,11 @@
 
     <script>
         /* ── Supabase config ── */
-        const SUPABASE_URL = '__SUPABASE_URL__';
-        const SUPABASE_KEY = '__SUPABASE_KEY__';
+        const _SB_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+        const _SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
         const _SB_HEADERS = {
-            'apikey': __SUPABASE_KEY__,
-            'Authorization': 'Bearer ' + __SUPABASE_KEY__,
+            'apikey': _SB_KEY,
+            'Authorization': 'Bearer ' + _SB_KEY,
             'Content-Type': 'application/json',
             'Prefer': 'return=minimal'
         };
@@ -419,12 +419,12 @@
             console.log('[Ann] loadAnnouncement() called');
             try {
                 const res = await fetch(
-                    `${__SUPABASE_URL__}/rest/v1/announcements?select=*&order=created_at.desc&limit=1`,
+                    `${_SB_URL}/rest/v1/announcements?select=*&order=created_at.desc&limit=1`,
                     {
                         method: 'GET',
                         headers: {
-                            'apikey': __SUPABASE_KEY__,
-                            'Authorization': 'Bearer ' + __SUPABASE_KEY__
+                            'apikey': _SB_KEY,
+                            'Authorization': 'Bearer ' + _SB_KEY
                         }
                     }
                 );
@@ -475,7 +475,7 @@
             feedback.style.display = 'none';
 
             try {
-                const res = await fetch(`${__SUPABASE_URL__}/rest/v1/contact_messages`, {
+                const res = await fetch(`${_SB_URL}/rest/v1/contact_messages`, {
                     method: 'POST',
                     headers: _SB_HEADERS,
                     body: JSON.stringify({
