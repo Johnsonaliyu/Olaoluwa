@@ -12,26 +12,21 @@ function esc(str) {
 }
 
 module.exports = async function handler(req, res) {
-  /* Support both ?id=... and /blog/:slug via ?slug=... */
-  const id   = req.query.id   || '';
-  const slug = req.query.slug || '';
+  const id = req.query.id || '';
 
-  /* ── Defaults ── */
   let ogTitle       = 'Olaoluwa Age Group Blog';
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
   let ogUrl         = `${SITE_URL}/blog.html`;
   let appUrl        = `${SITE_URL}/blog-post-app.html`;
 
-  /* ── Fetch post from Supabase — by id or by slug ── */
-  let query = '';
-  if (id)   query = `id=eq.${encodeURIComponent(id)}`;
-  if (slug) query = `slug=eq.${encodeURIComponent(slug)}`;
+  if (id) {
+    appUrl = `${SITE_URL}/blog-post-app.html?id=${encodeURIComponent(id)}`;
+    ogUrl  = `${SITE_URL}/blog-post.html?id=${encodeURIComponent(id)}`;
 
-  if (query) {
     try {
       const apiRes = await fetch(
-        `${SUPABASE_URL}/rest/v1/blog_posts?${query}&status=eq.published&select=id,title,excerpt,image_url,slug&limit=1`,
+        `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=title,excerpt,image_url&limit=1`,
         {
           headers: {
             'apikey':        SUPABASE_KEY,
@@ -48,15 +43,6 @@ module.exports = async function handler(req, res) {
           if (post.title)     ogTitle       = post.title;
           if (post.excerpt)   ogDescription = post.excerpt;
           if (post.image_url) ogImage       = post.image_url;
-
-          /* Clean slug URL — shown in WhatsApp preview */
-          const postSlug = post.slug || (post.id ? `post-${post.id}` : '');
-          ogUrl  = postSlug
-            ? `${SITE_URL}/blog/${postSlug}`
-            : `${SITE_URL}/blog-post.html?id=${encodeURIComponent(post.id)}`;
-
-          /* The actual full page the browser loads */
-          appUrl = `${SITE_URL}/blog-post-app.html?id=${encodeURIComponent(post.id)}`;
         }
       }
     } catch (err) {
@@ -64,7 +50,6 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  /* ── Minimal HTML — bots read OG tags, browsers get JS-redirected ── */
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,4 +78,4 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
   res.status(200).send(html);
 };
-  
+            
