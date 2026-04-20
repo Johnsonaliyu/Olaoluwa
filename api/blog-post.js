@@ -22,7 +22,7 @@ module.exports = async function handler(req, res) {
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
   let ogUrl         = id
-    ? `${SITE_URL}/blog-post.html?id=${encodeURIComponent(id)}`
+    ? `${SITE_URL}/blog-post-app.html?id=${encodeURIComponent(id)}`
     : `${SITE_URL}/blog.html`;
 
   /* ── Fetch real post data from Supabase ── */
@@ -57,31 +57,31 @@ module.exports = async function handler(req, res) {
   let html;
   try {
     html = fs.readFileSync(
-      path.join(process.cwd(), 'blog-post.html'),
+      path.join(process.cwd(), 'blog-post-app.html'),
       'utf8'
     );
   } catch (err) {
-    res.status(500).send('Could not read blog-post.html: ' + err.message);
+    res.status(500).send('Could not read blog-post-app.html: ' + err.message);
     return;
   }
 
   /* ── Build the OG meta block ──
-     Inject it right after <head> so these are the FIRST tags the
+     Inject right after <head> so these are the FIRST tags the
      crawler sees. Social crawlers always use the first occurrence. ── */
   const ogBlock = `
     <title>${esc(ogTitle)}</title>
-    <meta property="og:type"        content="article">
-    <meta property="og:site_name"   content="Olaoluwa Age Group">
-    <meta property="og:title"       content="${esc(ogTitle)}">
-    <meta property="og:description" content="${esc(ogDescription)}">
-    <meta property="og:image"       content="${esc(ogImage)}">
-    <meta property="og:url"         content="${esc(ogUrl)}">
-    <meta name="twitter:card"       content="summary_large_image">
-    <meta name="twitter:title"      content="${esc(ogTitle)}">
+    <meta property="og:type"         content="article">
+    <meta property="og:site_name"    content="Olaoluwa Age Group">
+    <meta property="og:title"        content="${esc(ogTitle)}">
+    <meta property="og:description"  content="${esc(ogDescription)}">
+    <meta property="og:image"        content="${esc(ogImage)}">
+    <meta property="og:url"          content="${esc(ogUrl)}">
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="${esc(ogTitle)}">
     <meta name="twitter:description" content="${esc(ogDescription)}">
-    <meta name="twitter:image"      content="${esc(ogImage)}">`;
+    <meta name="twitter:image"       content="${esc(ogImage)}">`;
 
-  /* Replace <head> with <head> + OG block */
+  /* Replace <head> with <head> + OG block — first match only */
   html = html.replace('<head>', `<head>${ogBlock}`);
 
   /* ── Send response ── */
@@ -89,3 +89,4 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
   res.status(200).send(html);
 };
+          
