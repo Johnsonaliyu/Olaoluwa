@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/blog-post.html", "destination": "/api/blog-post" }
+    { "source": "/blog-post-app.html", "destination": "/api/blog-post-app" }
   ]
 }
