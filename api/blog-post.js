@@ -5,33 +5,33 @@ const SITE_URL     = 'https://olaoluwaagegroup.vercel.app';
 function esc(str) {
   if (!str) return '';
   return String(str)
-    .replace(/&/g,  '&amp;')
-    .replace(/"/g,  '&quot;')
-    .replace(/</g,  '&lt;')
-    .replace(/>/g,  '&gt;');
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 module.exports = async function handler(req, res) {
-  const id = req.query.id || '';
+  /* Support both ?id=... and /blog/:slug via ?slug=... */
+  const id   = req.query.id   || '';
+  const slug = req.query.slug || '';
 
   /* ── Defaults ── */
   let ogTitle       = 'Olaoluwa Age Group Blog';
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
-  let ogUrl         = id
-    ? `${SITE_URL}/blog-post.html?id=${encodeURIComponent(id)}`
-    : `${SITE_URL}/blog.html`;
+  let ogUrl         = `${SITE_URL}/blog.html`;
+  let appUrl        = `${SITE_URL}/blog-post-app.html`;
 
-  /* ── Full blog post page URL (the renamed static file) ── */
-  const appUrl = id
-    ? `${SITE_URL}/blog-post-app.html?id=${encodeURIComponent(id)}`
-    : `${SITE_URL}/blog.html`;
+  /* ── Fetch post from Supabase — by id or by slug ── */
+  let query = '';
+  if (id)   query = `id=eq.${encodeURIComponent(id)}`;
+  if (slug) query = `slug=eq.${encodeURIComponent(slug)}`;
 
-  /* ── Fetch real post data from Supabase ── */
-  if (id) {
+  if (query) {
     try {
       const apiRes = await fetch(
-        `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=title,excerpt,image_url&limit=1`,
+        `${SUPABASE_URL}/rest/v1/blog_posts?${query}&status=eq.published&select=id,title,excerpt,image_url,slug&limit=1`,
         {
           headers: {
             'apikey':        SUPABASE_KEY,
@@ -48,6 +48,15 @@ module.exports = async function handler(req, res) {
           if (post.title)     ogTitle       = post.title;
           if (post.excerpt)   ogDescription = post.excerpt;
           if (post.image_url) ogImage       = post.image_url;
+
+          /* Clean slug URL — shown in WhatsApp preview */
+          const postSlug = post.slug || (post.id ? `post-${post.id}` : '');
+          ogUrl  = postSlug
+            ? `${SITE_URL}/blog/${postSlug}`
+            : `${SITE_URL}/blog-post.html?id=${encodeURIComponent(post.id)}`;
+
+          /* The actual full page the browser loads */
+          appUrl = `${SITE_URL}/blog-post-app.html?id=${encodeURIComponent(post.id)}`;
         }
       }
     } catch (err) {
@@ -55,10 +64,7 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  /* ── Build a minimal HTML page with OG tags + JS redirect ──
-     - WhatsApp / Facebook bots do NOT run JavaScript → they read OG tags
-     - Real browsers run JavaScript instantly → redirected to full blog post
-  ── */
+  /* ── Minimal HTML — bots read OG tags, browsers get JS-redirected ── */
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,6 +74,8 @@ module.exports = async function handler(req, res) {
   <meta property="og:title"        content="${esc(ogTitle)}">
   <meta property="og:description"  content="${esc(ogDescription)}">
   <meta property="og:image"        content="${esc(ogImage)}">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:url"          content="${esc(ogUrl)}">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="${esc(ogTitle)}">
@@ -85,4 +93,4 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
   res.status(200).send(html);
 };
-    
+  
