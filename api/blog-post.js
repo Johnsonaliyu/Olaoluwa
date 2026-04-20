@@ -15,9 +15,9 @@ function esc(str) {
 }
 
 module.exports = async function handler(req, res) {
-  const { id } = req.query;
+  const id = req.query.id || '';
 
-  // ── Defaults ──
+  /* ── Defaults ── */
   let ogTitle       = 'Olaoluwa Age Group Blog';
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
@@ -25,35 +25,35 @@ module.exports = async function handler(req, res) {
     ? `${SITE_URL}/blog-post.html?id=${encodeURIComponent(id)}`
     : `${SITE_URL}/blog.html`;
 
-  // ── Fetch real post data from Supabase ──
+  /* ── Fetch real post data from Supabase ── */
   if (id) {
     try {
-      const response = await fetch(
-        `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=title,excerpt,image_url`,
+      const apiRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=title,excerpt,image_url&limit=1`,
         {
           headers: {
             'apikey':        SUPABASE_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Accept':        'application/json',
           },
         }
       );
 
-      if (response.ok) {
-        const posts = await response.json();
-        if (posts && posts.length > 0) {
-          const post = posts[0];
+      if (apiRes.ok) {
+        const rows = await apiRes.json();
+        if (Array.isArray(rows) && rows.length > 0) {
+          const post = rows[0];
           if (post.title)     ogTitle       = post.title + ' — Olaoluwa Age Group';
           if (post.excerpt)   ogDescription = post.excerpt;
           if (post.image_url) ogImage       = post.image_url;
         }
       }
     } catch (err) {
-      console.error('Supabase fetch error:', err);
-      // Fall through — defaults are still fine
+      console.error('Supabase fetch error:', err.message);
     }
   }
 
-  // ── Read the static HTML file ──
+  /* ── Read the static HTML file from disk ── */
   let html;
   try {
     html = fs.readFileSync(
@@ -61,56 +61,31 @@ module.exports = async function handler(req, res) {
       'utf8'
     );
   } catch (err) {
-    res.status(500).send('Could not read blog-post.html');
+    res.status(500).send('Could not read blog-post.html: ' + err.message);
     return;
   }
 
-  // ── Inject real values into the OG meta tag content attributes ──
-  html = html
-    // <title>
-    .replace(
-      '<title>Blog Post - Olaoluwa Age Group</title>',
-      `<title>${esc(ogTitle)}</title>`
-    )
-    // og:title
-    .replace(
-      'id="og-title"       content="Olaoluwa Age Group Blog"',
-      `id="og-title"       content="${esc(ogTitle)}"`
-    )
-    // og:description
-    .replace(
-      'id="og-description" content="News and updates from the Olaoluwa Age Group community."',
-      `id="og-description" content="${esc(ogDescription)}"`
-    )
-    // og:image
-    .replace(
-      'id="og-image"       content=""',
-      `id="og-image"       content="${esc(ogImage)}"`
-    )
-    // og:url
-    .replace(
-      'id="og-url"         content=""',
-      `id="og-url"         content="${esc(ogUrl)}"`
-    )
-    // twitter:title
-    .replace(
-      'id="tw-title"       content="Olaoluwa Age Group Blog"',
-      `id="tw-title"       content="${esc(ogTitle)}"`
-    )
-    // twitter:description
-    .replace(
-      'id="tw-description" content="News and updates from the Olaoluwa Age Group community."',
-      `id="tw-description" content="${esc(ogDescription)}"`
-    )
-    // twitter:image
-    .replace(
-      'id="tw-image"       content=""',
-      `id="tw-image"       content="${esc(ogImage)}"`
-    );
+  /* ── Build the OG meta block ──
+     Inject it right after <head> so these are the FIRST tags the
+     crawler sees. Social crawlers always use the first occurrence. ── */
+  const ogBlock = `
+    <title>${esc(ogTitle)}</title>
+    <meta property="og:type"        content="article">
+    <meta property="og:site_name"   content="Olaoluwa Age Group">
+    <meta property="og:title"       content="${esc(ogTitle)}">
+    <meta property="og:description" content="${esc(ogDescription)}">
+    <meta property="og:image"       content="${esc(ogImage)}">
+    <meta property="og:url"         content="${esc(ogUrl)}">
+    <meta name="twitter:card"       content="summary_large_image">
+    <meta name="twitter:title"      content="${esc(ogTitle)}">
+    <meta name="twitter:description" content="${esc(ogDescription)}">
+    <meta name="twitter:image"      content="${esc(ogImage)}">`;
 
-  // ── Return the fully-formed HTML ──
+  /* Replace <head> with <head> + OG block */
+  html = html.replace('<head>', `<head>${ogBlock}`);
+
+  /* ── Send response ── */
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
   res.status(200).send(html);
 };
-  
