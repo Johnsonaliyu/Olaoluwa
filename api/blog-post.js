@@ -17,7 +17,7 @@ module.exports = async function handler(req, res) {
   let ogTitle       = 'Olaoluwa Age Group Blog';
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
-  let appUrl        = `${SITE_URL}/blog-post.html${id ? '?id=' + encodeURIComponent(id) : ''}`;
+  let appUrl        = `${SITE_URL}/blog-post-app.html${id ? '?id=' + encodeURIComponent(id) : ''}`;
 
   if (id) {
     try {
@@ -45,8 +45,6 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  const shareUrl = `${SITE_URL}/api/blog-post${id ? '?id=' + encodeURIComponent(id) : ''}`;
-
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +56,7 @@ module.exports = async function handler(req, res) {
   <meta property="og:image"        content="${esc(ogImage)}">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url"          content="${esc(shareUrl)}">
+  <meta property="og:url"          content="${SITE_URL}/blog-post.html${id ? '?id=' + encodeURIComponent(id) : ''}">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="${esc(ogTitle)}">
   <meta name="twitter:description" content="${esc(ogDescription)}">
@@ -75,4 +73,3 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
   res.status(200).send(html);
 };
-  
