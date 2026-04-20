@@ -17,7 +17,7 @@ module.exports = async function handler(req, res) {
   let ogTitle       = 'Olaoluwa Age Group Blog';
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
-  let appUrl        = `${SITE_URL}/blog-post-app.html${id ? '?id=' + encodeURIComponent(id) : ''}`;
+  let appUrl        = `${SITE_URL}/blog-post.html${id ? '?id=' + encodeURIComponent(id) : ''}`;
 
   if (id) {
     try {
