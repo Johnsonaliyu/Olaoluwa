@@ -55,7 +55,7 @@ module.exports = async function handler(req, res) {
   <meta property="og:description"  content="${esc(ogDescription)}">
   <meta property="og:image"        content="${esc(ogImage)}">
   <meta property="og:image:width"  content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image:height" content="200">
   <meta property="og:url"          content="${SITE_URL}/blog-post-app.html${id ? '?id=' + encodeURIComponent(id) : ''}">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="${esc(ogTitle)}">
