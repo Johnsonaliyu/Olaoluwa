@@ -1,6 +1,6 @@
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
-const SITE_URL     = 'https://olaoluwaagegroup.vercel.app';
+const SITE_URL = 'https://olaoluwaagegroup.vercel.app';
 
 function esc(str) {
   if (!str) return '';
@@ -17,25 +17,20 @@ module.exports = async function handler(req, res) {
   let ogTitle       = 'Olaoluwa Age Group Blog';
   let ogDescription = 'News and updates from the Olaoluwa Age Group community — Iwaro-Oka Akoko, Ondo State.';
   let ogImage       = `${SITE_URL}/logo.jpg`;
-  let ogUrl         = `${SITE_URL}/blog.html`;
-  let appUrl        = `${SITE_URL}/blog-post-app.html`;
+  let appUrl        = `${SITE_URL}/blog-post.html${id ? '?id=' + encodeURIComponent(id) : ''}`;
 
   if (id) {
-    appUrl = `${SITE_URL}/blog-post-app.html?id=${encodeURIComponent(id)}`;
-    ogUrl  = `${SITE_URL}/blog-post.html?id=${encodeURIComponent(id)}`;
-
     try {
       const apiRes = await fetch(
         `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=title,excerpt,image_url&limit=1`,
         {
           headers: {
-            'apikey':        SUPABASE_KEY,
+            'apikey': SUPABASE_KEY,
             'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Accept':        'application/json',
+            'Accept': 'application/json',
           },
         }
       );
-
       if (apiRes.ok) {
         const rows = await apiRes.json();
         if (Array.isArray(rows) && rows.length > 0) {
@@ -50,6 +45,8 @@ module.exports = async function handler(req, res) {
     }
   }
 
+  const shareUrl = `${SITE_URL}/api/blog-post${id ? '?id=' + encodeURIComponent(id) : ''}`;
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +58,7 @@ module.exports = async function handler(req, res) {
   <meta property="og:image"        content="${esc(ogImage)}">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url"          content="${esc(ogUrl)}">
+  <meta property="og:url"          content="${esc(shareUrl)}">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="${esc(ogTitle)}">
   <meta name="twitter:description" content="${esc(ogDescription)}">
