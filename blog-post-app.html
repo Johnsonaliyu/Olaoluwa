@@ -376,7 +376,7 @@
             const container = document.getElementById('post-container');
             const _id = new URLSearchParams(window.location.search).get('id');
             const _shareBase = _id
-                ? 'https://olaoluwaagegroup.vercel.app/blog-post-app.html?id=' + _id
+                ? 'https://olaoluwaagegroup.vercel.app/api/blog-post-app.html?id=' + _id
                 : window.location.href;
             const pageUrl = encodeURIComponent(_shareBase);
             const pageTitle = encodeURIComponent(post.title || 'Olaoluwa Age Group Blog');
