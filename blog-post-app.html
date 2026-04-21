@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Olaoluwa Age Group</title>
+
+    <!-- Open Graph / WhatsApp preview tags (updated dynamically by JS) -->
+    <meta property="og:type"        content="article">
+    <meta property="og:site_name"   content="Olaoluwa Age Group">
+    <meta property="og:title"       id="og-title"       content="Olaoluwa Age Group Blog">
+    <meta property="og:description" id="og-description" content="News and updates from the Olaoluwa Age Group community.">
+    <meta property="og:image"       id="og-image"       content="">
+    <meta property="og:url"         id="og-url"         content="">
+    <meta name="twitter:card"       content="summary_large_image">
+    <meta name="twitter:title"      id="tw-title"       content="Olaoluwa Age Group Blog">
+    <meta name="twitter:description" id="tw-description" content="News and updates from the Olaoluwa Age Group community.">
+    <meta name="twitter:image"      id="tw-image"       content="">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Skeleton loader */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .sk-title  { height: 48px; width: 75%; margin: 0 auto 1rem; }
+        .sk-date   { height: 20px; width: 25%; margin: 0 auto 0.5rem; }
+        .sk-img    { height: 400px; border-radius: 15px; margin-bottom: 3rem; }
+        .sk-line   { height: 16px; margin-bottom: 14px; }
+        .sk-line.w90 { width: 90%; }
+        .sk-line.w75 { width: 75%; }
+        .sk-line.w60 { width: 60%; }
+
+        /* Post meta bar */
+        .post-meta-bar {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+            font-size: 0.95rem;
+            color: #777;
+        }
+        .post-meta-bar .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .post-meta-bar .category-tag {
+            background: var(--green);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+        }
+
+        /* Article content styling */
+        .blog-post-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--charcoal);
+            margin: 2.5rem 0 1rem;
+        }
+        .blog-post-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--charcoal);
+            margin: 2rem 0 0.75rem;
+        }
+        .blog-post-content p { margin-bottom: 1.5rem; }
+        .blog-post-content ul,
+        .blog-post-content ol {
+            margin: 0 0 1.5rem 1.5rem;
+            line-height: 1.9;
+        }
+        .blog-post-content ul li,
+        .blog-post-content ol li { margin-bottom: 0.4rem; }
+        .blog-post-content strong { color: var(--charcoal); }
+        .blog-post-content hr {
+            border: none;
+            border-top: 2px solid #eee;
+            margin: 2rem 0;
+        }
+        .blog-post-content blockquote {
+            border-left: 4px solid var(--gold);
+            padding-left: 1.25rem;
+            margin: 1.5rem 0;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Related posts */
+        .related-posts { padding: 4rem 2rem; background: var(--sand); }
+        .related-posts h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--charcoal);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .related-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .related-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .related-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(45,80,22,0.12);
+            text-decoration: none;
+        }
+        .related-card-img {
+            height: 160px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--green), #1a3a0a);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; opacity: 0.7;
+        }
+        .related-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .related-card-body { padding: 1.25rem; }
+        .related-card-date { font-size: 0.78rem; color: var(--green); font-weight: 600; margin-bottom: 0.4rem; }
+        .related-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; line-height: 1.4; color: var(--charcoal); }
+
+        /* Error / not-found */
+        .post-error {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+        .post-error .icon { font-size: 4rem; margin-bottom: 1.5rem; }
+        .post-error h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: var(--charcoal); }
+        .post-error p { color: #777; margin-bottom: 2rem; font-size: 1.05rem; }
+
+        /* Author + Share block */
+        .author-share-block {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin: 1.75rem 0 2rem;
+            padding: 1.4rem 1.6rem;
+            background: linear-gradient(135deg, #f8faf5 0%, #f0f4eb 100%);
+            border-left: 4px solid var(--green, #2D5016);
+            border-radius: 0 12px 12px 0;
+        }
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+        .author-avatar {
+            width: 44px; height: 44px;
+            background: var(--green, #2D5016);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .author-details { display: flex; flex-direction: column; gap: 0.28rem; }
+        .author-by-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #888;
+        }
+        .author-name-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1a2e0a;
+            line-height: 1.2;
+        }
+        .author-date-row {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.15rem;
+        }
+
+        /* Social share */
+        .share-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+        .share-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: #888;
+        }
+        .share-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-color: #ccc;
+        }
+        .share-btn.facebook:hover  { border-color: #1877F2; }
+        .share-btn.whatsapp:hover  { border-color: #25D366; }
+        .share-btn.x-twitter:hover { border-color: #000; }
+        .share-btn.linkedin:hover  { border-color: #0A66C2; }
+        .share-btn.telegram:hover  { border-color: #229ED9; }
+
+        @media (max-width: 600px) {
+            .author-share-block { flex-direction: column; }
+            .share-group { align-items: flex-start; }
+        }
+            .related-posts-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .related-posts-grid { grid-template-columns: repeat(2, 1fr); }
+            .post-meta-bar { gap: 0.75rem; }
+        }
+        @media (max-width: 480px) {
+            .related-posts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-section" style="text-decoration: none; color: inherit;">
+                <div class="logo-placeholder">
+                    <img src="logo.jpg" alt="Olaoluwa Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div>
+                    <div class="logo">Olaoluwa Age Group</div>
+                    <div class="tagline">Olaoluwa • Ajejentan</div>
+                </div>
+            </a>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#programs">Programs</a></li>
+                <li><a href="index.html#team">Team</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <a href="blog.html" class="cta-button">← Back to Blog</a>
+        </div>
+    </nav>
+
+    <!-- Dynamic post header (filled by JS) -->
+    <div class="blog-post-header" id="post-header">
+        <!-- Skeleton while loading -->
+        <div class="skeleton sk-date" style="margin:0 auto 1rem;"></div>
+        <div class="skeleton sk-title"></div>
+    </div>
+
+    <!-- Article content -->
+    <section class="blog-post-section" id="post-section">
+        <div class="blog-post-container" id="post-container">
+            <!-- Skeleton while loading -->
+            <div class="skeleton sk-img"></div>
+            <div class="skeleton sk-line w90"></div>
+            <div class="skeleton sk-line w75"></div>
+            <div class="skeleton sk-line w90"></div>
+            <div class="skeleton sk-line w60"></div>
+            <div class="skeleton sk-line w90"></div>
+            <div class="skeleton sk-line w75"></div>
+        </div>
+    </section>
+
+    <!-- Related posts (filled by JS) -->
+    <section class="related-posts" id="related-section" style="display:none;">
+        <h3>More from the Blog</h3>
+        <div class="related-posts-grid" id="related-grid"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <p>&copy; 2026 Olaoluwa Age Group. All rights reserved. | Olaoluwa • Ajejentan</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        /* ── Supabase config ── */
+        const SUPABASE_URL   = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+        const SUPABASE_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+        
+
+        function getPostId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            try {
+                return new Date(dateStr).toLocaleDateString('en-GB', {
+                    day: 'numeric', month: 'long', year: 'numeric'
+                });
+            } catch { return dateStr; }
+        }
+
+        function escHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function renderPost(post) {
+            /* ── Page title ── */
+            document.title = (post.title || 'Blog Post') + ' - Olaoluwa Age Group';
+
+            /* ── Open Graph / WhatsApp preview meta tags ── */
+            const ogTitle = (post.title || 'Blog Post') + ' - Olaoluwa Age Group';
+            const ogDesc  = post.excerpt || post.title || 'Read the latest news from Olaoluwa Age Group.';
+            const ogImage = post.image_url || '';
+            const ogUrl   = window.location.href;
+            const setMeta = (id, val) => { const el = document.getElementById(id); if(el) el.setAttribute('content', val); };
+            setMeta('og-title',       ogTitle);
+            setMeta('og-description', ogDesc);
+            setMeta('og-image',       ogImage);
+            setMeta('og-url',         ogUrl);
+            setMeta('tw-title',       ogTitle);
+            setMeta('tw-description', ogDesc);
+            setMeta('tw-image',       ogImage);
+
+            /* ── Header ── */
+            document.getElementById('post-header').innerHTML = `
+                <p style="color:#d4af37;font-weight:600;margin-bottom:0.75rem;">📅 ${formatDate(post.date)}</p>
+                <h1>${escHtml(post.title)}</h1>
+                ${post.category ? `<p style="margin-top:1rem;opacity:0.85;font-size:0.95rem;">🏷 ${escHtml(post.category)}</p>` : ''}
+            `;
+
+            /* ── Article body ── */
+            const container = document.getElementById('post-container');
+            const _id = new URLSearchParams(window.location.search).get('id');
+            const _shareBase = _id
+                ? 'https://olaoluwaagegroup.vercel.app/blog-post.html?id=' + _id
+                : window.location.href;
+            const pageUrl = encodeURIComponent(_shareBase);
+            const pageTitle = encodeURIComponent(post.title || 'Olaoluwa Age Group Blog');
+            container.innerHTML = `
+                ${post.image_url
+                    ? `<div class="blog-post-featured-image">
+                           <img src="${escHtml(post.image_url)}" alt="${escHtml(post.image_alt || post.title)}"
+                                style="width:100%;height:100%;object-fit:cover;">
+                       </div>`
+                    : ''
+                }
+
+                <!-- Author + Share block -->
+                <div class="author-share-block">
+                  <div class="author-info">
+                    <div class="author-avatar">
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="7.5" r="3.5" stroke="white" stroke-width="1.6"/>
+                        <path d="M4 19c0-3.866 3.134-7 7-7h0c3.866 0 7 3.134 7 7" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="author-details">
+                      <span class="author-by-label">Written by</span>
+                      <span class="author-name-text">${escHtml(post.author || 'Olaoluwa Age Group')}</span>
+                      <div class="author-date-row">
+                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="1" y="2.5" width="11" height="9.5" rx="1.5" stroke="#888" stroke-width="1.2"/>
+                          <path d="M4 1.5v2M9 1.5v2M1 5.5h11" stroke="#888" stroke-width="1.1" stroke-linecap="round"/>
+                        </svg>
+                        <span>${formatDate(post.date)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="share-group">
+                    <span class="share-label">Share this post</span>
+                    <div class="share-buttons">
+                      <!-- Facebook -->
+                      <a class="share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=${pageUrl}" target="_blank" rel="noopener" title="Share on Facebook">
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="12" fill="#1877F2"/>
+                          <path d="M15.12 8H13a.5.5 0 0 0-.5.5V10h2.5l-.4 2.5H12.5V19h-2.5v-6.5H8.5V10H10V8.5A3.5 3.5 0 0 1 13.5 5H15.12v3z" fill="white"/>
+                        </svg>
+                      </a>
+                      <!-- WhatsApp -->
+                      <a class="share-btn whatsapp" href="https://wa.me/?text=${pageTitle}%20${pageUrl}" target="_blank" rel="noopener" title="Share on WhatsApp">
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="12" fill="#25D366"/>
+                          <path d="M17.1 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.8-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.2 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.2.2-1.3 0-.1-.2-.2-.5-.3z" fill="white"/>
+                          <path d="M12 4a8 8 0 0 0-6.9 12l-1.1 4 4.1-1.1A8 8 0 1 0 12 4zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z" fill="white"/>
+                        </svg>
+                      </a>
+                      <!-- X (Twitter) -->
+                      <a class="share-btn x-twitter" href="https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}" target="_blank" rel="noopener" title="Share on X">
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="12" fill="#000"/>
+                          <path d="M13.54 10.94L17.5 6.5h-1.1l-3.44 3.8L10.24 6.5H6.5l4.15 5.74L6.5 17.5h1.1l3.63-4 2.87 4H17.5l-3.96-6.56zm-1.28 1.42-.42-.57-3.36-4.6h1.45l2.7 3.72.42.57 3.52 4.83h-1.44l-2.87-3.95z" fill="white"/>
+                        </svg>
+                      </a>
+                      <!-- LinkedIn -->
+                      <a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}" target="_blank" rel="noopener" title="Share on LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="12" fill="#0A66C2"/>
+                          <path d="M8.5 10H7v7h1.5v-7zm-.75-1a.88.88 0 1 0 0-1.75.88.88 0 0 0 0 1.75zM17 13.2c0-1.8-.9-3.2-2.6-3.2-.8 0-1.5.4-1.9 1V10H11v7h1.5v-3.8c0-.9.5-1.7 1.4-1.7.9 0 1.6.6 1.6 1.8V17H17v-3.8z" fill="white"/>
+                        </svg>
+                      </a>
+                      <!-- Telegram -->
+                      <a class="share-btn telegram" href="https://t.me/share/url?url=${pageUrl}&text=${pageTitle}" target="_blank" rel="noopener" title="Share on Telegram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="12" fill="#229ED9"/>
+                          <path d="M18 7.5l-2.5 11c-.2.8-.7 1-1.3.6l-3.5-2.6-1.7 1.6c-.2.2-.4.3-.8.3l.3-3.7 6.7-6c.3-.3-.1-.4-.4-.2L7 14.3 3.6 13.2c-.8-.2-.8-.8.2-1.1l13.2-5.1c.6-.2 1.2.2 1 1.5z" fill="white"/>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="post-meta-bar">
+                    ${post.category ? `<span class="category-tag">${escHtml(post.category)}</span>` : ''}
+                    <span class="meta-item">
+                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="9.5" rx="1.5" stroke="#777" stroke-width="1.2"/><path d="M4 1.5v2M9 1.5v2M1 5.5h11" stroke="#777" stroke-width="1.1" stroke-linecap="round"/></svg>
+                        ${formatDate(post.date)}
+                    </span>
+                </div>
+
+                <article class="blog-post-content">
+                    ${post.content || '<p>No content available.</p>'}
+                </article>
+
+                <div class="blog-post-footer">
+                    <a href="blog.html" class="primary-btn">← Back to All Posts</a>
+                </div>
+            `;
+        }
+
+        function renderRelated(posts, currentId) {
+            const others = posts.filter(p => p.id !== currentId).slice(0, 4);
+            if (!others.length) return;
+            const grid = document.getElementById('related-grid');
+            grid.innerHTML = others.map(p => `
+                <a href="blog-post.html?id=${encodeURIComponent(p.id)}" class="related-card">
+                    <div class="related-card-img">
+                        ${p.image_url
+                            ? `<img src="${escHtml(p.image_url)}" alt="${escHtml(p.image_alt || p.title)}">`
+                            : '📰'
+                        }
+                    </div>
+                    <div class="related-card-body">
+                        <div class="related-card-date">📅 ${formatDate(p.date)}</div>
+                        <div class="related-card-title">${escHtml(p.title)}</div>
+                    </div>
+                </a>
+            `).join('');
+            document.getElementById('related-section').style.display = 'block';
+        }
+
+        function showError(message) {
+            document.getElementById('post-header').innerHTML = `
+                <h1 style="font-size:1.8rem;">Post Not Found</h1>`;
+            document.getElementById('post-container').innerHTML = `
+                <div class="post-error">
+                    <div class="icon">📭</div>
+                    <h2>Post Not Found</h2>
+                    <p>${escHtml(message)}</p>
+                    <a href="blog.html" class="primary-btn">← Back to Blog</a>
+                </div>`;
+        }
+
+        async function loadPost() {
+            const id = getPostId();
+            if (!id) { showError('No post ID was specified.'); return; }
+
+            const headers = {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY,
+            };
+
+            try {
+                /* Fire both requests simultaneously — no waterfall */
+                const [res, relRes] = await Promise.all([
+                    fetch(
+                        `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=*`,
+                        { headers }
+                    ),
+                    fetch(
+                        `${SUPABASE_URL}/rest/v1/blog_posts?select=id,title,date,image_url,image_alt&status=eq.published&order=date.desc&limit=5`,
+                        { headers }
+                    )
+                ]);
+
+                if (!res.ok) throw new Error('Network error');
+                const posts = await res.json();
+                if (!posts || posts.length === 0) {
+                    showError('This post does not exist or has been unpublished.');
+                    return;
+                }
+
+                renderPost(posts[0]);
+
+                if (relRes.ok) {
+                    const related = await relRes.json();
+                    renderRelated(related, posts[0].id);
+                }
+
+            } catch (err) {
+                console.error('Post load error:', err);
+                showError('Could not load this post. Please try again later.');
+            }
+        }
+
+        loadPost();
+    </script>
+  <!-- Eruda mobile debugger — remove before final production -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();</script>
+</body>
+</html>
