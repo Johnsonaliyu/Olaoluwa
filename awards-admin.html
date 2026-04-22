@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awards Admin — Olaoluwa Age Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:       #2D5016;
+      --green-mid:   #3A6B1D;
+      --green-light: #4E8A28;
+      --green-tint:  #EBF2E4;
+      --gold:        #C9973A;
+      --gold-pale:   #FDF6E3;
+      --ink:         #1C1A16;
+      --ink-mid:     #3D3830;
+      --ink-soft:    #6B6356;
+      --ink-faint:   #9A9185;
+      --off-white:   #F7F4EF;
+      --off-white-2: #EDE9E2;
+      --off-white-3: #E2DDD4;
+      --danger:      #B83232;
+      --danger-tint: #FDEAEA;
+      --radius:      10px;
+      --radius-lg:   16px;
+      --shadow:      0 4px 16px rgba(28,26,22,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: var(--ink); min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--off-white);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: #fff; border: 1px solid var(--off-white-3);
+      border-radius: var(--radius-lg); padding: 2.5rem 2rem;
+      width: 100%; max-width: 380px; box-shadow: var(--shadow);
+    }
+    .login-box h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;
+    }
+    .login-box p { color: var(--ink-soft); font-size: 0.84rem; margin-bottom: 1.8rem; }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-soft); margin-bottom: 0.4rem; }
+    .field input {
+      width: 100%; padding: 0.72rem 0.9rem;
+      border: 1.5px solid var(--off-white-3); border-radius: var(--radius);
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--ink);
+      background: var(--off-white); transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(78,138,40,0.12); }
+    .btn-full {
+      width: 100%; padding: 0.82rem; background: var(--green); color: #fff;
+      border: none; border-radius: var(--radius);
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; margin-top: 0.5rem;
+    }
+    .btn-full:hover { background: var(--green-mid); }
+    .btn-full:disabled { opacity: 0.6; cursor: not-allowed; }
+    #login-error { display: none; color: var(--danger); font-size: 0.82rem; margin-top: 0.75rem; }
+    #login-error.show { display: block; }
+
+    /* ── APP ── */
+    #app { display: none; min-height: 100vh; flex-direction: column; }
+
+    .topbar {
+      background: #fff; border-bottom: 1px solid var(--off-white-3);
+      padding: 0 1.5rem; height: 56px;
+      display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 1px 6px rgba(28,26,22,0.07);
+    }
+    .topbar-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-right: auto;
+    }
+    .topbar-title span { color: var(--gold); }
+    .btn-sm {
+      padding: 0.38rem 0.9rem; border-radius: 8px;
+      font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; border: none; transition: all 0.2s;
+    }
+    .btn-outline { background: transparent; border: 1.5px solid var(--off-white-3); color: var(--ink-mid); }
+    .btn-outline:hover { border-color: var(--green-light); color: var(--green); background: var(--green-tint); }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-mid); }
+    .btn-danger-sm { background: var(--danger-tint); color: var(--danger); border: 1px solid rgba(184,50,50,0.15); }
+    .btn-danger-sm:hover { background: #fbd8d8; }
+
+    .main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ── ADD NOMINEE FORM ── */
+    .form-card {
+      background: #fff; border: 1px solid var(--off-white-3);
+      border-radius: var(--radius-lg); overflow: hidden;
+      margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(28,26,22,0.06);
+    }
+    .form-card-header {
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--off-white-3);
+      font-size: 0.88rem; font-weight: 600; color: var(--ink);
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--off-white);
+    }
+    .form-card-body { padding: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .fg { display: flex; flex-direction: column; gap: 0.35rem; }
+    .fg.full { grid-column: 1/-1; }
+    .fg label { font-size: 0.71rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-soft); }
+    .fg input, .fg select {
+      padding: 0.68rem 0.9rem;
+      border: 1.5px solid var(--off-white-3); border-radius: var(--radius);
+      font-family: 'Outfit', sans-serif; font-size: 0.87rem; color: var(--ink);
+      background: #fff; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+    }
+    .fg input:focus, .fg select:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(78,138,40,0.1); }
+
+    /* Photo upload zone */
+    .upload-zone {
+      border: 2px dashed var(--off-white-3); border-radius: var(--radius);
+      padding: 1.5rem; text-align: center; cursor: pointer;
+      transition: all 0.2s; position: relative;
+    }
+    .upload-zone:hover { border-color: var(--green-light); background: var(--green-tint); }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .upload-zone p { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.4rem; }
+    .upload-preview { margin-top: 0.75rem; }
+    .upload-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid var(--off-white-3); }
+
+    .form-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem; }
+
+    /* ── NOMINEES LIST ── */
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .cat-block { margin-bottom: 2rem; }
+    .cat-block-header {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.65rem 1rem; background: #fff;
+      border: 1px solid var(--off-white-3); border-radius: var(--radius) var(--radius) 0 0;
+      border-bottom: none; font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    }
+    .cat-block-header .count {
+      margin-left: auto; background: var(--green); color: #fff;
+      font-size: 0.68rem; font-weight: 600;
+      padding: 0.13rem 0.5rem; border-radius: 20px;
+    }
+    .nominees-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--off-white-3); border-radius: 0 0 var(--radius) var(--radius); overflow: hidden; }
+    .nominees-table th {
+      text-align: left; padding: 0.7rem 1rem;
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--ink-faint); background: var(--off-white); border-bottom: 1px solid var(--off-white-3);
+    }
+    .nominees-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--off-white-3); font-size: 0.86rem; vertical-align: middle; }
+    .nominees-table tr:last-child td { border-bottom: none; }
+    .nominees-table tr:hover td { background: var(--off-white); }
+
+    .nominee-row-photo {
+      width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
+      border: 1.5px solid var(--off-white-3); background: var(--off-white-2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nominee-row-photo img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--off-white-3); }
+    .vote-pill {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--green-tint); color: var(--green);
+      font-size: 0.73rem; font-weight: 600;
+      padding: 0.2rem 0.6rem; border-radius: 20px;
+    }
+    .empty-row td { text-align: center; padding: 2rem; color: var(--ink-faint); font-size: 0.84rem; }
+
+    /* ── LOADING ── */
+    .spinner { width: 20px; height: 20px; border: 2px solid var(--off-white-3); border-top-color: var(--green); border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--ink); color: #fff; padding: 0.7rem 1.2rem;
+      border-radius: var(--radius); font-size: 0.83rem; font-weight: 500;
+      opacity: 0; pointer-events: none; transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18); z-index: 9999;
+      transform: translateY(8px);
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.success { background: var(--green); }
+    #toast.error   { background: var(--danger); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(28,26,22,0.45);
+      display: none; align-items: center; justify-content: center; z-index: 9000;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: var(--radius-lg);
+      padding: 2rem; max-width: 360px; width: 90%;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .modal-box p { color: var(--ink-soft); font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: center; }
+
+    @media (max-width: 600px) {
+      .form-row, .form-row.three { grid-template-columns: 1fr; }
+      .main { padding: 1.5rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-box">
+    <h2>Awards Admin</h2>
+    <p>Sign in to manage nominees and view results.</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="l-email" placeholder="admin@example.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="l-pass" placeholder="••••••••">
+    </div>
+    <button class="btn-full" id="login-btn" onclick="doLogin()">Sign In</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-title">🏅 Awards <span>Admin</span></div>
+    <a href="awards-vote.html" target="_blank" class="btn-sm btn-outline">View Voting Page ↗</a>
+    <button class="btn-sm btn-outline" onclick="doLogout()">Sign Out</button>
+  </div>
+
+  <div class="main">
+
+    <!-- Add Nominee -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 12.5c0-3.04 2.46-5.5 5.5-5.5s5.5 2.46 5.5 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Add New Nominee
+      </div>
+      <div class="form-card-body">
+        <div class="form-row">
+          <div class="fg">
+            <label>Full Name *</label>
+            <input type="text" id="f-name" placeholder="e.g. Adebayo Olatunji">
+          </div>
+          <div class="fg">
+            <label>Award Category *</label>
+            <select id="f-category">
+              <option value="">— Select Category —</option>
+              <option value="commitment">Outstanding Commitment Award</option>
+              <option value="supportive">Most Supportive Member Award</option>
+              <option value="leadership">Leadership Excellence Award</option>
+              <option value="impact">Social Impact Award</option>
+              <option value="innovative">Innovative Idea Award</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:1rem;">
+          <label>Nominee Photo</label>
+          <div class="upload-zone" id="upload-zone">
+            <input type="file" id="f-photo" accept="image/*" onchange="handlePhotoSelect(this)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#9A9185" stroke-width="1.3"/><path d="M14 9v9M9.5 13.5L14 9l4.5 4.5" stroke="#9A9185" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>Click to upload photo or drag & drop<br><span style="font-size:0.75rem;color:var(--ink-faint);">JPG, PNG · Max 5 MB</span></p>
+            <div class="upload-preview" id="upload-preview"></div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-sm btn-outline" onclick="clearForm()">Clear</button>
+          <button class="btn-sm btn-primary" id="save-btn" onclick="saveNominee()">Add Nominee</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nominees List -->
+    <div class="section-title">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5l1.8 3.6 4 .58-2.9 2.83.68 3.99L9 10.5l-3.58 1.99.68-3.99L3.2 5.68l4-.58z" stroke="#C9973A" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      All Nominees
+    </div>
+    <div id="nominees-list">
+      <div style="text-align:center;padding:2rem;color:var(--ink-faint);">
+        <div class="spinner"></div><br>Loading nominees…
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="del-modal">
+  <div class="modal-box">
+    <h3>Remove Nominee?</h3>
+    <p id="del-modal-msg">This will permanently remove the nominee and all their votes.</p>
+    <div class="modal-actions">
+      <button class="btn-sm btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-sm btn-danger-sm" id="del-confirm-btn">Remove</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  const SUPABASE_URL    = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+  const SUPABASE_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+  const STORAGE_BUCKET  = 'award-photos';
+
+  const CATEGORIES = [
+    { id: 'commitment', label: 'Outstanding Commitment Award',  icon: '🏅' },
+    { id: 'supportive', label: 'Most Supportive Member Award',  icon: '🤝' },
+    { id: 'leadership', label: 'Leadership Excellence Award',   icon: '👑' },
+    { id: 'impact',     label: 'Social Impact Award',           icon: '🌍' },
+    { id: 'innovative', label: 'Innovative Idea Award',         icon: '💡' },
+  ];
+
+  let authToken = null;
+  let allNominees = [];
+  let voteCounts  = {};
+  let selectedPhotoFile = null;
+
+  // ── AUTH ──
+  async function doLogin() {
+    const email = document.getElementById('l-email').value.trim();
+    const pass  = document.getElementById('l-pass').value;
+    const errEl = document.getElementById('login-error');
+    const btn   = document.getElementById('login-btn');
+    errEl.classList.remove('show'); errEl.textContent = '';
+    if (!email || !pass) { errEl.textContent = 'Please enter email and password.'; errEl.classList.add('show'); return; }
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    try {
+      const r = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+        body: JSON.stringify({ email, password: pass })
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error_description || 'Invalid credentials');
+      authToken = d.access_token;
+      document.getElementById('login-screen').style.display = 'none';
+      const app = document.getElementById('app');
+      app.style.display = 'flex'; app.style.flexDirection = 'column';
+      loadAll();
+    } catch (e) {
+      errEl.textContent = e.message; errEl.classList.add('show');
+    } finally { btn.disabled = false; btn.textContent = 'Sign In'; }
+  }
+
+  function doLogout() {
+    authToken = null;
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('l-pass').value = '';
+  }
+
+  document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('l-email').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+  // ── API ──
+  function authHeaders() {
+    return { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + authToken, 'Content-Type': 'application/json' };
+  }
+
+  async function loadAll() {
+    try {
+      const [n, v] = await Promise.all([
+        fetch(`${SUPABASE_URL}/rest/v1/award_nominees?select=*&order=created_at.asc`, { headers: authHeaders() }).then(r => r.json()),
+        fetch(`${SUPABASE_URL}/rest/v1/award_votes?select=nominee_id`, { headers: authHeaders() }).then(r => r.json()),
+      ]);
+      allNominees = Array.isArray(n) ? n : [];
+      voteCounts = {};
+      if (Array.isArray(v)) v.forEach(r => { voteCounts[r.nominee_id] = (voteCounts[r.nominee_id] || 0) + 1; });
+      renderNominees();
+    } catch (e) {
+      document.getElementById('nominees-list').innerHTML = `<p style="color:var(--danger);padding:1rem;">Failed to load nominees.</p>`;
+    }
+  }
+
+  // ── PHOTO UPLOAD ──
+  function handlePhotoSelect(input) {
+    const file = input.files[0]; if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { toast('Photo must be under 5 MB.', 'error'); return; }
+    selectedPhotoFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('upload-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function uploadPhoto(file) {
+    const ext  = file.name.split('.').pop();
+    const name = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const r = await fetch(`${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${name}`, {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + authToken, apikey: SUPABASE_KEY, 'Content-Type': file.type, 'x-upsert': 'true' },
+      body: file
+    });
+    if (!r.ok) throw new Error('Photo upload failed');
+    return `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${name}`;
+  }
+
+  // ── SAVE NOMINEE ──
+  async function saveNominee() {
+    const name     = document.getElementById('f-name').value.trim();
+    const category = document.getElementById('f-category').value;
+    if (!name)     { toast('Name is required.', 'error'); return; }
+    if (!category) { toast('Please select a category.', 'error'); return; }
+
+    const btn = document.getElementById('save-btn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+
+    try {
+      let photo_url = '';
+      if (selectedPhotoFile) photo_url = await uploadPhoto(selectedPhotoFile);
+
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/award_nominees`, {
+        method: 'POST',
+        headers: { ...authHeaders(), Prefer: 'return=minimal' },
+        body: JSON.stringify({ name, category, photo_url })
+      });
+      if (!r.ok) throw new Error('Save failed');
+      toast('Nominee added!', 'success');
+      clearForm();
+      await loadAll();
+    } catch (e) {
+      toast('Error: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Add Nominee';
+    }
+  }
+
+  function clearForm() {
+    document.getElementById('f-name').value     = '';
+    document.getElementById('f-category').value = '';
+    document.getElementById('f-photo').value    = '';
+    document.getElementById('upload-preview').innerHTML = '';
+    selectedPhotoFile = null;
+  }
+
+  // ── RENDER NOMINEES ──
+  function renderNominees() {
+    const wrap = document.getElementById('nominees-list');
+    if (!allNominees.length) {
+      wrap.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--ink-faint);">No nominees added yet.</div>`;
+      return;
+    }
+    wrap.innerHTML = CATEGORIES.map(cat => {
+      const noms = allNominees.filter(n => n.category === cat.id);
+      const rows = noms.length === 0
+        ? `<tr class="empty-row"><td colspan="4">No nominees in this category yet.</td></tr>`
+        : noms.map(n => `
+          <tr>
+            <td>
+              ${n.photo_url
+                ? `<img src="${escHtml(n.photo_url)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1.5px solid var(--off-white-3);" alt="">`
+                : `<div style="width:44px;height:44px;border-radius:50%;background:var(--off-white-2);display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" stroke="#9A9185" stroke-width="1.2"/><path d="M2 18c0-4.42 3.58-8 8-8s8 3.58 8 8" stroke="#9A9185" stroke-width="1.2" stroke-linecap="round"/></svg></div>`
+              }
+            </td>
+            <td style="font-weight:500;">${escHtml(n.name)}</td>
+            <td><span class="vote-pill">🗳 ${voteCounts[n.id] || 0} vote${(voteCounts[n.id]||0) !== 1 ? 's' : ''}</span></td>
+            <td><button class="btn-sm btn-danger-sm" onclick="promptDelete('${n.id}','${escAttr(n.name)}')">Remove</button></td>
+          </tr>`).join('');
+      return `
+        <div class="cat-block">
+          <div class="cat-block-header">
+            ${cat.icon} ${cat.label}
+            <span class="count">${noms.length}</span>
+          </div>
+          <table class="nominees-table">
+            <thead><tr><th>Photo</th><th>Name</th><th>Votes</th><th></th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }).join('');
+  }
+
+  // ── DELETE ──
+  function promptDelete(id, name) {
+    document.getElementById('del-modal-msg').textContent = `"${name}" will be permanently removed along with all their votes.`;
+    document.getElementById('del-confirm-btn').onclick = () => doDelete(id);
+    document.getElementById('del-modal').classList.add('open');
+  }
+  function closeModal() { document.getElementById('del-modal').classList.remove('open'); }
+
+  async function doDelete(id) {
+    closeModal();
+    try {
+      // Delete votes first, then nominee
+      await fetch(`${SUPABASE_URL}/rest/v1/award_votes?nominee_id=eq.${id}`, {
+        method: 'DELETE', headers: authHeaders()
+      });
+      await fetch(`${SUPABASE_URL}/rest/v1/award_nominees?id=eq.${id}`, {
+        method: 'DELETE', headers: authHeaders()
+      });
+      toast('Nominee removed.', 'success');
+      await loadAll();
+    } catch (e) { toast('Delete failed.', 'error'); }
+  }
+
+  // ── UTILS ──
+  function escHtml(s)  { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function escAttr(s)  { if (!s) return ''; return String(s).replace(/'/g,'&#39;').replace(/"/g,'&quot;'); }
+
+  let _tt;
+  function toast(msg, type = 'info') {
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.className = 'show ' + type;
+    clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+
+  // Drag-and-drop on upload zone
+  const zone = document.getElementById('upload-zone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.background = 'var(--green-tint)'; });
+  zone.addEventListener('dragleave', () => { zone.style.background = ''; });
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.style.background = '';
+    const f = e.dataTransfer.files[0];
+    if (f) { document.getElementById('f-photo').files = e.dataTransfer.files; handlePhotoSelect({ files: [f] }); }
+  });
+</script>
+</body>
+</html>
