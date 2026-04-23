@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awards & Recognition 2026 — Olaoluwa Age Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void:        #060E03;
+      --forest:      #0D2008;
+      --green:       #2D5016;
+      --green-mid:   #3A6B1D;
+      --green-light: #4E8A28;
+      --gold:        #C9973A;
+      --gold-bright: #E8B84B;
+      --gold-pale:   #FBF0D9;
+      --cream:       #F7F4EF;
+      --cream-2:     #EDE9E2;
+      --ink:         #1C1A16;
+      --ink-mid:     #3D3830;
+      --ink-soft:    #6B6356;
+      --white:       #FFFFFF;
+      --danger:      #C0392B;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--forest);
+      position: relative; overflow: hidden;
+      padding: 5rem 2rem 4.5rem;
+      text-align: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse, rgba(201,151,58,0.20) 0%, rgba(45,80,22,0.10) 40%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-corner {
+      position: absolute; width: 44px; height: 44px;
+      border-color: rgba(201,151,58,0.35); border-style: solid;
+    }
+    .hero-corner.tl { top: 22px; left: 22px; border-width: 1px 0 0 1px; }
+    .hero-corner.tr { top: 22px; right: 22px; border-width: 1px 1px 0 0; }
+    .hero-corner.bl { bottom: 22px; left: 22px; border-width: 0 0 1px 1px; }
+    .hero-corner.br { bottom: 22px; right: 22px; border-width: 0 1px 1px 0; }
+    .hero-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      color: var(--gold); font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block; width: 36px; height: 1px;
+      background: var(--gold); opacity: 0.5;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 9vw, 5.8rem);
+      font-weight: 700; line-height: 1.05;
+      color: var(--white); margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+    .hero-title em { font-style: italic; color: var(--gold-bright); display: block; }
+    .hero-stars {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.55rem; margin-bottom: 1.75rem;
+    }
+    .hero-stars svg { animation: starPulse 3s ease-in-out infinite; }
+    .hero-stars svg:nth-child(1) { animation-delay: 0s; }
+    .hero-stars svg:nth-child(2) { animation-delay: 0.15s; }
+    .hero-stars svg:nth-child(3) { animation-delay: 0.3s; }
+    .hero-stars svg:nth-child(4) { animation-delay: 0.45s; }
+    .hero-stars svg:nth-child(5) { animation-delay: 0.6s; }
+    @keyframes starPulse {
+      0%,100% { opacity: 0.45; transform: scale(1); }
+      50%      { opacity: 1;    transform: scale(1.18); }
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.55); font-size: 1.05rem;
+      line-height: 1.75; font-weight: 300;
+    }
+
+    /* ── CATEGORY NAV ── */
+    .cat-nav-outer {
+      background: var(--void);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: sticky; top: 0; z-index: 200;
+    }
+    .cat-nav {
+      display: flex; max-width: 1120px; margin: 0 auto;
+      overflow-x: auto; scrollbar-width: none; padding: 0 1rem;
+    }
+    .cat-nav::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
+      padding: 1rem 1.5rem;
+      background: transparent; border: none;
+      border-bottom: 3px solid transparent;
+      color: rgba(255,255,255,0.4);
+      transition: all 0.25s; position: relative;
+    }
+    .cat-btn:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.04); }
+    .cat-btn.active { color: var(--gold-bright); border-bottom-color: var(--gold); background: rgba(201,151,58,0.07); }
+    .cat-btn-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+    .cat-btn-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+
+    /* ── MAIN ── */
+    .main { max-width: 1120px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+    /* ── PANEL ── */
+    .cat-panel { animation: panelIn 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cat-panel-header {
+      display: flex; align-items: flex-start; gap: 1.5rem;
+      margin-bottom: 2.5rem; padding-bottom: 2rem;
+      border-bottom: 1px solid var(--cream-2); flex-wrap: wrap;
+    }
+    .cat-icon-wrap {
+      width: 74px; height: 74px; flex-shrink: 0;
+      background: var(--forest); border: 1.5px solid rgba(201,151,58,0.3);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 28px rgba(201,151,58,0.10);
+    }
+    .cat-text { flex: 1; min-width: 200px; }
+    .cat-kicker {
+      font-size: 0.77rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem;
+    }
+    .cat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 700;
+      color: var(--ink); line-height: 1.15; margin-bottom: 0.6rem;
+    }
+    .cat-desc { font-size: 1rem; color: var(--ink-soft); line-height: 1.75; max-width: 560px; }
+
+    /* Voted notice */
+    .voted-notice {
+      display: none; align-items: center; gap: 0.9rem;
+      background: linear-gradient(135deg, rgba(45,80,22,0.07), rgba(78,138,40,0.04));
+      border: 1px solid rgba(45,80,22,0.18); border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0; padding: 1rem 1.4rem;
+      font-size: 1rem; color: var(--green-mid); font-weight: 500;
+      margin-bottom: 2rem; line-height: 1.5;
+    }
+    .voted-notice.show { display: flex; }
+
+    /* ── NOMINEE GRID ── */
+    .nominee-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+      gap: 1.75rem;
+    }
+    .nominee-card {
+      background: var(--white); border: 1.5px solid var(--cream-2);
+      border-radius: 20px; overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, border-color 0.3s;
+      animation: cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .nominee-card:nth-child(1) { animation-delay: 0.05s; }
+    .nominee-card:nth-child(2) { animation-delay: 0.10s; }
+    .nominee-card:nth-child(3) { animation-delay: 0.15s; }
+    .nominee-card:nth-child(4) { animation-delay: 0.20s; }
+    .nominee-card:nth-child(5) { animation-delay: 0.25s; }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(22px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .nominee-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(28,26,22,0.13); border-color: var(--gold); }
+    .nominee-card.is-my-pick { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,151,58,0.18), 0 16px 40px rgba(28,26,22,0.1); }
+
+    .nominee-photo-wrap {
+      position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+      background: linear-gradient(135deg, #1a3a0a, var(--forest));
+    }
+    .nominee-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .nominee-card:hover .nominee-photo-wrap img { transform: scale(1.05); }
+    .nominee-photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .nominee-photo-placeholder p {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.28);
+    }
+    .pick-badge {
+      display: none; position: absolute; top: 12px; right: 12px;
+      background: var(--gold); color: var(--void);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.28rem 0.65rem; border-radius: 99px;
+    }
+    .nominee-card.is-my-pick .pick-badge { display: block; }
+
+    .nominee-body { padding: 1.3rem 1.3rem 1.5rem; }
+    .nominee-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--ink); line-height: 1.2; margin-bottom: 1.1rem;
+    }
+
+    /* Vote bar */
+    .vote-bar-block { margin-bottom: 1.2rem; }
+    .vote-bar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.45rem; }
+    .vote-bar-count { font-size: 0.88rem; color: var(--ink-soft); font-weight: 500; }
+    .vote-bar-pct   { font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+    .vote-bar-track { height: 6px; background: var(--cream-2); border-radius: 99px; overflow: hidden; }
+    .vote-bar-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--green-light));
+      border-radius: 99px; transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .nominee-card.is-my-pick .vote-bar-fill {
+      background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+    }
+
+    /* Vote button */
+    .btn-vote {
+      width: 100%; padding: 0.88rem 1rem;
+      border: 2px solid var(--green); background: transparent; color: var(--green);
+      border-radius: 12px; font-family: 'Outfit', sans-serif;
+      font-size: 0.97rem; font-weight: 600; letter-spacing: 0.03em;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+    }
+    .btn-vote:hover:not(:disabled) {
+      background: var(--green); color: var(--white);
+      box-shadow: 0 6px 20px rgba(45,80,22,0.35); transform: translateY(-2px);
+    }
+    .btn-vote.voted-state { border-color: var(--gold); background: var(--gold-pale); color: var(--gold); cursor: default; }
+    .btn-vote.locked-state {
+      border-color: var(--cream-2); background: var(--cream);
+      color: rgba(107,99,86,0.45); cursor: not-allowed; font-size: 0.88rem;
+    }
+    .btn-vote:disabled { cursor: not-allowed; }
+
+    /* ── EMPTY ── */
+    .empty-state {
+      padding: 5rem 2rem; text-align: center;
+      background: var(--white); border: 1.5px dashed var(--cream-2); border-radius: 20px;
+    }
+    .empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem; font-weight: 600; color: var(--ink-mid);
+      margin: 1.25rem 0 0.5rem;
+    }
+    .empty-sub { font-size: 1rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ── LOADING ── */
+    .loading-wrap { padding: 5rem 2rem; text-align: center; }
+    .loader {
+      width: 44px; height: 44px; margin: 0 auto 1.25rem;
+      border: 3px solid var(--cream-2); border-top-color: var(--gold);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 1rem; color: var(--ink-soft); }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      padding: 0.88rem 1.8rem; border-radius: 99px;
+      font-size: 0.97rem; font-weight: 600;
+      background: var(--ink); color: var(--white);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      opacity: 0; pointer-events: none; z-index: 9999;
+      transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+      white-space: nowrap;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.success { background: var(--green); }
+    #toast.gold    { background: linear-gradient(135deg, #b8832e, var(--gold)); }
+    #toast.error   { background: var(--danger); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--forest); color: rgba(255,255,255,0.42);
+      text-align: center; padding: 2.5rem 2rem;
+      font-size: 0.92rem; line-height: 1.75;
+    }
+    .site-footer a { color: var(--gold); text-decoration: none; }
+    .site-footer strong { color: rgba(255,255,255,0.72); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+      .cat-btn { padding: 0.85rem 1rem; }
+      .cat-btn-label { font-size: 0.65rem; }
+      .main { padding: 2rem 1rem 4rem; }
+      .nominee-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.1rem; }
+      .cat-icon-wrap { width: 58px; height: 58px; border-radius: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-corner tl"></div><div class="hero-corner tr"></div>
+  <div class="hero-corner bl"></div><div class="hero-corner br"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Olaoluwa Age Group &nbsp;·&nbsp; 2026</p>
+    <h1 class="hero-title">Awards &amp; <em>Recognition</em></h1>
+    <div class="hero-stars">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#C9973A"><path d="M10 2l2.09 4.26L17 7.27l-3.5 3.41.83 4.82L10 13.25l-4.33 2.25.83-4.82L3 7.27l4.91-.71z"/></svg>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#C9973A"><path d="M10 2l2.09 4.26L17 7.27l-3.5 3.41.83 4.82L10 13.25l-4.33 2.25.83-4.82L3 7.27l4.91-.71z"/></svg>
+      <svg width="24" height="24" viewBox="0 0 20 20" fill="#E8B84B"><path d="M10 2l2.09 4.26L17 7.27l-3.5 3.41.83 4.82L10 13.25l-4.33 2.25.83-4.82L3 7.27l4.91-.71z"/></svg>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#C9973A"><path d="M10 2l2.09 4.26L17 7.27l-3.5 3.41.83 4.82L10 13.25l-4.33 2.25.83-4.82L3 7.27l4.91-.71z"/></svg>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="#C9973A"><path d="M10 2l2.09 4.26L17 7.27l-3.5 3.41.83 4.82L10 13.25l-4.33 2.25.83-4.82L3 7.27l4.91-.71z"/></svg>
+    </div>
+    <p class="hero-sub">Celebrating members who have gone above and beyond for our community.<br>Select a category below and cast your vote for your chosen nominee.</p>
+  </div>
+</header>
+
+<!-- ── CATEGORY NAV ── -->
+<nav class="cat-nav-outer">
+  <div class="cat-nav" id="cat-nav">
+
+    <button class="cat-btn active" data-cat="commitment">
+      <div class="cat-btn-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L9.5 8.5H3l5.5 4-2 6.5L12 15l5.5 3.5-2-6.5L21 8.5h-6.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="cat-btn-label">Commitment</span>
+    </button>
+
+    <button class="cat-btn" data-cat="supportive">
+      <div class="cat-btn-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="cat-btn-label">Supportive</span>
+    </button>
+
+    <button class="cat-btn" data-cat="leadership">
+      <div class="cat-btn-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 20h20M6 20V12M10 20V8M14 20V10M18 20V4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="cat-btn-label">Leadership</span>
+    </button>
+
+    <button class="cat-btn" data-cat="impact">
+      <div class="cat-btn-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M2.5 12h19M12 2.5a15.3 15.3 0 0 1 4 9.5 15.3 15.3 0 0 1-4 9.5M12 2.5a15.3 15.3 0 0 0-4 9.5 15.3 15.3 0 0 0 4 9.5" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+      </div>
+      <span class="cat-btn-label">Impact</span>
+    </button>
+
+    <button class="cat-btn" data-cat="innovative">
+      <div class="cat-btn-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17H9v-2.8A6 6 0 0 1 6 9a6 6 0 0 1 6-6z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="cat-btn-label">Innovative</span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main class="main" id="main"></main>
+<div id="toast"></div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <p><strong>Olaoluwa Age Group Awards 2026</strong><br>
+  One vote per device per category &nbsp;·&nbsp; <a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script>
+/* ── CONFIG ── */
+const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+
+const CATEGORIES = {
+  commitment: {
+    label: 'Outstanding Commitment Award', kicker: 'Category 01',
+    desc: 'Awarded to the member who has shown the most consistent dedication and commitment to the age group and its mission over the years.',
+    icon: `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.5 8.5H3l5.5 4-2 6.5L12 15l5.5 3.5-2-6.5L21 8.5h-6.5z" stroke="#C9973A" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+  },
+  supportive: {
+    label: 'Most Supportive Member Award', kicker: 'Category 02',
+    desc: 'For the member who has been a steadfast pillar of support to fellow members and the broader community at all times.',
+    icon: `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.501 5.501 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="#C9973A" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+  },
+  leadership: {
+    label: 'Leadership Excellence Award', kicker: 'Category 03',
+    desc: 'Recognising exceptional leadership qualities, vision, and initiative that have meaningfully moved the age group forward.',
+    icon: `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 20h20M6 20V12M10 20V8M14 20V10M18 20V4" stroke="#C9973A" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  },
+  impact: {
+    label: 'Social Impact Award', kicker: 'Category 04',
+    desc: 'For the member whose actions and initiatives have made the most meaningful and lasting difference in our community.',
+    icon: `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9.5" stroke="#C9973A" stroke-width="1.6"/><path d="M2.5 12h19M12 2.5a15.3 15.3 0 0 1 4 9.5 15.3 15.3 0 0 1-4 9.5M12 2.5a15.3 15.3 0 0 0-4 9.5 15.3 15.3 0 0 0 4 9.5" stroke="#C9973A" stroke-width="1.6"/></svg>`,
+  },
+  innovative: {
+    label: 'Innovative Idea Award', kicker: 'Category 05',
+    desc: 'Celebrating the member who brought the most creative, practical, and impactful idea that improved how our group operates.',
+    icon: `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17H9v-2.8A6 6 0 0 1 6 9a6 6 0 0 1 6-6z" stroke="#C9973A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  },
+};
+
+/* ── STATE ── */
+let activeCat   = 'commitment';
+let allNominees = [];
+let voteCounts  = {};
+
+/* ── DEVICE / VOTE TRACKING ── */
+function getDeviceId() {
+  let id = localStorage.getItem('oag_device_id');
+  if (!id) { id = 'dev_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); localStorage.setItem('oag_device_id', id); }
+  return id;
+}
+function getVoted() { try { return JSON.parse(localStorage.getItem('oag_voted') || '{}'); } catch { return {}; } }
+function markVoted(catId, nomId) { const v = getVoted(); v[catId] = nomId; localStorage.setItem('oag_voted', JSON.stringify(v)); }
+
+/* ── API ── */
+const H = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY };
+async function sbGet(path) {
+  const r = await fetch(SUPABASE_URL + path, { headers: H });
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.message || r.status); }
+  return r.json();
+}
+async function sbPost(path, body) {
+  return fetch(SUPABASE_URL + path, { method: 'POST', headers: { ...H, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(body) });
+}
+
+/* ── TOAST ── */
+let _tt;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show ' + type;
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+/* ── HELPERS ── */
+function esc(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function catTotal(id) { return allNominees.filter(n => n.category === id).reduce((s,n) => s + (voteCounts[n.id]||0), 0); }
+
+/* ── RENDER PANEL ── */
+function renderPanel(catId) {
+  const cat      = CATEGORIES[catId];
+  const nominees = allNominees.filter(n => n.category === catId);
+  const myVote   = getVoted()[catId];
+  const total    = catTotal(catId);
+
+  const nomineesHtml = nominees.length === 0
+    ? `<div class="empty-state">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="21" r="10" stroke="#C9973A" stroke-width="1.5"/><path d="M8 50c0-11.05 8.95-20 20-20s20 8.95 20 20" stroke="#C9973A" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div class="empty-title">No Nominees Yet</div>
+        <p class="empty-sub">Nominees for this category will appear here<br>once they have been added by the admin.</p>
+       </div>`
+    : `<div class="nominee-grid">${nominees.map(n => cardHtml(n, myVote, total)).join('')}</div>`;
+
+  document.getElementById('main').innerHTML = `
+    <div class="cat-panel">
+      <div class="cat-panel-header">
+        <div class="cat-icon-wrap">${cat.icon}</div>
+        <div class="cat-text">
+          <div class="cat-kicker">${esc(cat.kicker)}</div>
+          <h2 class="cat-title">${esc(cat.label)}</h2>
+          <p class="cat-desc">${esc(cat.desc)}</p>
+        </div>
+      </div>
+      <div class="voted-notice${myVote ? ' show' : ''}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Your vote has been recorded in this category — thank you for participating!
+      </div>
+      ${nomineesHtml}
+    </div>`;
+
+  requestAnimationFrame(() => {
+    nominees.forEach(n => {
+      const fill = document.getElementById('fill-' + n.id);
+      if (fill) { const pct = total > 0 ? Math.round((voteCounts[n.id]||0) / total * 100) : 0; setTimeout(() => { fill.style.width = pct + '%'; }, 100); }
+      const btn = document.getElementById('btn-' + n.id);
+      if (btn && !myVote) btn.addEventListener('click', () => castVote(catId, n.id));
+    });
+  });
+}
+
+function cardHtml(n, myVote, total) {
+  const count    = voteCounts[n.id] || 0;
+  const pct      = total > 0 ? Math.round(count / total * 100) : 0;
+  const isMyPick = myVote === n.id;
+
+  const photo = n.photo_url
+    ? `<img src="${esc(n.photo_url)}" alt="${esc(n.name)}" loading="lazy">`
+    : `<div class="nominee-photo-placeholder">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="19" r="10" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/><path d="M6 47c0-11.05 8.95-20 20-20s20 8.95 20 20" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <p>Nominee</p>
+       </div>`;
+
+  const btn = isMyPick
+    ? `<button class="btn-vote voted-state" id="btn-${n.id}" disabled>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Your Vote
+       </button>`
+    : myVote
+    ? `<button class="btn-vote locked-state" id="btn-${n.id}" disabled>
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="3" y="6.5" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6.5V4.5a2.5 2.5 0 0 1 5 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Already Voted
+       </button>`
+    : `<button class="btn-vote" id="btn-${n.id}">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5l4 4L13 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cast Your Vote
+       </button>`;
+
+  return `
+    <div class="nominee-card${isMyPick ? ' is-my-pick' : ''}" id="card-${n.id}">
+      <div class="nominee-photo-wrap">
+        ${photo}
+        <div class="pick-badge">✦ Your Pick</div>
+      </div>
+      <div class="nominee-body">
+        <div class="nominee-name">${esc(n.name)}</div>
+        <div class="vote-bar-block">
+          <div class="vote-bar-meta">
+            <span class="vote-bar-count">${count} vote${count !== 1 ? 's' : ''}</span>
+            <span class="vote-bar-pct">${pct}%</span>
+          </div>
+          <div class="vote-bar-track"><div class="vote-bar-fill" id="fill-${n.id}" style="width:0%"></div></div>
+        </div>
+        ${btn}
+      </div>
+    </div>`;
+}
+
+/* ── CAST VOTE ── */
+async function castVote(catId, nomineeId) {
+  const btn = document.getElementById('btn-' + nomineeId);
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<span style="width:16px;height:16px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;"></span>&nbsp; Submitting…`;
+  }
+  try {
+    // Now calls Edge Function — IP captured server-side
+    const r = await fetch(`https://healthy-fox-21.johnsonaliyu.deno.net`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_KEY },
+      body: JSON.stringify({ nominee_id: nomineeId, category: catId })
+    });
+
+    if (r.status === 409) {
+      toast('You have already voted in this category.', 'error');
+      markVoted(catId, nomineeId); // keep local UI in sync
+      renderPanel(catId);
+      return;
+    }
+    if (!r.ok) throw new Error();
+
+    markVoted(catId, nomineeId);
+    voteCounts[nomineeId] = (voteCounts[nomineeId] || 0) + 1;
+    toast('✦ Vote recorded — thank you!', 'gold');
+    renderPanel(catId);
+
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+    if (btn) { btn.disabled = false; btn.innerHTML = 'Cast Your Vote'; }
+  }
+} // ← closes castVote
+
+/* ── CATEGORY NAV ── */
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    renderPanel(activeCat);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ── INIT ── */
+async function init() {
+  document.getElementById('main').innerHTML = `<div class="loading-wrap"><div class="loader"></div><p class="loading-text">Loading nominees…</p></div>`;
+  try {
+    const [nominees, votes] = await Promise.all([
+      sbGet('/rest/v1/award_nominees?select=*&order=created_at.asc'),
+      sbGet('/rest/v1/award_votes?select=nominee_id'),
+    ]);
+    allNominees = Array.isArray(nominees) ? nominees : [];
+    voteCounts  = {};
+    if (Array.isArray(votes)) votes.forEach(v => { voteCounts[v.nominee_id] = (voteCounts[v.nominee_id] || 0) + 1; });
+    renderPanel(activeCat);
+  } catch(e) {
+    document.getElementById('main').innerHTML = `
+      <div class="empty-state">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#C9973A" stroke-width="1.5"/><path d="M24 16v9M24 29v2" stroke="#C9973A" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="empty-title">Could not load nominees</div>
+        <p class="empty-sub">${e.message || 'Please refresh the page and try again.'}</p>
+      </div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>
