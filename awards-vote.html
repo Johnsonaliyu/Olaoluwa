@@ -574,10 +574,9 @@ async function castVote(catId, nomineeId) {
     toast('✦ Vote recorded — thank you!', 'gold');
     renderPanel(catId);
 
-  } catch {
-    toast('Could not submit vote. Please try again.', 'error');
-    if (btn) { btn.disabled = false; btn.innerHTML = 'Cast Your Vote'; }
-  }
+} catch(e) {
+  toast('Error: ' + e.message, 'error');
+  if (btn) { btn.disabled = false; btn.innerHTML = 'Cast Your Vote'; }
   }
 
 /* ── CATEGORY NAV ── */
