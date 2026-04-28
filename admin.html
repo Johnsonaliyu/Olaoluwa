@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin CMS — Olaoluwa Age Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --off-white:   #F7F4EF;
+      --off-white-2: #EDE9E2;
+      --off-white-3: #E2DDD4;
+      --parchment:   #D9D2C5;
+      --green:       #2D5016;
+      --green-mid:   #3A6B1D;
+      --green-light: #4E8A28;
+      --green-muted: #5A7A40;
+      --green-tint:  #EBF2E4;
+      --ink:         #1C1A16;
+      --ink-mid:     #3D3830;
+      --ink-soft:    #6B6356;
+      --ink-faint:   #9A9185;
+      --gold:        #C9973A;
+      --danger:      #B83232;
+      --danger-tint: #FDEAEA;
+      --radius-sm:   6px;
+      --radius:      10px;
+      --radius-lg:   16px;
+      --radius-xl:   24px;
+      --shadow-sm:   0 1px 4px rgba(28,26,22,0.08);
+      --shadow:      0 4px 16px rgba(28,26,22,0.1);
+      --shadow-lg:   0 12px 40px rgba(28,26,22,0.15);
+      --t:           0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--off-white-2); }
+    ::-webkit-scrollbar-thumb { background: var(--parchment); border-radius: 3px; }
+    a { color: var(--green); text-decoration: none; }
+
+    /* ── LOGIN ── */
+    #login-screen { position: fixed; inset: 0; z-index: 9999; background: var(--off-white); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .login-layout { display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 960px; min-height: 580px; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); position: relative; z-index: 1; }
+    .login-brand { background: var(--green); padding: 3.5rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .brand-hero h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 1rem; }
+    .brand-hero p { color: rgba(255,255,255,0.65); font-size: 0.88rem; line-height: 1.65; }
+    .brand-logo { display: flex; align-items: center; gap: 0.8rem; }
+    .brand-logo-mark { width: 42px; height: 42px; background: rgba(255,255,255,0.12); border-radius: 11px; display: flex; align-items: center; justify-content: center; }
+    .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: #fff; line-height: 1.3; }
+    .brand-name span { font-size: 0.7rem; font-weight: 400; opacity: 0.6; display: block; font-family: 'Outfit', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .brand-features { display: flex; flex-direction: column; gap: 0.8rem; }
+    .brand-feature { display: flex; align-items: center; gap: 0.65rem; color: rgba(255,255,255,0.78); font-size: 0.82rem; }
+    .login-form-panel { background: var(--off-white); padding: 3.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .login-form-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem; }
+    .login-form-panel .sub { color: var(--ink-soft); font-size: 0.85rem; margin-bottom: 2.5rem; }
+    .field-group { margin-bottom: 1.2rem; }
+    .field-label { display: block; font-size: 0.73rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-soft); margin-bottom: 0.45rem; }
+    .field-wrap { position: relative; }
+    .field-wrap .fi { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    .field-input { width: 100%; padding: 0.78rem 0.9rem 0.78rem 2.5rem; background: #fff; border: 1.5px solid var(--off-white-3); border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--ink); transition: border-color var(--t), box-shadow var(--t); }
+    .field-input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(78,138,40,0.12); }
+    .field-input::placeholder { color: var(--ink-faint); }
+    .btn-login { width: 100%; padding: 0.88rem; background: var(--green); color: #fff; border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-size: 0.93rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background var(--t), transform var(--t), box-shadow var(--t); margin-top: 0.5rem; }
+    .btn-login:hover { background: var(--green-mid); box-shadow: 0 6px 20px rgba(45,80,22,0.25); transform: translateY(-1px); }
+    #login-error { display: none; color: var(--danger); font-size: 0.82rem; background: var(--danger-tint); border: 1px solid rgba(184,50,50,0.2); border-radius: var(--radius-sm); padding: 0.6rem 0.85rem; margin-top: 0.75rem; }
+    #login-error.show { display: block; }
+    @media(max-width:680px){ .login-layout{grid-template-columns:1fr;} .login-brand{display:none;} .login-form-panel{padding:2.5rem 2rem;} }
+
+    /* ── APP ── */
+    #app { display: none; flex: 1; flex-direction: column; }
+    .topbar { height: 58px; background: #fff; border-bottom: 1px solid var(--off-white-3); display: flex; align-items: center; padding: 0 1.5rem; position: sticky; top: 0; z-index: 200; box-shadow: var(--shadow-sm); }
+    .topbar-brand { display: flex; align-items: center; gap: 0.6rem; margin-right: auto; }
+    .topbar-brand-icon { width: 32px; height: 32px; background: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .topbar-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+    .tb-div { width: 1px; height: 20px; background: var(--off-white-3); margin: 0 0.85rem; }
+    .tb-badge { font-size: 0.68rem; font-weight: 600; background: var(--green-tint); color: var(--green); padding: 0.18rem 0.5rem; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .topbar-right { display: flex; align-items: center; gap: 0.65rem; }
+    #user-email-display { font-size: 0.79rem; color: var(--ink-soft); }
+    .tb-btn { display: flex; align-items: center; gap: 0.35rem; padding: 0.42rem 0.85rem; border-radius: var(--radius-sm); font-family: 'Outfit', sans-serif; font-size: 0.79rem; font-weight: 500; cursor: pointer; border: none; transition: all var(--t); }
+    .tb-outline { background: transparent; border: 1.5px solid var(--off-white-3); color: var(--ink-mid); }
+    .tb-outline:hover { border-color: var(--green-muted); color: var(--green); background: var(--green-tint); }
+    .tb-danger { background: var(--danger-tint); color: var(--danger); border: 1.5px solid rgba(184,50,50,0.15); }
+    .tb-danger:hover { background: #fbd8d8; }
+
+    /* ── LAYOUT ── */
+    .layout { display: flex; flex: 1; min-height: calc(100vh - 58px); }
+    .sidebar { width: 228px; min-width: 228px; background: #fff; border-right: 1px solid var(--off-white-3); padding: 1.25rem 0.65rem; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+    .sb-label { font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); padding: 0.6rem 0.6rem 0.3rem; }
+    .nav-item { display: flex; align-items: center; gap: 0.65rem; padding: 0.58rem 0.75rem; border-radius: var(--radius); color: var(--ink-soft); font-size: 0.86rem; font-weight: 500; cursor: pointer; transition: all var(--t); user-select: none; }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-item:hover { background: var(--off-white-2); color: var(--ink); }
+    .nav-item.active { background: var(--green-tint); color: var(--green); font-weight: 600; }
+    .nav-count { margin-left: auto; background: var(--green); color: #fff; font-size: 0.67rem; font-weight: 600; padding: 0.13rem 0.42rem; border-radius: 20px; min-width: 20px; text-align: center; }
+    .nav-count.red { background: var(--danger); }
+    .sb-sep { height: 1px; background: var(--off-white-3); margin: 0.5rem 0; }
+
+    .main { flex: 1; overflow-y: auto; background: var(--off-white); }
+    .page { display: none; padding: 2rem 2.5rem; max-width: 1200px; }
+    .page.active { display: block; }
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 700; color: var(--ink); }
+    .page-subtitle { color: var(--ink-soft); font-size: 0.82rem; margin-top: 0.2rem; }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.58rem 1.1rem; border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 0.84rem; cursor: pointer; border: none; transition: all var(--t); white-space: nowrap; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--green); color: #fff; box-shadow: 0 2px 8px rgba(45,80,22,0.2); }
+    .btn-primary:hover { background: var(--green-mid); box-shadow: 0 6px 18px rgba(45,80,22,0.28); }
+    .btn-secondary { background: #fff; color: var(--ink-mid); border: 1.5px solid var(--off-white-3); }
+    .btn-secondary:hover { border-color: var(--parchment); background: var(--off-white-2); }
+    .btn-ghost { background: transparent; color: var(--ink-soft); }
+    .btn-ghost:hover { background: var(--off-white-2); color: var(--ink); }
+    .btn-danger { background: var(--danger-tint); color: var(--danger); border: 1.5px solid rgba(184,50,50,0.15); }
+    .btn-danger:hover { background: #fbd8d8; }
+    .btn-gold { background: rgba(201,151,58,0.1); color: var(--gold); border: 1.5px solid rgba(201,151,58,0.25); }
+    .btn-gold:hover { background: rgba(201,151,58,0.18); }
+    .btn-sm { padding: 0.4rem 0.82rem; font-size: 0.79rem; }
+
+    /* ── CARDS ── */
+    .card { background: #fff; border: 1px solid var(--off-white-3); border-radius: var(--radius-lg); overflow: hidden; }
+    .card-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--off-white-3); display: flex; align-items: center; justify-content: space-between; }
+    .card-header-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 0.45rem; }
+    .card-body { padding: 1.5rem; }
+
+    /* ── STAT GRID ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card { background: #fff; border: 1px solid var(--off-white-3); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; transition: box-shadow var(--t), transform var(--t); position: relative; overflow: hidden; }
+    .stat-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .stat-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--green); }
+    .stat-bar.gold { background: var(--gold); }
+    .stat-bar.muted { background: var(--parchment); }
+    .stat-bar.red { background: var(--danger); }
+    .stat-bar.blue { background: #4A90D9; }
+    .stat-icon { width: 36px; height: 36px; background: var(--green-tint); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.2rem; }
+    .stat-icon.gold { background: #FEF3E0; }
+    .stat-icon.muted { background: var(--off-white-2); }
+    .stat-icon.red { background: var(--danger-tint); }
+    .stat-icon.blue { background: #EBF4FF; }
+    .stat-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 700; color: var(--ink); line-height: 1; }
+    .stat-desc { font-size: 0.76rem; color: var(--ink-soft); }
+
+    /* ── BADGES ── */
+    .badge { display: inline-flex; align-items: center; gap: 0.28rem; padding: 0.18rem 0.55rem; border-radius: 20px; font-size: 0.69rem; font-weight: 600; }
+    .badge-published { background: rgba(45,107,45,0.1); color: #2D6B2D; }
+    .badge-draft { background: rgba(201,151,58,0.12); color: #9A6B1A; }
+    .badge-scheduled { background: rgba(74,144,217,0.12); color: #2A6BAA; }
+    .badge-featured { background: rgba(201,151,58,0.15); color: #8A6010; }
+    .badge-info { background: rgba(45,80,22,0.1); color: var(--green); }
+
+    /* ── POST LIST ── */
+    .post-list { display: flex; flex-direction: column; }
+    .post-item { display: flex; align-items: center; gap: 1.2rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--off-white-3); transition: background var(--t); }
+    .post-item:last-child { border-bottom: none; }
+    .post-item:hover { background: var(--off-white); }
+    .post-thumb { width: 66px; height: 48px; flex-shrink: 0; border-radius: 8px; overflow: hidden; background: var(--green-tint); display: flex; align-items: center; justify-content: center; }
+    .post-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .post-meta { flex: 1; min-width: 0; }
+    .post-meta-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.28rem; }
+    .post-meta-row { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+    .post-meta-row span { font-size: 0.74rem; color: var(--ink-soft); display: flex; align-items: center; gap: 0.25rem; }
+    .post-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+
+    /* ── FORMS ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .fg { display: flex; flex-direction: column; gap: 0.38rem; }
+    .fg.full { grid-column: 1/-1; }
+    .fg label { font-size: 0.71rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-soft); }
+    .fg input, .fg select, .fg textarea { background: #fff; border: 1.5px solid var(--off-white-3); border-radius: var(--radius); color: var(--ink); font-family: 'Outfit', sans-serif; font-size: 0.87rem; padding: 0.68rem 0.9rem; transition: border-color var(--t), box-shadow var(--t); width: 100%; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(78,138,40,0.1); }
+    .fg textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+    .form-hint { font-size: 0.73rem; color: var(--ink-faint); margin-top: 0.18rem; }
+    .editor-actions { display: flex; align-items: center; justify-content: flex-end; gap: 0.6rem; padding: 1.2rem 1.5rem; border-top: 1px solid var(--off-white-3); background: var(--off-white); }
+
+    /* ── EDITOR TOOLBAR ── */
+    .editor-toolbar { display: flex; flex-wrap: wrap; gap: 2px; padding: 0.5rem; background: var(--off-white-2); border: 1.5px solid var(--off-white-3); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; }
+    .editor-toolbar button { padding: 0.28rem 0.52rem; background: transparent; border: none; border-radius: 5px; color: var(--ink-mid); font-size: 0.77rem; cursor: pointer; transition: all var(--t); font-family: 'Outfit', sans-serif; }
+    .editor-toolbar button:hover { background: #fff; color: var(--green); }
+    .tb-sep { width: 1px; background: var(--parchment); margin: 0 2px; align-self: stretch; }
+    #content-editor { background: #fff !important; border: 1.5px solid var(--off-white-3) !important; border-radius: 0 0 var(--radius) var(--radius) !important; padding: 0.95rem !important; min-height: 260px; line-height: 1.8; outline: none; font-size: 0.88rem; color: var(--ink); }
+    #content-editor:focus { border-color: var(--green-light) !important; box-shadow: 0 0 0 3px rgba(78,138,40,0.1) !important; }
+    #content-editor:empty::before { content: attr(data-placeholder); color: var(--ink-faint); pointer-events: none; }
+
+    /* ── SEARCH ── */
+    .search-row { display: flex; gap: 0.75rem; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--off-white-3); background: var(--off-white); }
+    .search-wrap { position: relative; flex: 1; }
+    .search-wrap svg { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    .search-input { width: 100%; padding: 0.6rem 0.9rem 0.6rem 2.3rem; background: #fff; border: 1.5px solid var(--off-white-3); border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-size: 0.84rem; color: var(--ink); transition: border-color var(--t), box-shadow var(--t); }
+    .search-input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(78,138,40,0.1); }
+    .filter-select { padding: 0.6rem 0.9rem; background: #fff; border: 1.5px solid var(--off-white-3); border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-size: 0.82rem; color: var(--ink-mid); cursor: pointer; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 4rem 2rem; color: var(--ink-faint); }
+    .empty-state p { font-size: 0.87rem; margin-top: 0.75rem; }
+
+    /* ── MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(28,26,22,0.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9998; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: #fff; border: 1px solid var(--off-white-3); border-radius: var(--radius-lg); padding: 2rem; max-width: 420px; width: 90%; box-shadow: var(--shadow-lg); text-align: center; animation: mIn 0.2s ease; }
+    @keyframes mIn { from{opacity:0;transform:scale(0.95) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .modal-box h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .modal-box p { color: var(--ink-soft); font-size: 0.84rem; margin-bottom: 1.75rem; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: center; }
+
+    /* ── TOAST ── */
+    #toast { position: fixed; bottom: 1.75rem; right: 1.75rem; display: flex; align-items: center; gap: 0.6rem; padding: 0.72rem 1.1rem; border-radius: var(--radius); font-size: 0.84rem; font-weight: 500; z-index: 9999; opacity: 0; transform: translateY(8px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); pointer-events: none; max-width: 320px; box-shadow: var(--shadow); }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.success { background: var(--green); color: #fff; }
+    #toast.error   { background: var(--danger); color: #fff; }
+    #toast.info    { background: var(--ink); color: #fff; }
+
+    /* ── SPINNER ── */
+    .spinner { width: 20px; height: 20px; flex-shrink: 0; border: 2px solid var(--off-white-3); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── AUTHORS ── */
+    .author-card { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--off-white-3); transition: background var(--t); }
+    .author-card:last-child { border-bottom: none; }
+    .author-card:hover { background: var(--off-white); }
+    .author-avatar-wrap { width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0; overflow: hidden; background: linear-gradient(135deg, var(--green), var(--green-light)); display: flex; align-items: center; justify-content: center; }
+    .author-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .author-card-info { flex: 1; min-width: 0; }
+    .author-card-name { font-size: 0.92rem; font-weight: 600; color: var(--ink); margin-bottom: 0.15rem; }
+    .author-card-bio { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
+    .author-stats-row { display: flex; gap: 1.2rem; margin-top: 0.35rem; flex-wrap: wrap; }
+    .author-stat-chip { display: flex; align-items: center; gap: 0.3rem; font-size: 0.74rem; color: var(--ink-soft); }
+    .author-stat-chip strong { color: var(--ink); font-weight: 600; }
+    .author-card-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+
+    /* ── ANALYTICS TABLE ── */
+    .analytics-table { width: 100%; border-collapse: collapse; }
+    .analytics-table th { text-align: left; font-size: 0.71rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-faint); padding: 0.6rem 1rem; border-bottom: 1.5px solid var(--off-white-3); }
+    .analytics-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--off-white-3); font-size: 0.84rem; color: var(--ink); vertical-align: middle; }
+    .analytics-table tr:last-child td { border-bottom: none; }
+    .analytics-table tr:hover td { background: var(--off-white); }
+    .analytics-table .post-link { font-weight: 600; color: var(--ink); max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+    .analytics-table .post-link:hover { color: var(--green); }
+    .analytics-bar-wrap { display: flex; align-items: center; gap: 0.6rem; }
+    .analytics-bar { height: 6px; border-radius: 3px; background: var(--green-tint); flex: 1; overflow: hidden; }
+    .analytics-bar-fill { height: 100%; border-radius: 3px; background: var(--green); transition: width 0.5s ease; }
+    .analytics-bar-fill.gold { background: var(--gold); }
+    .analytics-num { font-size: 0.82rem; font-weight: 600; color: var(--ink); min-width: 36px; text-align: right; }
+
+    /* ── SCHEDULING ── */
+    .schedule-info {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      background: rgba(74,144,217,0.07); border: 1px solid rgba(74,144,217,0.2);
+      border-radius: var(--radius); padding: 0.9rem 1rem;
+      font-size: 0.82rem; color: #2A6BAA; line-height: 1.55;
+      margin-bottom: 0.5rem;
+    }
+    .schedule-countdown { font-weight: 700; color: #1A5A9A; }
+    .scheduled-list-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--off-white-3); }
+    .scheduled-list-item:last-child { border-bottom: none; }
+    .scheduled-list-item:hover { background: var(--off-white); }
+    .scheduled-time { font-size: 0.8rem; color: #2A6BAA; font-weight: 600; flex-shrink: 0; min-width: 130px; }
+    .scheduled-title { flex: 1; font-size: 0.88rem; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ── SITEMAP ── */
+    .sitemap-output {
+      font-family: 'Courier New', monospace; font-size: 0.79rem; line-height: 1.65;
+      background: var(--ink); color: #8fbc8f;
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      overflow-x: auto; white-space: pre; max-height: 400px; overflow-y: auto;
+    }
+    .sitemap-output .xml-tag { color: #81a9d0; }
+    .sitemap-output .xml-val { color: #d4af37; }
+
+    /* ── CHART BARS (mini) ── */
+    .mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 48px; }
+    .mini-bar { flex: 1; background: var(--green-tint); border-radius: 3px 3px 0 0; transition: background 0.2s; position: relative; }
+    .mini-bar:hover { background: var(--green-light); }
+    .mini-bar:hover::after { content: attr(data-label); position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 0.65rem; padding: 0.15rem 0.35rem; border-radius: 4px; white-space: nowrap; pointer-events: none; }
+
+    /* ── RECENT ITEM ── */
+    .recent-item { display: flex; align-items: center; gap: 1rem; padding: 0.82rem 1.5rem; border-bottom: 1px solid var(--off-white-3); transition: background var(--t); }
+    .recent-item:last-child { border-bottom: none; }
+    .recent-item:hover { background: var(--off-white); }
+    .recent-item-title { flex: 1; font-size: 0.86rem; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recent-item-date { font-size: 0.74rem; color: var(--ink-faint); flex-shrink: 0; }
+
+    /* ── NEWSLETTER SUBSCRIBER LIST ── */
+    .subscriber-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--off-white-3); font-size: 0.84rem; }
+    .subscriber-item:last-child { border-bottom: none; }
+    .subscriber-email { flex: 1; color: var(--ink); font-weight: 500; }
+    .subscriber-date { font-size: 0.75rem; color: var(--ink-faint); }
+
+    @media(max-width:900px){ .stat-grid{grid-template-columns:repeat(2,1fr);} .form-grid{grid-template-columns:1fr;} .fg.full{grid-column:1;} }
+    @media(max-width:640px){ .sidebar{width:52px;min-width:52px;} .nav-item span,.nav-count,.sb-label{display:none;} .nav-item{justify-content:center;padding:0.65rem;} .page{padding:1.25rem;} #user-email-display{display:none;} }
+    @media(max-width:480px){ .stat-grid{grid-template-columns:1fr 1fr;} .page-header{flex-direction:column;align-items:flex-start;} }
+  </style>
+</head>
+<body>
+
+<!-- ════ LOGIN ════ -->
+<div id="login-screen">
+  <div class="login-layout">
+    <div class="login-brand">
+      <div class="brand-logo">
+        <div class="brand-logo-mark">
+          <img src="logo.jpg" alt="Logo" style="width:28px;height:28px;object-fit:contain;border-radius:4px;" onerror="this.style.display='none'">
+        </div>
+        <div class="brand-name">Olaoluwa Age Group<span>Content Admin</span></div>
+      </div>
+      <div class="brand-hero">
+        <h2>Publish stories that matter</h2>
+        <p>Manage news, updates and blog posts for the Olaoluwa community — from one simple dashboard.</p>
+      </div>
+      <div class="brand-features">
+        <div class="brand-feature"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="white" stroke-opacity="0.45" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Write, schedule &amp; publish posts</div>
+        <div class="brand-feature"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="white" stroke-opacity="0.45" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Post analytics &amp; author stats</div>
+        <div class="brand-feature"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="white" stroke-opacity="0.45" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Newsletter subscriber management</div>
+        <div class="brand-feature"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="white" stroke-opacity="0.45" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Generate XML sitemap</div>
+      </div>
+    </div>
+    <div class="login-form-panel">
+      <h3>Welcome back</h3>
+      <p class="sub">Sign in to your admin account to continue</p>
+      <div class="field-group">
+        <label class="field-label" for="l-email">Email address</label>
+        <div class="field-wrap">
+          <span class="fi"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4.5h12v7H2v-7z" rx="1" stroke="#9A9185" stroke-width="1.3" fill="none"/><path d="M2 4.5l6 4.5 6-4.5" stroke="#9A9185" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+          <input class="field-input" type="email" id="l-email" placeholder="you@example.com" autocomplete="username">
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="l-pass">Password</label>
+        <div class="field-wrap">
+          <span class="fi"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7.5" width="10" height="6.5" rx="1.5" stroke="#9A9185" stroke-width="1.3"/><path d="M5.5 7.5V5.5a2.5 2.5 0 0 1 5 0v2" stroke="#9A9185" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+          <input class="field-input" type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
+        </div>
+      </div>
+      <button class="btn-login" onclick="doLogin()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 11l3-3-3-3M13.5 8H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Sign In
+      </button>
+      <div id="login-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ APP ════ -->
+<div id="app">
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-brand-icon">
+        <img src="logo.jpg" alt="Logo" style="width:24px;height:24px;object-fit:contain;" onerror="this.style.display='none'">
+      </div>
+      <span class="topbar-name">Olaoluwa CMS</span>
+      <div class="tb-div"></div>
+      <span class="tb-badge">Admin</span>
+    </div>
+    <div class="topbar-right">
+      <span id="user-email-display"></span>
+      <button class="tb-btn tb-outline" onclick="window.open('https://olaoluwaagegroup.vercel.app/blog.html','_blank')">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M7 1h4v4M11 1 5.5 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        View Site
+      </button>
+      <button class="tb-btn tb-danger" onclick="doLogout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sb-label">Main</div>
+      <div class="nav-item active" onclick="goPage('dashboard')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.35"/><rect x="8.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.35"/><rect x="1.5" y="8.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.35"/><rect x="8.5" y="8.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.35"/></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="goPage('posts')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 3h11M2 7h11M2 11h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>All Posts</span>
+        <span class="nav-count" id="nav-count">0</span>
+      </div>
+      <div class="nav-item" onclick="goPage('scheduled')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 1.5v2M11 1.5v2M1.5 6h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 8.5l-2 2-1-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Scheduled</span>
+        <span class="nav-count" id="nav-scheduled-count" style="display:none;">0</span>
+      </div>
+
+      <div class="sb-sep"></div>
+      <div class="sb-label">Create</div>
+      <div class="nav-item" onclick="openNewPost()">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.35"/><path d="M7.5 4.5v6M4.5 7.5h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>New Post</span>
+      </div>
+
+      <div class="sb-sep"></div>
+      <div class="sb-label">Insights</div>
+      <div class="nav-item" onclick="goPage('analytics')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 11.5l3.5-4 3 2.5 3.5-5 2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 13.5h12" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <span>Post Analytics</span>
+      </div>
+      <div class="nav-item" onclick="goPage('authors')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span>Authors</span>
+        <span class="nav-count" id="nav-authors-count">0</span>
+      </div>
+      <div class="nav-item" onclick="goPage('newsletter')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11v8H2z" rx="1" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M2 4l5.5 4.5L13 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span>Newsletter</span>
+        <span class="nav-count" id="nav-newsletter-count">0</span>
+      </div>
+      <div class="nav-item" onclick="goPage('sitemap')">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.35"/><path d="M7.5 1.5c0 0-2.5 2.5-2.5 6s2.5 6 2.5 6M7.5 1.5c0 0 2.5 2.5 2.5 6s-2.5 6-2.5 6M1.5 7.5h12" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <span>Sitemap</span>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main" id="main-content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Dashboard</div>
+            <div class="page-subtitle">Your blog at a glance</div>
+          </div>
+          <button class="btn btn-primary" onclick="openNewPost()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+            New Post
+          </button>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-bar"></div><div class="stat-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M2 3h13M2 7.5h13M2 12h8" stroke="#2D5016" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="stat-label">Total Posts</div><div class="stat-value" id="stat-posts">—</div><div class="stat-desc">All time</div></div>
+          <div class="stat-card"><div class="stat-bar gold"></div><div class="stat-icon gold"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1.5l1.5 3 3.3.5-2.4 2.3.6 3.3L8.5 9l-3 1.6.6-3.3L3.7 5l3.3-.5L8.5 1.5z" stroke="#C9973A" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="stat-label">Published</div><div class="stat-value" id="stat-published">—</div><div class="stat-desc">Live on site</div></div>
+          <div class="stat-card"><div class="stat-bar blue"></div><div class="stat-icon blue"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="3.5" width="13" height="11" rx="1.5" stroke="#4A90D9" stroke-width="1.3"/><path d="M5 2v2M12 2v2M2 7.5h13" stroke="#4A90D9" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="stat-label">Scheduled</div><div class="stat-value" id="stat-scheduled">—</div><div class="stat-desc">Upcoming</div></div>
+          <div class="stat-card"><div class="stat-bar muted"></div><div class="stat-icon muted"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><ellipse cx="8.5" cy="8.5" rx="7" ry="5" stroke="#9A9185" stroke-width="1.3"/><circle cx="8.5" cy="8.5" r="2" fill="#9A9185"/></svg></div><div class="stat-label">Total Views</div><div class="stat-value" id="stat-views">—</div><div class="stat-desc">Across all posts</div></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+          <div class="card">
+            <div class="card-header"><div class="card-header-title">Recent Posts</div><button class="btn btn-ghost btn-sm" onclick="goPage('posts')">View all</button></div>
+            <div class="post-list" id="dash-recent"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-header-title">Top Posts by Views</div><button class="btn btn-ghost btn-sm" onclick="goPage('analytics')">Full analytics</button></div>
+            <div class="post-list" id="dash-top-views"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ ALL POSTS ══ -->
+      <section class="page" id="page-posts">
+        <div class="page-header">
+          <div><div class="page-title">All Posts</div><div class="page-subtitle" id="posts-subtitle"></div></div>
+          <button class="btn btn-primary" onclick="openNewPost()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+            New Post
+          </button>
+        </div>
+        <div class="card">
+          <div class="search-row">
+            <div class="search-wrap">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#9A9185" stroke-width="1.3"/><path d="M10 10l2.5 2.5" stroke="#9A9185" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <input class="search-input" type="search" placeholder="Search posts…" id="posts-search" oninput="filterPosts()">
+            </div>
+            <select class="filter-select" id="posts-filter" onchange="filterPosts()">
+              <option value="">All statuses</option>
+              <option value="published">Published</option>
+              <option value="draft">Drafts</option>
+              <option value="scheduled">Scheduled</option>
+            </select>
+            <select class="filter-select" id="posts-featured-filter" onchange="filterPosts()">
+              <option value="">All posts</option>
+              <option value="featured">Featured only</option>
+            </select>
+          </div>
+          <div class="post-list" id="posts-list"></div>
+        </div>
+      </section>
+
+      <!-- ══ NEW/EDIT POST ══ -->
+      <section class="page" id="page-new-post">
+        <div class="page-header">
+          <div><div class="page-title" id="editor-title">New Post</div><div class="page-subtitle">Fill in the fields below and publish or schedule</div></div>
+        </div>
+        <div class="card" style="margin-bottom:1.25rem;">
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="fg full"><label>Title *</label><input type="text" id="f-title" placeholder="Enter post title…"></div>
+              <div class="fg"><label>Slug (URL)</label><input type="text" id="f-slug" placeholder="post-title-url"></div>
+              <div class="fg"><label>Category</label><input type="text" id="f-category" placeholder="e.g. Community, Health"></div>
+              <div class="fg"><label>Author</label><input type="text" id="f-author" placeholder="Author name"></div>
+              <div class="fg"><label>Author ID</label><input type="text" id="f-author-id" placeholder="(optional) author UUID"></div>
+              <div class="fg"><label>Publish Date</label><input type="date" id="f-date"></div>
+              <div class="fg"><label>Status</label>
+                <select id="f-status">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                  <option value="scheduled">Scheduled</option>
+                </select>
+              </div>
+              <div class="fg" id="schedule-field-wrap" style="display:none;">
+                <label>Scheduled Publish Date &amp; Time</label>
+                <input type="datetime-local" id="f-schedule-at">
+                <div class="form-hint">Post will go live automatically at this date/time.</div>
+                <div class="schedule-info" id="schedule-info" style="display:none;">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px"><circle cx="8" cy="8" r="7" stroke="#4A90D9" stroke-width="1.4"/><path d="M8 4.5V8l2 2" stroke="#4A90D9" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  <span>Scheduled to publish in <span class="schedule-countdown" id="schedule-countdown">…</span></span>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Featured Post</label>
+                <select id="f-featured">
+                  <option value="false">No</option>
+                  <option value="true">Yes — pin to top of blog</option>
+                </select>
+              </div>
+              <div class="fg full"><label>Excerpt</label><textarea id="f-excerpt" placeholder="Short summary (shown in blog listing)…" style="min-height:70px;"></textarea></div>
+              <div class="fg full">
+                <label>Image URL</label>
+                <input type="url" id="f-image-url" placeholder="https://… (direct link to image)">
+              </div>
+              <div class="fg full"><label>Image Alt Text</label><input type="text" id="f-image-alt" placeholder="Describe the image for accessibility"></div>
+              <div class="fg full">
+                <label>Content (HTML)</label>
+                <div class="editor-toolbar">
+                  <button onclick="fmt('bold')"><strong>B</strong></button>
+                  <button onclick="fmt('italic')"><em>I</em></button>
+                  <button onclick="fmt('underline')"><u>U</u></button>
+                  <div class="tb-sep"></div>
+                  <button onclick="fmtBlock('h2')">H2</button>
+                  <button onclick="fmtBlock('h3')">H3</button>
+                  <button onclick="fmtBlock('p')">¶</button>
+                  <div class="tb-sep"></div>
+                  <button onclick="fmt('insertUnorderedList')">• List</button>
+                  <button onclick="fmt('insertOrderedList')">1. List</button>
+                  <div class="tb-sep"></div>
+                  <button onclick="fmtBlock('blockquote')" title="Blockquote">" "</button>
+                  <button onclick="fmt('insertHorizontalRule')">—</button>
+                </div>
+                <div id="content-editor" contenteditable="true" data-placeholder="Write your post content here…"></div>
+              </div>
+            </div>
+          </div>
+          <div class="editor-actions">
+            <input type="hidden" id="f-id">
+            <button class="btn btn-ghost" onclick="goPage('posts')">Cancel</button>
+            <button class="btn btn-secondary" onclick="savePost('draft')">Save as Draft</button>
+            <button class="btn btn-primary" id="publish-btn" onclick="savePost()">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 7.5L5.5 11 11 3.5" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="publish-btn-label">Publish</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ SCHEDULED ══ -->
+      <section class="page" id="page-scheduled">
+        <div class="page-header">
+          <div><div class="page-title">Scheduled Posts</div><div class="page-subtitle">Posts queued to publish automatically</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-title">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="9.5" rx="1.5" stroke="#4A90D9" stroke-width="1.3"/><path d="M4 1.5v2M10 1.5v2M1.5 6h11" stroke="#4A90D9" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Upcoming Scheduled Posts
+            </div>
+          </div>
+          <div id="scheduled-list"></div>
+        </div>
+      </section>
+
+      <!-- ══ ANALYTICS ══ -->
+      <section class="page" id="page-analytics">
+        <div class="page-header">
+          <div><div class="page-title">Post Analytics</div><div class="page-subtitle">Views and reactions across all published posts</div></div>
+          <button class="btn btn-secondary btn-sm" onclick="loadAnalytics()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 7A5.5 5.5 0 1 0 3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1.5 3.5v4h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Refresh
+          </button>
+        </div>
+
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem;">
+          <div class="stat-card"><div class="stat-bar"></div><div class="stat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="8" rx="6.5" ry="4.5" stroke="#2D5016" stroke-width="1.3"/><circle cx="8" cy="8" r="1.8" fill="#2D5016"/></svg></div><div class="stat-label">Total Views</div><div class="stat-value" id="an-total-views">—</div><div class="stat-desc">All published posts</div></div>
+          <div class="stat-card"><div class="stat-bar gold"></div><div class="stat-icon gold"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.3 2.6 2.9.4-2.1 2.1.5 2.9L8 8.6l-2.6 1.4.5-2.9L3.8 5l2.9-.4L8 2z" stroke="#C9973A" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div class="stat-label">Total Reactions</div><div class="stat-value" id="an-total-reactions">—</div><div class="stat-desc">Across all posts</div></div>
+          <div class="stat-card"><div class="stat-bar muted"></div><div class="stat-icon muted"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12l3.5-4 3 2.5L12 6l2.5 2.5" stroke="#9A9185" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="stat-label">Avg Views / Post</div><div class="stat-value" id="an-avg-views">—</div><div class="stat-desc">Published posts</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-header-title">Posts by Views</div></div>
+          <div style="overflow-x:auto;">
+            <table class="analytics-table">
+              <thead><tr><th>Post</th><th>Date</th><th>Views</th><th>Reactions</th><th>Status</th></tr></thead>
+              <tbody id="analytics-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ AUTHORS ══ -->
+      <section class="page" id="page-authors">
+        <div class="page-header">
+          <div><div class="page-title">Authors</div><div class="page-subtitle">Manage writer profiles and view their stats</div></div>
+          <button class="btn btn-primary" onclick="openNewAuthor()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+            New Author
+          </button>
+        </div>
+
+        <!-- Author editor (hidden by default) -->
+        <div class="card" id="author-editor" style="display:none;margin-bottom:1.25rem;">
+          <div class="card-header"><div class="card-header-title" id="author-editor-title">New Author</div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="fg"><label>Name *</label><input type="text" id="af-name" placeholder="Author full name"></div>
+              <div class="fg"><label>Photo URL</label><input type="url" id="af-photo" placeholder="https://… (profile photo)"></div>
+              <div class="fg full"><label>Bio</label><textarea id="af-bio" placeholder="Short bio about the author…" style="min-height:80px;"></textarea></div>
+            </div>
+          </div>
+          <div class="editor-actions">
+            <input type="hidden" id="af-id">
+            <button class="btn btn-ghost" onclick="closeAuthorEditor()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveAuthor()">Save Author</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-header-title">All Authors &amp; Stats</div></div>
+          <div id="authors-list"></div>
+        </div>
+      </section>
+
+      <!-- ══ NEWSLETTER ══ -->
+      <section class="page" id="page-newsletter">
+        <div class="page-header">
+          <div><div class="page-title">Newsletter Subscribers</div><div class="page-subtitle">Manage your email subscriber list</div></div>
+          <button class="btn btn-secondary btn-sm" onclick="exportSubscribers()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1.5 11h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Export CSV
+          </button>
+        </div>
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem;">
+          <div class="stat-card"><div class="stat-bar"></div><div class="stat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12v8H2z" rx="1" stroke="#2D5016" stroke-width="1.3" fill="none"/><path d="M2 4l6 5 6-5" stroke="#2D5016" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="stat-label">Total Subscribers</div><div class="stat-value" id="nl-total">—</div></div>
+          <div class="stat-card"><div class="stat-bar gold"></div><div class="stat-icon gold"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="#C9973A" stroke-width="1.3"/><path d="M5 8h6M5 10.5h4" stroke="#C9973A" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="stat-label">This Month</div><div class="stat-value" id="nl-this-month">—</div></div>
+          <div class="stat-card"><div class="stat-bar muted"></div><div class="stat-icon muted"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12l4-4 3 3 5-6" stroke="#9A9185" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="stat-label">Last 7 Days</div><div class="stat-value" id="nl-week">—</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-header-title">Subscriber List</div></div>
+          <div id="subscribers-list"></div>
+        </div>
+      </section>
+
+      <!-- ══ SITEMAP ══ -->
+      <section class="page" id="page-sitemap">
+        <div class="page-header">
+          <div><div class="page-title">Sitemap Generator</div><div class="page-subtitle">Generate an XML sitemap from all published posts</div></div>
+          <div style="display:flex;gap:0.6rem;">
+            <button class="btn btn-secondary" onclick="generateSitemap()">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 1.5c0 0-2 2-2 5s2 5 2 5M6.5 1.5c0 0 2 2 2 5s-2 5-2 5M1.5 6.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+              Generate
+            </button>
+            <button class="btn btn-primary" id="copy-sitemap-btn" onclick="copySitemap()" style="display:none;">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="7.5" height="7.5" rx="1" stroke="white" stroke-width="1.3"/><path d="M9 4V2.5A1 1 0 0 0 8 1.5H1.5A1 1 0 0 0 .5 2.5V9A1 1 0 0 0 1.5 10H3" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+              Copy XML
+            </button>
+            <button class="btn btn-secondary" id="dl-sitemap-btn" onclick="downloadSitemap()" style="display:none;">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1.5 11h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download
+            </button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.25rem;">
+          <div class="card-body">
+            <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+              <div class="fg">
+                <label>Site Base URL</label>
+                <input type="url" id="sitemap-base-url" value="https://olaoluwaagegroup.vercel.app" placeholder="https://yourdomain.com">
+              </div>
+              <div class="fg">
+                <label>Post page path</label>
+                <input type="text" id="sitemap-post-path" value="/blog-post.html?id=" placeholder="/blog-post.html?id=">
+              </div>
+            </div>
+            <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;">
+              <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.83rem;color:var(--ink-soft);cursor:pointer;">
+                <input type="checkbox" id="sm-include-home" checked style="accent-color:var(--green)"> Include homepage
+              </label>
+              <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.83rem;color:var(--ink-soft);cursor:pointer;">
+                <input type="checkbox" id="sm-include-blog" checked style="accent-color:var(--green)"> Include blog listing
+              </label>
+              <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.83rem;color:var(--ink-soft);cursor:pointer;">
+                <input type="checkbox" id="sm-use-slugs" checked style="accent-color:var(--green)"> Use slugs when available
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-header-title">Generated Sitemap XML</div><span id="sitemap-count" style="font-size:0.77rem;color:var(--ink-faint);"></span></div>
+          <div style="padding:1rem 1.5rem;">
+            <div class="sitemap-output" id="sitemap-output">Click "Generate" to build your sitemap from published posts.</div>
+          </div>
+        </div>
+      </section>
+
+    </main><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /app -->
+
+<!-- Modal -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <div style="font-size:2rem;margin-bottom:1rem;">🗑️</div>
+    <h3>Delete post?</h3>
+    <p id="delete-modal-msg">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="delete-confirm-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+  /* ════════════════════════════════
+     CONFIG
+  ════════════════════════════════ */
+  const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+  const SB = (path, opts = {}) => fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    ...opts,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      ...(opts.headers || {})
+    }
+  });
+
+  let allPosts   = [];
+  let allAuthors = [];
+  let authUser   = null;
+  let sitemapXml = '';
+
+  /* ════════════════════════════════
+     HELPERS
+  ════════════════════════════════ */
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtDate(d) {
+    if (!d) return '—';
+    try { return new Date(d).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}); }
+    catch { return d; }
+  }
+  function fmtDateTime(d) {
+    if (!d) return '—';
+    try { return new Date(d).toLocaleString('en-GB', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+    catch { return d; }
+  }
+  function slugify(str) {
+    return (str || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  }
+  function toast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'show ' + type;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+  function closeModal() { document.getElementById('delete-modal').classList.remove('open'); }
+
+  /* ════════════════════════════════
+     AUTH (Supabase Auth)
+  ════════════════════════════════ */
+  async function doLogin() {
+    const email = document.getElementById('l-email').value.trim();
+    const pass  = document.getElementById('l-pass').value;
+    const errEl = document.getElementById('login-error');
+    errEl.classList.remove('show');
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pass })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error_description || data.msg || 'Login failed');
+      authUser = data.user || { email };
+      localStorage.setItem('sb_token', data.access_token);
+      showApp();
+    } catch (e) {
+      errEl.textContent = e.message;
+      errEl.classList.add('show');
+    }
+  }
+  function doLogout() {
+    localStorage.removeItem('sb_token');
+    authUser = null;
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+  document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+  function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    if (authUser) document.getElementById('user-email-display').textContent = authUser.email || '';
+    loadDashboard();
+  }
+  /* Auto-login if token cached */
+  window.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('sb_token');
+    if (token) { authUser = { email: '' }; showApp(); }
+  });
+
+  /* ════════════════════════════════
+     NAVIGATION
+  ════════════════════════════════ */
+  function goPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.add('active');
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(n => { if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) n.classList.add('active'); });
+
+    if (id === 'posts')     loadPosts();
+    if (id === 'analytics') loadAnalytics();
+    if (id === 'authors')   loadAuthors();
+    if (id === 'newsletter') loadNewsletter();
+    if (id === 'scheduled') loadScheduled();
+  }
+
+  /* ════════════════════════════════
+     DASHBOARD
+  ════════════════════════════════ */
+  async function loadDashboard() {
+    try {
+      const [postsRes, reactRes] = await Promise.all([
+        SB('blog_posts?select=id,title,status,date,views,scheduled_at,featured&order=date.desc'),
+        SB('post_reactions?select=post_id,count')
+      ]);
+      if (!postsRes.ok) return;
+      allPosts = await postsRes.json();
+      const reactions = reactRes.ok ? await reactRes.json() : [];
+
+      const totalViews = allPosts.reduce((s, p) => s + (p.views || 0), 0);
+      const published  = allPosts.filter(p => p.status === 'published');
+      const scheduled  = allPosts.filter(p => p.status === 'scheduled');
+
+      document.getElementById('stat-posts').textContent     = allPosts.length;
+      document.getElementById('stat-published').textContent = published.length;
+      document.getElementById('stat-scheduled').textContent = scheduled.length;
+      document.getElementById('stat-views').textContent     = totalViews.toLocaleString();
+      document.getElementById('nav-count').textContent      = allPosts.length;
+
+      if (scheduled.length) {
+        document.getElementById('nav-scheduled-count').textContent = scheduled.length;
+        document.getElementById('nav-scheduled-count').style.display = '';
+      }
+
+      /* Recent posts */
+      const recentEl = document.getElementById('dash-recent');
+      recentEl.innerHTML = allPosts.slice(0, 6).map(p => `
+        <div class="recent-item">
+          <div class="recent-item-title">${esc(p.title)}</div>
+          <span class="badge badge-${p.status}">${p.status}</span>
+          <div class="recent-item-date">${fmtDate(p.date)}</div>
+        </div>`).join('') || '<div class="empty-state"><p>No posts yet.</p></div>';
+
+      /* Top posts by views */
+      const topEl = document.getElementById('dash-top-views');
+      const maxViews = Math.max(...allPosts.map(p => p.views || 0), 1);
+      const sorted = [...allPosts].filter(p => p.status === 'published').sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 6);
+      topEl.innerHTML = sorted.map(p => `
+        <div class="recent-item" style="flex-direction:column;align-items:flex-start;gap:0.4rem;">
+          <div style="display:flex;justify-content:space-between;width:100%;"><span style="font-size:0.86rem;font-weight:600;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(p.title)}</span><span style="font-size:0.8rem;font-weight:700;color:var(--ink);margin-left:1rem;">${(p.views||0).toLocaleString()}</span></div>
+          <div style="width:100%;height:5px;background:var(--green-tint);border-radius:3px;"><div style="height:100%;border-radius:3px;background:var(--green);width:${Math.round(((p.views||0)/maxViews)*100)}%"></div></div>
+        </div>`).join('') || '<div class="empty-state"><p>No views data yet.</p></div>';
+
+    } catch (e) { console.error(e); }
+  }
+
+  /* ════════════════════════════════
+     ALL POSTS
+  ════════════════════════════════ */
+  async function loadPosts() {
+    const res = await SB('blog_posts?select=id,title,status,date,views,image_url,category,author,featured,scheduled_at&order=date.desc');
+    if (!res.ok) return;
+    allPosts = await res.json();
+    document.getElementById('posts-subtitle').textContent = allPosts.length + ' total posts';
+    document.getElementById('nav-count').textContent = allPosts.length;
+    filterPosts();
+  }
+
+  function filterPosts() {
+    const q       = (document.getElementById('posts-search')?.value || '').toLowerCase();
+    const status  = document.getElementById('posts-filter')?.value || '';
+    const feat    = document.getElementById('posts-featured-filter')?.value || '';
+    const list    = document.getElementById('posts-list');
+
+    let filtered = allPosts.filter(p => {
+      if (q && !p.title?.toLowerCase().includes(q)) return false;
+      if (status && p.status !== status) return false;
+      if (feat === 'featured' && !p.featured) return false;
+      return true;
+    });
+
+    if (!filtered.length) { list.innerHTML = '<div class="empty-state"><p>No posts match your search.</p></div>'; return; }
+
+    list.innerHTML = filtered.map(p => `
+      <div class="post-item">
+        <div class="post-thumb">
+          ${p.image_url ? `<img src="${esc(p.image_url)}" alt="">` : `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 4h16v14H3z" rx="1.5" stroke="#5A7A40" stroke-width="1.3" fill="none"/><path d="M3 14l4-4 4 4 3-3.5 4 5" stroke="#5A7A40" stroke-width="1.2" stroke-linecap="round"/></svg>`}
+        </div>
+        <div class="post-meta">
+          <div class="post-meta-title">${esc(p.title)}</div>
+          <div class="post-meta-row">
+            <span class="badge badge-${p.status}">${p.status === 'scheduled' ? '🕐 ' : ''}${p.status}</span>
+            ${p.featured ? '<span class="badge badge-featured">★ Featured</span>' : ''}
+            <span>${fmtDate(p.date)}</span>
+            ${p.scheduled_at ? `<span style="color:#2A6BAA;">⏰ ${fmtDateTime(p.scheduled_at)}</span>` : ''}
+            ${p.author ? `<span>${esc(p.author)}</span>` : ''}
+            ${(p.views !== undefined) ? `<span>👁 ${(p.views||0).toLocaleString()}</span>` : ''}
+          </div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-ghost btn-sm" onclick="editPost('${p.id}')">Edit</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleFeatured('${p.id}', ${!!p.featured})">${p.featured ? 'Unfeature' : '★ Feature'}</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete('${p.id}', '${esc(p.title)}')">Delete</button>
+        </div>
+      </div>`).join('');
+  }
+
+  async function toggleFeatured(postId, currently) {
+    await SB(`blog_posts?id=eq.${postId}`, { method: 'PATCH', headers: { 'Prefer': 'return=minimal' }, body: JSON.stringify({ featured: !currently }) });
+    toast(!currently ? 'Post marked as featured' : 'Post unfeatured');
+    loadPosts();
+  }
+
+  /* ════════════════════════════════
+     POST EDITOR
+  ════════════════════════════════ */
+  function openNewPost() {
+    clearEditor();
+    document.getElementById('editor-title').textContent = 'New Post';
+    document.getElementById('f-date').value = new Date().toISOString().slice(0, 10);
+    goPage('new-post');
+    updatePublishBtn();
+  }
+  function clearEditor() {
+    ['f-id','f-title','f-slug','f-category','f-author','f-author-id','f-excerpt','f-image-url','f-image-alt','f-schedule-at'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.getElementById('f-status').value  = 'draft';
+    document.getElementById('f-featured').value = 'false';
+    document.getElementById('content-editor').innerHTML = '';
+    document.getElementById('schedule-field-wrap').style.display = 'none';
+  }
+
+  async function editPost(id) {
+    const res = await SB(`blog_posts?id=eq.${id}&select=*`);
+    if (!res.ok) return;
+    const posts = await res.json();
+    if (!posts.length) return;
+    const p = posts[0];
+
+    document.getElementById('editor-title').textContent = 'Edit Post';
+    document.getElementById('f-id').value          = p.id;
+    document.getElementById('f-title').value        = p.title || '';
+    document.getElementById('f-slug').value         = p.slug || '';
+    document.getElementById('f-category').value     = p.category || '';
+    document.getElementById('f-author').value       = p.author || '';
+    document.getElementById('f-author-id').value    = p.author_id || '';
+    document.getElementById('f-date').value         = (p.date || '').slice(0, 10);
+    document.getElementById('f-status').value       = p.status || 'draft';
+    document.getElementById('f-featured').value     = p.featured ? 'true' : 'false';
+    document.getElementById('f-excerpt').value      = p.excerpt || '';
+    document.getElementById('f-image-url').value    = p.image_url || '';
+    document.getElementById('f-image-alt').value    = p.image_alt || '';
+    document.getElementById('content-editor').innerHTML = p.content || '';
+    if (p.scheduled_at) document.getElementById('f-schedule-at').value = p.scheduled_at.slice(0, 16);
+
+    updatePublishBtn();
+    goPage('new-post');
+  }
+
+  document.getElementById('f-status').addEventListener('change', updatePublishBtn);
+  document.getElementById('f-schedule-at').addEventListener('input', updateScheduleCountdown);
+
+  function updatePublishBtn() {
+    const status = document.getElementById('f-status').value;
+    const lbl    = document.getElementById('publish-btn-label');
+    const wrap   = document.getElementById('schedule-field-wrap');
+
+    if (status === 'scheduled') {
+      lbl.textContent = 'Schedule';
+      wrap.style.display = '';
+      updateScheduleCountdown();
+    } else {
+      wrap.style.display = 'none';
+      lbl.textContent = status === 'published' ? 'Publish' : 'Save Draft';
+    }
+  }
+
+  function updateScheduleCountdown() {
+    const val  = document.getElementById('f-schedule-at').value;
+    const info = document.getElementById('schedule-info');
+    const cd   = document.getElementById('schedule-countdown');
+    if (!val) { info.style.display = 'none'; return; }
+    const diff = new Date(val) - Date.now();
+    if (diff <= 0) { info.style.display = 'none'; return; }
+    info.style.display = 'flex';
+    const days  = Math.floor(diff / 86400000);
+    const hrs   = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000) / 60000);
+    cd.textContent = days > 0 ? `${days}d ${hrs}h` : hrs > 0 ? `${hrs}h ${mins}m` : `${mins} min`;
+  }
+
+  document.getElementById('f-title').addEventListener('input', function() {
+    const slugEl = document.getElementById('f-slug');
+    if (!slugEl.dataset.edited) slugEl.value = slugify(this.value);
+  });
+  document.getElementById('f-slug').addEventListener('input', function() {
+    this.dataset.edited = '1';
+  });
+
+  async function savePost(forceDraft) {
+    const id     = document.getElementById('f-id').value;
+    const title  = document.getElementById('f-title').value.trim();
+    const status = forceDraft === 'draft' ? 'draft' : document.getElementById('f-status').value;
+
+    if (!title) { toast('Please enter a post title', 'error'); return; }
+
+    const payload = {
+      title,
+      slug:        document.getElementById('f-slug').value.trim() || slugify(title),
+      category:    document.getElementById('f-category').value.trim(),
+      author:      document.getElementById('f-author').value.trim(),
+      author_id:   document.getElementById('f-author-id').value.trim() || null,
+      date:        document.getElementById('f-date').value || new Date().toISOString().slice(0,10),
+      status,
+      featured:    document.getElementById('f-featured').value === 'true',
+      excerpt:     document.getElementById('f-excerpt').value.trim(),
+      image_url:   document.getElementById('f-image-url').value.trim() || null,
+      image_alt:   document.getElementById('f-image-alt').value.trim() || null,
+      content:     document.getElementById('content-editor').innerHTML,
+      scheduled_at: status === 'scheduled' ? (document.getElementById('f-schedule-at').value || null) : null,
+    };
+
+    const method = id ? 'PATCH' : 'POST';
+    const url    = id ? `blog_posts?id=eq.${id}` : 'blog_posts';
+
+    const res = await SB(url, { method, headers: { 'Prefer': 'return=minimal' }, body: JSON.stringify(payload) });
+    if (res.ok || res.status === 201 || res.status === 204) {
+      toast(id ? 'Post updated!' : status === 'scheduled' ? 'Post scheduled!' : status === 'published' ? 'Post published!' : 'Draft saved!');
+      goPage('posts');
+    } else {
+      toast('Error saving post', 'error');
+    }
+  }
+
+  function confirmDelete(id, title) {
+    document.getElementById('delete-modal-msg').textContent = `Delete "${title}"? This cannot be undone.`;
+    const btn = document.getElementById('delete-confirm-btn');
+    btn.onclick = async () => {
+      await SB(`blog_posts?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+      toast('Post deleted');
+      closeModal();
+      loadPosts();
+    };
+    document.getElementById('delete-modal').classList.add('open');
+  }
+
+  function fmt(cmd) { document.getElementById('content-editor').focus(); document.execCommand(cmd, false, null); }
+  function fmtBlock(tag) { document.getElementById('content-editor').focus(); document.execCommand('formatBlock', false, tag); }
+
+  /* ════════════════════════════════
+     SCHEDULED POSTS
+  ════════════════════════════════ */
+  async function loadScheduled() {
+    const res = await SB('blog_posts?status=eq.scheduled&select=id,title,scheduled_at,category,author&order=scheduled_at.asc');
+    if (!res.ok) return;
+    const posts = await res.json();
+    const list  = document.getElementById('scheduled-list');
+    if (!posts.length) {
+      list.innerHTML = '<div class="empty-state"><p>No scheduled posts. Create a post and set status to "Scheduled".</p></div>';
+      return;
+    }
+    list.innerHTML = posts.map(p => {
+      const diff  = new Date(p.scheduled_at) - Date.now();
+      const label = diff > 0 ? `⏰ ${fmtDateTime(p.scheduled_at)}` : '🔴 Overdue';
+      return `
+        <div class="scheduled-list-item">
+          <div class="scheduled-time">${label}</div>
+          <div class="scheduled-title">${esc(p.title)}</div>
+          ${p.category ? `<span class="badge badge-info">${esc(p.category)}</span>` : ''}
+          <div style="display:flex;gap:0.4rem;flex-shrink:0;margin-left:0.5rem;">
+            <button class="btn btn-secondary btn-sm" onclick="editPost('${p.id}')">Edit</button>
+            <button class="btn btn-primary btn-sm" onclick="publishNow('${p.id}')">Publish Now</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function publishNow(id) {
+    await SB(`blog_posts?id=eq.${id}`, { method: 'PATCH', headers: { 'Prefer': 'return=minimal' }, body: JSON.stringify({ status: 'published', scheduled_at: null }) });
+    toast('Post published!');
+    loadScheduled();
+    loadDashboard();
+  }
+
+  /* ════════════════════════════════
+     ANALYTICS
+  ════════════════════════════════ */
+  async function loadAnalytics() {
+    const [postsRes, reactRes] = await Promise.all([
+      SB('blog_posts?status=eq.published&select=id,title,date,views,status&order=views.desc.nullslast'),
+      SB('post_reactions?select=post_id,reaction_type,count')
+    ]);
+    if (!postsRes.ok) return;
+    const posts     = await postsRes.json();
+    const reactions = reactRes.ok ? await reactRes.json() : [];
+
+    /* Aggregate reactions per post */
+    const reactMap = {};
+    reactions.forEach(r => { reactMap[r.post_id] = (reactMap[r.post_id] || 0) + (r.count || 0); });
+
+    const totalViews     = posts.reduce((s, p) => s + (p.views || 0), 0);
+    const totalReactions = Object.values(reactMap).reduce((s, v) => s + v, 0);
+    const avgViews       = posts.length ? Math.round(totalViews / posts.length) : 0;
+
+    document.getElementById('an-total-views').textContent     = totalViews.toLocaleString();
+    document.getElementById('an-total-reactions').textContent = totalReactions.toLocaleString();
+    document.getElementById('an-avg-views').textContent       = avgViews.toLocaleString();
+
+    const maxViews = Math.max(...posts.map(p => p.views || 0), 1);
+    const maxReact = Math.max(...posts.map(p => reactMap[p.id] || 0), 1);
+
+    const tbody = document.getElementById('analytics-tbody');
+    tbody.innerHTML = posts.map(p => {
+      const views  = p.views || 0;
+      const reacts = reactMap[p.id] || 0;
+      const vPct   = Math.round((views / maxViews) * 100);
+      const rPct   = Math.round((reacts / maxReact) * 100);
+      return `
+        <tr>
+          <td><a class="post-link" href="https://olaoluwaagegroup.vercel.app/blog-post.html?id=${p.id}" target="_blank" title="${esc(p.title)}">${esc(p.title)}</a></td>
+          <td style="color:var(--ink-faint);font-size:0.8rem;">${fmtDate(p.date)}</td>
+          <td>
+            <div class="analytics-bar-wrap">
+              <div class="analytics-bar"><div class="analytics-bar-fill" style="width:${vPct}%"></div></div>
+              <span class="analytics-num">${views.toLocaleString()}</span>
+            </div>
+          </td>
+          <td>
+            <div class="analytics-bar-wrap">
+              <div class="analytics-bar"><div class="analytics-bar-fill gold" style="width:${rPct}%"></div></div>
+              <span class="analytics-num">${reacts}</span>
+            </div>
+          </td>
+          <td><span class="badge badge-published">published</span></td>
+        </tr>`;
+    }).join('') || '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--ink-faint);">No published posts found.</td></tr>';
+  }
+
+  /* ════════════════════════════════
+     AUTHORS
+  ════════════════════════════════ */
+  async function loadAuthors() {
+    const [authRes, postsRes, reactRes] = await Promise.all([
+      SB('authors?select=*&order=name.asc'),
+      SB('blog_posts?select=id,author_id,views,status&status=eq.published'),
+      SB('post_reactions?select=post_id,count')
+    ]);
+
+    if (!authRes.ok) return;
+    allAuthors = await authRes.json();
+    const posts     = postsRes.ok ? await postsRes.json() : [];
+    const reactions = reactRes.ok ? await reactRes.json() : [];
+
+    /* Map post_id → reaction total */
+    const reactMap = {};
+    reactions.forEach(r => { reactMap[r.post_id] = (reactMap[r.post_id] || 0) + (r.count || 0); });
+
+    /* Per-author stats */
+    const authorStats = {};
+    posts.forEach(p => {
+      if (!p.author_id) return;
+      if (!authorStats[p.author_id]) authorStats[p.author_id] = { posts: 0, views: 0, reactions: 0 };
+      authorStats[p.author_id].posts++;
+      authorStats[p.author_id].views     += p.views || 0;
+      authorStats[p.author_id].reactions += reactMap[p.id] || 0;
+    });
+
+    document.getElementById('nav-authors-count').textContent = allAuthors.length;
+
+    const list = document.getElementById('authors-list');
+    if (!allAuthors.length) {
+      list.innerHTML = '<div class="empty-state"><p>No authors yet. Add one to get started.</p></div>';
+      return;
+    }
+
+    list.innerHTML = allAuthors.map(a => {
+      const stats = authorStats[a.id] || { posts: 0, views: 0, reactions: 0 };
+      return `
+        <div class="author-card">
+          <div class="author-avatar-wrap">
+            ${a.photo_url
+              ? `<img src="${esc(a.photo_url)}" alt="${esc(a.name)}">`
+              : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.8)" stroke-width="1.4"/><path d="M3 20c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="rgba(255,255,255,0.8)" stroke-width="1.4" stroke-linecap="round"/></svg>`}
+          </div>
+          <div class="author-card-info">
+            <div class="author-card-name">${esc(a.name)}</div>
+            ${a.bio ? `<div class="author-card-bio">${esc(a.bio)}</div>` : ''}
+            <div class="author-stats-row">
+              <span class="author-stat-chip"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 2h9M1 5h9M1 8h5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><strong>${stats.posts}</strong> posts</span>
+              <span class="author-stat-chip"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><ellipse cx="5.5" cy="5.5" rx="4.5" ry="3" stroke="currentColor" stroke-width="1.1"/><circle cx="5.5" cy="5.5" r="1.2" fill="currentColor"/></svg><strong>${stats.views.toLocaleString()}</strong> views</span>
+              <span class="author-stat-chip"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1.5l.9 1.8 2 .3-1.45 1.4.34 2L5.5 6.1l-1.79.9.34-2L2.6 3.6l2-.3L5.5 1.5z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg><strong>${stats.reactions.toLocaleString()}</strong> reactions</span>
+            </div>
+          </div>
+          <div class="author-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="editAuthor('${a.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteAuthor('${a.id}','${esc(a.name)}')">Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function openNewAuthor() {
+    document.getElementById('af-id').value   = '';
+    document.getElementById('af-name').value = '';
+    document.getElementById('af-photo').value = '';
+    document.getElementById('af-bio').value  = '';
+    document.getElementById('author-editor-title').textContent = 'New Author';
+    document.getElementById('author-editor').style.display = '';
+  }
+  function closeAuthorEditor() { document.getElementById('author-editor').style.display = 'none'; }
+
+  async function editAuthor(id) {
+    const a = allAuthors.find(a => a.id === id);
+    if (!a) return;
+    document.getElementById('af-id').value   = a.id;
+    document.getElementById('af-name').value = a.name || '';
+    document.getElementById('af-photo').value = a.photo_url || '';
+    document.getElementById('af-bio').value  = a.bio || '';
+    document.getElementById('author-editor-title').textContent = 'Edit Author';
+    document.getElementById('author-editor').style.display = '';
+  }
+
+  async function saveAuthor() {
+    const id   = document.getElementById('af-id').value;
+    const name = document.getElementById('af-name').value.trim();
+    if (!name) { toast('Author name is required', 'error'); return; }
+    const payload = { name, photo_url: document.getElementById('af-photo').value.trim() || null, bio: document.getElementById('af-bio').value.trim() || null };
+    const method  = id ? 'PATCH' : 'POST';
+    const url     = id ? `authors?id=eq.${id}` : 'authors';
+    const res = await SB(url, { method, headers: { 'Prefer': 'return=minimal' }, body: JSON.stringify(payload) });
+    if (res.ok || res.status === 201 || res.status === 204) {
+      toast(id ? 'Author updated' : 'Author created');
+      closeAuthorEditor();
+      loadAuthors();
+    } else {
+      toast('Error saving author', 'error');
+    }
+  }
+
+  async function deleteAuthor(id, name) {
+    document.getElementById('delete-modal-msg').textContent = `Delete author "${name}"?`;
+    const btn = document.getElementById('delete-confirm-btn');
+    btn.onclick = async () => {
+      await SB(`authors?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+      toast('Author deleted');
+      closeModal();
+      loadAuthors();
+    };
+    document.getElementById('delete-modal').classList.add('open');
+  }
+
+  /* ════════════════════════════════
+     NEWSLETTER
+  ════════════════════════════════ */
+  async function loadNewsletter() {
+    const res = await SB('newsletter_subscribers?select=id,email,subscribed_at&order=subscribed_at.desc');
+    if (!res.ok) return;
+    const subs = await res.json();
+
+    const now     = Date.now();
+    const month   = new Date(); month.setDate(1); month.setHours(0,0,0,0);
+    const weekAgo = now - 7 * 24 * 3600 * 1000;
+
+    const thisMonth = subs.filter(s => new Date(s.subscribed_at) >= month).length;
+    const lastWeek  = subs.filter(s => new Date(s.subscribed_at) >= new Date(weekAgo)).length;
+
+    document.getElementById('nl-total').textContent      = subs.length;
+    document.getElementById('nl-this-month').textContent = thisMonth;
+    document.getElementById('nl-week').textContent       = lastWeek;
+    document.getElementById('nav-newsletter-count').textContent = subs.length;
+
+    const list = document.getElementById('subscribers-list');
+    if (!subs.length) {
+      list.innerHTML = '<div class="empty-state"><p>No subscribers yet.</p></div>';
+      return;
+    }
+    list.innerHTML = subs.map(s => `
+      <div class="subscriber-item">
+        <div class="subscriber-email">${esc(s.email)}</div>
+        <div class="subscriber-date">${fmtDate(s.subscribed_at)}</div>
+        <button class="btn btn-danger btn-sm" onclick="deleteSubscriber('${s.id}','${esc(s.email)}')">Remove</button>
+      </div>`).join('');
+  }
+
+  async function deleteSubscriber(id, email) {
+    document.getElementById('delete-modal-msg').textContent = `Remove subscriber "${email}"?`;
+    const btn = document.getElementById('delete-confirm-btn');
+    btn.onclick = async () => {
+      await SB(`newsletter_subscribers?id=eq.${id}`, { method: 'DELETE', headers: { 'Prefer': 'return=minimal' } });
+      toast('Subscriber removed');
+      closeModal();
+      loadNewsletter();
+    };
+    document.getElementById('delete-modal').classList.add('open');
+  }
+
+  function exportSubscribers() {
+    const list = document.getElementById('subscribers-list');
+    const rows = list.querySelectorAll('.subscriber-item');
+    const csvRows = ['Email,Subscribed At'];
+    rows.forEach(r => {
+      const email = r.querySelector('.subscriber-email')?.textContent || '';
+      const date  = r.querySelector('.subscriber-date')?.textContent || '';
+      csvRows.push(`"${email}","${date}"`);
+    });
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'newsletter-subscribers.csv'; a.click();
+    URL.revokeObjectURL(url);
+    toast('CSV downloaded');
+  }
+
+  /* ════════════════════════════════
+     SITEMAP GENERATOR
+  ════════════════════════════════ */
+  async function generateSitemap() {
+    const baseUrl  = document.getElementById('sitemap-base-url').value.replace(/\/$/, '');
+    const postPath = document.getElementById('sitemap-post-path').value;
+    const incHome  = document.getElementById('sm-include-home').checked;
+    const incBlog  = document.getElementById('sm-include-blog').checked;
+    const useSlugs = document.getElementById('sm-use-slugs').checked;
+
+    const output   = document.getElementById('sitemap-output');
+    output.textContent = 'Fetching published posts…';
+
+    const res = await SB('blog_posts?status=eq.published&select=id,slug,date&order=date.desc');
+    if (!res.ok) { output.textContent = 'Error fetching posts.'; return; }
+    const posts = await res.json();
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const urlBlocks = [];
+
+    if (incHome) {
+      urlBlocks.push(`  <url>\n    <loc>${baseUrl}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n    <lastmod>${today}</lastmod>\n  </url>`);
+    }
+    if (incBlog) {
+      urlBlocks.push(`  <url>\n    <loc>${baseUrl}/blog.html</loc>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n    <lastmod>${today}</lastmod>\n  </url>`);
+    }
+
+    posts.forEach(p => {
+      const locPart = (useSlugs && p.slug)
+        ? `/blog/${p.slug}`
+        : `${postPath}${encodeURIComponent(p.id)}`;
+      const loc   = baseUrl + locPart;
+      const mod   = (p.date || today).slice(0, 10);
+      urlBlocks.push(`  <url>\n    <loc>${loc}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n    <lastmod>${mod}</lastmod>\n  </url>`);
+    });
+
+    sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlBlocks.join('\n')}\n</urlset>`;
+
+    /* Syntax-highlighted output */
+    const highlighted = sitemapXml
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/(&lt;\/?[\w:]+(?:\s[^&]*)?\/?&gt;)/g, '<span class="xml-tag">$1</span>')
+      .replace(/(&gt;)([^&lt;\n]+)(&lt;)/g, '$1<span class="xml-val">$2</span>$3');
+
+    output.innerHTML = highlighted;
+    document.getElementById('sitemap-count').textContent = `${urlBlocks.length} URLs`;
+    document.getElementById('copy-sitemap-btn').style.display = '';
+    document.getElementById('dl-sitemap-btn').style.display = '';
+  }
+
+  function copySitemap() {
+    navigator.clipboard.writeText(sitemapXml).then(() => toast('Copied to clipboard'));
+  }
+
+  function downloadSitemap() {
+    const blob = new Blob([sitemapXml], { type: 'application/xml' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'sitemap.xml'; a.click();
+    URL.revokeObjectURL(url);
+    toast('sitemap.xml downloaded');
+  }
+</script>
+</body>
+</html>

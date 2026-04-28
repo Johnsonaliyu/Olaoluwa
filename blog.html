@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Olaoluwa Age Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --green:      #2D5016;
+      --green-mid:  #3A6B1D;
+      --green-light:#4E8A28;
+      --green-tint: #EBF2E4;
+      --gold:       #C9973A;
+      --off-white:  #F7F4EF;
+      --off-white-2:#EDE9E2;
+      --off-white-3:#E2DDD4;
+      --parchment:  #D9D2C5;
+      --ink:        #1C1A16;
+      --ink-mid:    #3D3830;
+      --ink-soft:   #6B6356;
+      --ink-faint:  #9A9185;
+      --danger:     #B83232;
+      --radius:     10px;
+      --radius-lg:  16px;
+      --t:          0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ── Skeleton ── */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton-card { background: var(--off-white-2); border-radius: 15px; overflow: hidden; }
+    .skeleton-img  { height: 250px; }
+    .skeleton-line { height: 16px; margin: 12px 0; }
+    .skeleton-line.short  { width: 40%; }
+    .skeleton-line.medium { width: 70%; }
+    .skeleton-content { padding: 2rem; }
+
+    /* ── Blog notice ── */
+    .blog-notice { text-align: center; padding: 5rem 2rem; color: #888; grid-column: 1/-1; }
+    .blog-notice .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .blog-notice p { font-size: 1.1rem; }
+
+    /* ── Category badge ── */
+    .blog-category {
+      display: inline-block;
+      background: var(--green); color: white;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 0.2rem 0.65rem; border-radius: 20px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Blog image placeholder ── */
+    .blog-image-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--green) 0%, #1a3a0a 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; opacity: 0.6;
+    }
+
+    /* ══════════════════════════
+       FEATURED POST
+    ══════════════════════════ */
+    .featured-section { padding: 3rem 2rem 1.5rem; max-width: 1280px; margin: 0 auto; }
+    .featured-label {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--gold);
+      background: rgba(201,151,58,0.1); padding: 0.25rem 0.75rem;
+      border-radius: 20px; margin-bottom: 1.25rem;
+    }
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 32px rgba(28,26,22,0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .featured-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(28,26,22,0.16); }
+    .featured-image {
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+      background: linear-gradient(135deg, var(--green), #1a3a0a);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .featured-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .featured-image-placeholder { font-size: 6rem; opacity: 0.4; }
+    .featured-badge {
+      position: absolute; top: 1.25rem; left: 1.25rem;
+      background: var(--gold); color: #fff;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.3rem 0.75rem;
+      border-radius: 20px; display: flex; align-items: center; gap: 0.3rem;
+    }
+    .featured-body {
+      padding: 3rem 2.5rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 1rem;
+    }
+    .featured-category { display: inline-block; background: var(--green-tint); color: var(--green); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 0.2rem 0.65rem; border-radius: 20px; }
+    .featured-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--ink); line-height: 1.25; }
+    .featured-excerpt { color: var(--ink-soft); line-height: 1.75; font-size: 0.97rem; }
+    .featured-meta { display: flex; align-items: center; gap: 1rem; font-size: 0.82rem; color: var(--ink-faint); flex-wrap: wrap; }
+    .featured-meta span { display: flex; align-items: center; gap: 0.35rem; }
+    .featured-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green); color: #fff;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius);
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+    }
+    .featured-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    @media(max-width: 768px) {
+      .featured-card { grid-template-columns: 1fr; }
+      .featured-image { min-height: 220px; }
+      .featured-body { padding: 1.75rem; }
+      .featured-title { font-size: 1.5rem; }
+    }
+
+    /* ── Section divider ── */
+    .section-divider {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 2rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-divider h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--ink);
+      white-space: nowrap;
+    }
+    .section-divider .line { flex: 1; height: 1px; background: var(--off-white-3); }
+
+    /* ══════════════════════════
+       NEWSLETTER
+    ══════════════════════════ */
+    .newsletter-section {
+      background: linear-gradient(135deg, var(--green) 0%, #1a3a0a 100%);
+      padding: 4.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") center;
+      pointer-events: none;
+    }
+    .newsletter-inner { max-width: 560px; margin: 0 auto; position: relative; z-index: 1; }
+    .newsletter-kicker {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .newsletter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 800;
+      color: #fff; line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .newsletter-sub {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.97rem; line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .newsletter-form {
+      display: flex; gap: 0.6rem;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 0.5rem;
+      backdrop-filter: blur(8px);
+    }
+    .newsletter-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0.65rem 0.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .newsletter-input::placeholder { color: rgba(255,255,255,0.5); }
+    .newsletter-btn {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 0.65rem 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.2s;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .newsletter-btn:hover { background: #b8882e; transform: translateY(-1px); }
+    .newsletter-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .newsletter-note {
+      margin-top: 1rem;
+      font-size: 0.77rem;
+      color: rgba(255,255,255,0.45);
+    }
+    .newsletter-success {
+      display: none;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      color: #fff;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .newsletter-success strong { display: block; font-size: 1.1rem; margin-bottom: 0.35rem; }
+    .newsletter-error { display: none; margin-top: 0.6rem; color: #ffc8c8; font-size: 0.82rem; }
+
+    @media(max-width: 520px) {
+      .newsletter-form { flex-direction: column; }
+      .newsletter-btn { border-radius: 9px; justify-content: center; }
+      .newsletter-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo-section" style="text-decoration:none;color:inherit;">
+        <div class="logo-placeholder">
+          <img src="logo.jpg" alt="Olaoluwa Logo" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <div>
+          <div class="logo">Olaoluwa Age Group</div>
+          <div class="tagline">Olaoluwa • Ajejentan</div>
+        </div>
+      </a>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#programs">Programs</a></li>
+        <li><a href="index.html#team">Team</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html" class="cta-button">Back to Home</a>
+    </div>
+  </nav>
+
+  <!-- Blog Header -->
+  <div class="blog-header">
+    <h1>Our Blog</h1>
+    <p>Stories, updates, and insights from the Olaoluwa community</p>
+  </div>
+
+  <!-- ══ FEATURED POST ══ -->
+  <div class="featured-section" id="featured-section" style="display:none;">
+    <div class="featured-label">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1l1.22 2.47 2.73.4-1.97 1.92.46 2.71L6 7.25 3.56 8.5l.46-2.71L2.05 3.87l2.73-.4L6 1z" fill="currentColor"/></svg>
+      Featured Post
+    </div>
+    <a href="#" class="featured-card" id="featured-card">
+      <div class="featured-image" id="featured-image">
+        <div class="featured-image-placeholder">📰</div>
+        <div class="featured-badge">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1l.85 1.73 1.9.28-1.38 1.34.33 1.9L5 5.35 3.3 6.25l.33-1.9L2.25 3l1.9-.28L5 1z" fill="currentColor"/></svg>
+          Featured
+        </div>
+      </div>
+      <div class="featured-body">
+        <span class="featured-category" id="featured-category"></span>
+        <h2 class="featured-title" id="featured-title">Loading featured post…</h2>
+        <p class="featured-excerpt" id="featured-excerpt"></p>
+        <div class="featured-meta" id="featured-meta"></div>
+        <span class="featured-cta">
+          Read Full Story
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+  </div>
+
+  <!-- All Posts section divider -->
+  <div class="section-divider" id="posts-header" style="display:none;">
+    <h2>All Posts</h2>
+    <div class="line"></div>
+  </div>
+
+  <!-- Blog Posts Section -->
+  <section class="blog">
+    <div class="blog-container">
+      <div class="blog-grid" id="blog-grid">
+        <!-- Skeleton loaders -->
+        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-content"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-content"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-content"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-content"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ NEWSLETTER SIGN-UP ══ -->
+  <section class="newsletter-section">
+    <div class="newsletter-inner">
+      <span class="newsletter-kicker">Stay in the loop</span>
+      <h2 class="newsletter-title">Never miss a story</h2>
+      <p class="newsletter-sub">Get the latest news, updates, and insights from the Olaoluwa community delivered straight to your inbox.</p>
+
+      <!-- Success state (shown after subscription) -->
+      <div class="newsletter-success" id="newsletter-success">
+        <strong>🎉 You're subscribed!</strong>
+        Thank you for joining our community newsletter. We'll send you the best stories from Olaoluwa Age Group.
+      </div>
+
+      <!-- Form -->
+      <div id="newsletter-form-wrap">
+        <form class="newsletter-form" id="newsletter-form" onsubmit="handleNewsletter(event)">
+          <input
+            type="email"
+            class="newsletter-input"
+            id="newsletter-email"
+            placeholder="Enter your email address"
+            required
+            autocomplete="email">
+          <button type="submit" class="newsletter-btn" id="newsletter-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1.5 7h11M8.5 3.5l4 3.5-4 3.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Subscribe
+          </button>
+        </form>
+        <div class="newsletter-error" id="newsletter-error"></div>
+        <p class="newsletter-note">No spam, ever. Unsubscribe at any time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#programs">Programs</a>
+        <a href="index.html#team">Team</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <p>&copy; 2026 Olaoluwa Age Group. All rights reserved. Olaoluwa • Ajejentan</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    /* ── Supabase config ── */
+    const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+    const SB_HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' };
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      try { return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+      catch { return dateStr; }
+    }
+    function escHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function calcReadingTime(htmlStr) {
+      const text = (htmlStr || '').replace(/<[^>]*>/g, ' ');
+      const words = text.trim().split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.round(words / 230));
+      return mins + ' min read';
+    }
+
+    /* ══════════════════════════
+       FEATURED POST
+    ══════════════════════════ */
+    function renderFeatured(post) {
+      const card  = document.getElementById('featured-card');
+      const section = document.getElementById('featured-section');
+      if (!post) return;
+
+      card.href = `blog-post.html?id=${encodeURIComponent(post.id)}`;
+
+      const imgEl = document.getElementById('featured-image');
+      if (post.image_url) {
+        imgEl.innerHTML = `
+          <img src="${escHtml(post.image_url)}" alt="${escHtml(post.image_alt || post.title)}">
+          <div class="featured-badge">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1l.85 1.73 1.9.28-1.38 1.34.33 1.9L5 5.35 3.3 6.25l.33-1.9L2.25 3l1.9-.28L5 1z" fill="currentColor"/></svg>
+            Featured
+          </div>`;
+      }
+
+      const catEl = document.getElementById('featured-category');
+      catEl.textContent = post.category || '';
+      catEl.style.display = post.category ? '' : 'none';
+
+      document.getElementById('featured-title').textContent = post.title || '';
+      document.getElementById('featured-excerpt').textContent = post.excerpt || '';
+
+      const rt = post.content ? calcReadingTime(post.content) : (post.excerpt ? calcReadingTime(post.excerpt) : '');
+      document.getElementById('featured-meta').innerHTML = `
+        <span>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="9.5" rx="1.5" stroke="#9A9185" stroke-width="1.2"/><path d="M4 1.5v2M9 1.5v2M1 5.5h11" stroke="#9A9185" stroke-width="1.1" stroke-linecap="round"/></svg>
+          ${formatDate(post.date)}
+        </span>
+        ${post.author ? `<span><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2" stroke="#9A9185" stroke-width="1.2"/><path d="M2 10c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="#9A9185" stroke-width="1.2" stroke-linecap="round"/></svg>${escHtml(post.author)}</span>` : ''}
+        ${rt ? `<span><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#9A9185" stroke-width="1.2"/><path d="M6 3.5V6l1.5 1.5" stroke="#9A9185" stroke-width="1.2" stroke-linecap="round"/></svg>${rt}</span>` : ''}`;
+
+      section.style.display = '';
+    }
+
+    /* ══════════════════════════
+       ALL POSTS
+    ══════════════════════════ */
+    function renderPosts(posts, featuredId) {
+      const grid = document.getElementById('blog-grid');
+      const regular = featuredId ? posts.filter(p => p.id !== featuredId) : posts;
+
+      if (!regular.length) {
+        grid.innerHTML = `
+          <div class="blog-notice">
+            <div class="icon">📰</div>
+            <p>${featuredId ? 'No other posts published yet.' : 'No posts published yet. Check back soon!'}</p>
+          </div>`;
+        return;
+      }
+
+      document.getElementById('posts-header').style.display = '';
+      grid.innerHTML = regular.map(post => `
+        <div class="blog-card">
+          <div class="blog-image">
+            ${post.image_url
+              ? `<img src="${escHtml(post.image_url)}" alt="${escHtml(post.image_alt || post.title)}" style="width:100%;height:100%;object-fit:cover;">`
+              : `<div class="blog-image-placeholder">📰</div>`}
+          </div>
+          <div class="blog-content">
+            <div>
+              ${post.category ? `<span class="blog-category">${escHtml(post.category)}</span>` : ''}
+              <div class="blog-date">📅 ${formatDate(post.date)}</div>
+              <h2 class="blog-title">${escHtml(post.title)}</h2>
+              <p class="blog-excerpt">${escHtml(post.excerpt)}</p>
+            </div>
+            <a href="blog-post.html?id=${encodeURIComponent(post.id)}" class="read-more-btn">Read Full Story →</a>
+          </div>
+        </div>`).join('');
+    }
+
+    /* ══════════════════════════
+       NEWSLETTER
+    ══════════════════════════ */
+    async function handleNewsletter(e) {
+      e.preventDefault();
+      const email = document.getElementById('newsletter-email').value.trim();
+      const btn   = document.getElementById('newsletter-btn');
+      const errEl = document.getElementById('newsletter-error');
+      errEl.style.display = 'none';
+
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<svg class="spin-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation:spin 0.7s linear infinite"><circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg> Subscribing…`;
+
+      try {
+        /* Check if already subscribed */
+        const checkRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/newsletter_subscribers?email=eq.${encodeURIComponent(email)}&select=id`,
+          { headers: SB_HEADERS }
+        );
+        const existing = checkRes.ok ? await checkRes.json() : [];
+
+        if (existing.length > 0) {
+          /* Already subscribed — show success anyway */
+          showNewsletterSuccess();
+          return;
+        }
+
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/newsletter_subscribers`,
+          {
+            method: 'POST',
+            headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ email, subscribed_at: new Date().toISOString() })
+          }
+        );
+
+        if (res.ok || res.status === 201) {
+          showNewsletterSuccess();
+        } else {
+          throw new Error('Subscription failed');
+        }
+      } catch (_) {
+        btn.disabled = false;
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1.5 7h11M8.5 3.5l4 3.5-4 3.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Subscribe`;
+        errEl.textContent = 'Something went wrong. Please try again.';
+        errEl.style.display = 'block';
+      }
+    }
+
+    function showNewsletterSuccess() {
+      document.getElementById('newsletter-form-wrap').style.display = 'none';
+      const success = document.getElementById('newsletter-success');
+      success.style.display = 'block';
+      success.style.animation = 'fadeIn 0.4s ease';
+    }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* ══════════════════════════
+       LOAD POSTS
+    ══════════════════════════ */
+    async function loadBlogPosts() {
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/blog_posts?select=id,title,excerpt,date,image_url,image_alt,category,author,slug,featured,content&status=eq.published&order=date.desc`,
+          { headers: SB_HEADERS }
+        );
+        if (!res.ok) throw new Error('Failed to fetch posts');
+        const posts = await res.json();
+
+        /* Find featured post */
+        const featured = posts.find(p => p.featured) || (posts.length ? posts[0] : null);
+        if (featured) renderFeatured(featured);
+
+        renderPosts(posts, featured ? featured.id : null);
+      } catch (err) {
+        console.error('Blog load error:', err);
+        document.getElementById('blog-grid').innerHTML = `
+          <div class="blog-notice">
+            <div class="icon">⚠️</div>
+            <p>Could not load posts right now. Please try again later.</p>
+          </div>`;
+      }
+    }
+
+    loadBlogPosts();
+  </script>
+</body>
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Post - Olaoluwa Age Group</title>
+  <meta property="og:type"        content="article">
+  <meta property="og:site_name"   content="Olaoluwa Age Group">
+  <meta property="og:title"       id="og-title"       content="Olaoluwa Age Group Blog">
+  <meta property="og:description" id="og-description" content="News and updates from the Olaoluwa Age Group community.">
+  <meta property="og:image"       id="og-image"       content="">
+  <meta property="og:url"         id="og-url"         content="">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      id="tw-title"       content="Olaoluwa Age Group Blog">
+  <meta name="twitter:description" id="tw-description" content="News and updates from the Olaoluwa Age Group community.">
+  <meta name="twitter:image"      id="tw-image"       content="">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --green:      #2D5016;
+      --green-mid:  #3A6B1D;
+      --green-light:#4E8A28;
+      --green-tint: #EBF2E4;
+      --gold:       #C9973A;
+      --off-white:  #F7F4EF;
+      --off-white-2:#EDE9E2;
+      --off-white-3:#E2DDD4;
+      --parchment:  #D9D2C5;
+      --ink:        #1C1A16;
+      --ink-mid:    #3D3830;
+      --ink-soft:   #6B6356;
+      --ink-faint:  #9A9185;
+      --danger:     #B83232;
+      --radius:     10px;
+      --radius-lg:  16px;
+      --shadow-sm:  0 1px 4px rgba(28,26,22,0.08);
+      --shadow:     0 4px 16px rgba(28,26,22,0.1);
+      --t:          0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ── Reading Progress Bar ── */
+    #reading-progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      z-index: 9999;
+      transition: width 0.1s linear;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Skeleton ── */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .sk-title { height: 48px; width: 75%; margin: 0 auto 1rem; }
+    .sk-date  { height: 20px; width: 25%; margin: 0 auto 0.5rem; }
+    .sk-img   { height: 400px; border-radius: 15px; margin-bottom: 3rem; }
+    .sk-line  { height: 16px; margin-bottom: 14px; }
+    .sk-line.w90 { width: 90%; }
+    .sk-line.w75 { width: 75%; }
+    .sk-line.w60 { width: 60%; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      background: var(--off-white);
+      border-bottom: 1px solid var(--off-white-3);
+      padding: 0.65rem 2rem;
+    }
+    .breadcrumb {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      font-size: 0.79rem;
+      color: var(--ink-soft);
+    }
+    .breadcrumb a {
+      color: var(--green);
+      text-decoration: none;
+      transition: opacity var(--t);
+    }
+    .breadcrumb a:hover { opacity: 0.75; }
+    .breadcrumb .sep {
+      color: var(--ink-faint);
+      margin: 0 0.1rem;
+    }
+    .breadcrumb .current {
+      color: var(--ink-soft);
+      font-weight: 500;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ── Layout: two-column (TOC sidebar + article) ── */
+    .post-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media(max-width: 860px) {
+      .post-layout { grid-template-columns: 1fr; }
+      .toc-sidebar { display: none; }
+    }
+
+    /* ── TOC Sidebar ── */
+    .toc-sidebar {
+      position: sticky;
+      top: 80px;
+    }
+    .toc-box {
+      background: #fff;
+      border: 1px solid var(--off-white-3);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .toc-header {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid var(--off-white-3);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0.6rem 0;
+      margin: 0;
+    }
+    .toc-list li a {
+      display: block;
+      padding: 0.38rem 1.1rem;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      text-decoration: none;
+      line-height: 1.4;
+      transition: all var(--t);
+      border-left: 2px solid transparent;
+    }
+    .toc-list li a:hover,
+    .toc-list li a.active {
+      color: var(--green);
+      border-left-color: var(--green);
+      background: var(--green-tint);
+    }
+    .toc-list li.toc-h3 a { padding-left: 1.9rem; font-size: 0.76rem; }
+    .toc-empty { padding: 1rem 1.1rem; font-size: 0.8rem; color: var(--ink-faint); }
+
+    /* ── Post Meta Bar ── */
+    .post-meta-bar {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1.5px solid var(--off-white-3);
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+    .post-meta-bar .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .post-meta-bar .category-tag {
+      background: var(--green);
+      color: white;
+      font-size: 0.73rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.22rem 0.65rem;
+      border-radius: 20px;
+    }
+    .reading-time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--green-tint);
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.22rem 0.65rem;
+      border-radius: 20px;
+    }
+    .views-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--off-white-2);
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.22rem 0.65rem;
+      border-radius: 20px;
+    }
+
+    /* ── Article ── */
+    .blog-post-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem;
+      color: var(--ink);
+      margin: 2.5rem 0 1rem;
+      scroll-margin-top: 90px;
+    }
+    .blog-post-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      color: var(--ink);
+      margin: 2rem 0 0.75rem;
+      scroll-margin-top: 90px;
+    }
+    .blog-post-content p { margin-bottom: 1.5rem; line-height: 1.8; }
+    .blog-post-content ul,
+    .blog-post-content ol { margin: 0 0 1.5rem 1.5rem; line-height: 1.9; }
+    .blog-post-content ul li,
+    .blog-post-content ol li { margin-bottom: 0.4rem; }
+    .blog-post-content strong { color: var(--ink); }
+    .blog-post-content hr { border: none; border-top: 2px solid var(--off-white-3); margin: 2rem 0; }
+    .blog-post-content blockquote {
+      border-left: 4px solid var(--gold);
+      padding-left: 1.25rem;
+      margin: 1.5rem 0;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* ── Reactions ── */
+    .reactions-block {
+      margin: 2.5rem 0;
+      padding: 1.5rem;
+      background: var(--off-white);
+      border: 1px solid var(--off-white-3);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+    .reactions-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      margin-bottom: 1rem;
+    }
+    .reactions-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .reaction-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.6rem 0.9rem;
+      background: #fff;
+      border: 1.5px solid var(--off-white-3);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all var(--t);
+      font-family: 'DM Sans', sans-serif;
+      min-width: 62px;
+    }
+    .reaction-btn:hover {
+      border-color: var(--green-light);
+      background: var(--green-tint);
+      transform: translateY(-2px);
+    }
+    .reaction-btn.reacted {
+      border-color: var(--green);
+      background: var(--green-tint);
+      box-shadow: 0 0 0 2px rgba(45,80,22,0.12);
+    }
+    .reaction-emoji { font-size: 1.5rem; line-height: 1; }
+    .reaction-count { font-size: 0.74rem; font-weight: 600; color: var(--ink-soft); }
+    .reaction-name  { font-size: 0.66rem; color: var(--ink-faint); }
+
+    /* ── Author + Share block ── */
+    .author-share-block {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin: 1.75rem 0 2rem;
+      padding: 1.4rem 1.6rem;
+      background: linear-gradient(135deg, #f8faf5 0%, #f0f4eb 100%);
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+    }
+    .author-info { display: flex; align-items: center; gap: 0.85rem; }
+    .author-avatar {
+      width: 44px; height: 44px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .author-details { display: flex; flex-direction: column; gap: 0.28rem; }
+    .author-by-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
+    .author-name-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .author-date-row { display: flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: #666; margin-top: 0.15rem; }
+    .share-group { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+    .share-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: #888; }
+    .share-buttons { display: flex; align-items: center; gap: 0.6rem; }
+    .share-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid #e0e0e0;
+      background: #fff;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.13); }
+    .share-btn.whatsapp:hover { border-color: #25D366; }
+    .share-btn.facebook:hover  { border-color: #1877F2; }
+    .share-btn.x-twitter:hover { border-color: #000; }
+    .share-btn.linkedin:hover  { border-color: #0A66C2; }
+    .share-btn.telegram:hover  { border-color: #229ED9; }
+
+    /* ── Author Bio Card ── */
+    .author-bio-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      background: var(--off-white);
+      border: 1.5px solid var(--off-white-3);
+      border-left: 5px solid var(--green);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin: 2.5rem 0 1.5rem;
+    }
+    .author-bio-photo { width: 80px; height: 80px; flex-shrink: 0; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 4px 16px rgba(45,80,22,0.15); }
+    .author-bio-photo-placeholder {
+      width: 80px; height: 80px; flex-shrink: 0; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      display: flex; align-items: center; justify-content: center;
+      border: 3px solid #fff; box-shadow: 0 4px 16px rgba(45,80,22,0.15);
+    }
+    .author-bio-text { flex: 1; min-width: 0; }
+    .author-bio-kicker { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 0.3rem; }
+    .author-bio-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.6rem; line-height: 1.25; }
+    .author-bio-body { font-size: 0.93rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ── Related posts ── */
+    .related-posts { padding: 4rem 2rem; background: var(--off-white-2); }
+    .related-posts h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--ink); text-align: center; margin-bottom: 2rem; }
+    .related-posts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .related-card { background: white; border-radius: 12px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; text-decoration: none; color: inherit; display: block; }
+    .related-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(45,80,22,0.12); }
+    .related-card-img { height: 150px; overflow: hidden; background: linear-gradient(135deg, var(--green), #1a3a0a); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; opacity: 0.7; }
+    .related-card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .related-card-body { padding: 1.1rem; }
+    .related-card-date { font-size: 0.75rem; color: var(--green); font-weight: 600; margin-bottom: 0.35rem; }
+    .related-card-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; line-height: 1.45; color: var(--ink); }
+
+    /* ── Post error ── */
+    .post-error { text-align: center; padding: 6rem 2rem; }
+    .post-error .icon { font-size: 4rem; margin-bottom: 1.5rem; }
+    .post-error h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; color: var(--ink); }
+    .post-error p { color: var(--ink-soft); margin-bottom: 2rem; font-size: 1.05rem; }
+
+    /* ── Back to Top ── */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 44px; height: 44px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(45,80,22,0.35);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s;
+      z-index: 1000;
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); }
+    #back-to-top:hover { background: var(--green-mid); }
+
+    /* ── Ad slots ── */
+    .ad-slot { width: 100%; text-align: center; }
+    .ad-slot-label { display: block; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #ccc; margin-bottom: 5px; }
+    .ad-slot-header { max-width: 970px; padding: 1.25rem 2rem 0; margin: 0 auto; }
+
+    @media(max-width: 600px) {
+      .author-share-block { flex-direction: column; }
+      .share-group { align-items: flex-start; }
+      .related-posts-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media(max-width: 480px) {
+      .related-posts-grid { grid-template-columns: 1fr; }
+      .post-layout { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo-section" style="text-decoration:none;color:inherit;">
+        <div class="logo-placeholder">
+          <img src="logo.jpg" alt="Olaoluwa Logo" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <div>
+          <div class="logo">Olaoluwa Age Group</div>
+          <div class="tagline">Olaoluwa • Ajejentan</div>
+        </div>
+      </a>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#programs">Programs</a></li>
+        <li><a href="index.html#team">Team</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="blog.html" class="cta-button">← Back to Blog</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-bar">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="vertical-align:-1px"><path d="M1 6L6 1.5 11 6v4.5a.5.5 0 0 1-.5.5H7.5V8H4.5v3H1.5A.5.5 0 0 1 1 10.5V6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        Home
+      </a>
+      <span class="sep">›</span>
+      <a href="blog.html">Blog</a>
+      <span class="sep">›</span>
+      <span class="current" id="breadcrumb-title">Loading…</span>
+    </nav>
+  </div>
+
+  <!-- Dynamic post header (filled by JS) -->
+  <div class="blog-post-header" id="post-header">
+    <div class="skeleton sk-date" style="margin:0 auto 1rem;"></div>
+    <div class="skeleton sk-title"></div>
+  </div>
+
+  <!-- Ad Slot: Top banner -->
+  <div class="ad-slot ad-slot-header">
+    <span class="ad-slot-label">Advertisement</span>
+    <ins class="adsbygoogle" style="display:block"
+         data-ad-client="ca-pub-6453587550914173"
+         data-ad-slot="1111111111"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- Two-column layout: Article + TOC -->
+  <div class="post-layout" id="post-section">
+    <!-- Article -->
+    <div>
+      <div id="post-container">
+        <div class="skeleton sk-img"></div>
+        <div class="skeleton sk-line w90"></div>
+        <div class="skeleton sk-line w75"></div>
+        <div class="skeleton sk-line w90"></div>
+        <div class="skeleton sk-line w60"></div>
+        <div class="skeleton sk-line w90"></div>
+        <div class="skeleton sk-line w75"></div>
+      </div>
+      <!-- Reactions (populated after post renders) -->
+      <div id="reactions-wrap"></div>
+    </div>
+
+    <!-- TOC Sidebar -->
+    <aside class="toc-sidebar" id="toc-sidebar">
+      <div class="toc-box">
+        <div class="toc-header">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3h10M1.5 6.5h10M1.5 10h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Contents
+        </div>
+        <div id="toc-content"><div class="toc-empty">Loading…</div></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Related posts (filled by JS) -->
+  <section class="related-posts" id="related-section" style="display:none;">
+    <h3>More from the Blog</h3>
+    <div class="related-posts-grid" id="related-grid"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <p>&copy; 2026 Olaoluwa Age Group. All rights reserved. | Olaoluwa • Ajejentan</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 13V5M5 9l4-4 4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <script src="script.js"></script>
+  <script>
+    /* ── Supabase config ── */
+    const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+    const SB_HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' };
+
+    /* ══════════════════════════════════
+       READING PROGRESS BAR
+    ══════════════════════════════════ */
+    const progressBar = document.getElementById('reading-progress');
+    window.addEventListener('scroll', () => {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const pct  = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+      progressBar.style.width = Math.min(pct, 100) + '%';
+    });
+
+    /* ══════════════════════════════════
+       BACK TO TOP
+    ══════════════════════════════════ */
+    const btt = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    /* ══════════════════════════════════
+       TABLE OF CONTENTS
+    ══════════════════════════════════ */
+    function buildTOC(articleEl) {
+      const headings = articleEl.querySelectorAll('h2, h3');
+      const tocContent = document.getElementById('toc-content');
+      if (!headings.length) {
+        tocContent.innerHTML = '<div class="toc-empty">No sections found.</div>';
+        return;
+      }
+
+      let html = '<ul class="toc-list">';
+      headings.forEach((h, i) => {
+        if (!h.id) h.id = 'section-' + i;
+        const level = h.tagName === 'H2' ? 'toc-h2' : 'toc-h3';
+        html += `<li class="${level}"><a href="#${h.id}" data-target="${h.id}">${h.textContent}</a></li>`;
+      });
+      html += '</ul>';
+      tocContent.innerHTML = html;
+
+      /* Active link on scroll */
+      const links = tocContent.querySelectorAll('a');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            const active = tocContent.querySelector(`[data-target="${entry.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+
+      headings.forEach(h => observer.observe(h));
+
+      /* Smooth scroll on click */
+      links.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          document.getElementById(link.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    /* ══════════════════════════════════
+       READING TIME
+    ══════════════════════════════════ */
+    function calcReadingTime(htmlStr) {
+      const text = htmlStr.replace(/<[^>]*>/g, ' ');
+      const words = text.trim().split(/\s+/).filter(Boolean).length;
+      const mins  = Math.max(1, Math.round(words / 230));
+      return mins === 1 ? '1 min read' : `${mins} min read`;
+    }
+
+    /* ══════════════════════════════════
+       VIEWS COUNTER
+    ══════════════════════════════════ */
+    async function trackView(postId) {
+      const key = 'viewed_' + postId;
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, '1');
+      try {
+        /* Increment views column using Supabase RPC or PATCH */
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(postId)}`,
+          {
+            method: 'PATCH',
+            headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ views: null }) /* see note below */
+          }
+        );
+        /* Note: to properly increment you'd use an RPC. Here we use a Supabase
+           RPC "increment_views" if available, otherwise the field is updated
+           on the server side. For a quick client-side increment approach without
+           an RPC, we read then write — done in fetchAndRenderViews(). */
+      } catch (_) {}
+    }
+
+    async function fetchAndIncrementViews(postId, currentViews) {
+      const key = 'viewed_' + postId;
+      const alreadySeen = !!sessionStorage.getItem(key);
+      sessionStorage.setItem(key, '1');
+      const newViews = (currentViews || 0) + (alreadySeen ? 0 : 1);
+      if (!alreadySeen) {
+        fetch(
+          `${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(postId)}`,
+          { method: 'PATCH', headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' }, body: JSON.stringify({ views: newViews }) }
+        ).catch(() => {});
+      }
+      return newViews;
+    }
+
+    /* ══════════════════════════════════
+       REACTIONS
+    ══════════════════════════════════ */
+    const REACTION_TYPES = [
+      { id: 'like',    emoji: '👍', label: 'Like' },
+      { id: 'love',    emoji: '❤️',  label: 'Love' },
+      { id: 'fire',    emoji: '🔥', label: 'Fire' },
+      { id: 'insightful', emoji: '💡', label: 'Insightful' },
+      { id: 'clap',    emoji: '👏', label: 'Clap' },
+    ];
+
+    function getMyReactions(postId) {
+      try { return JSON.parse(localStorage.getItem('reactions_' + postId) || '{}'); } catch { return {}; }
+    }
+    function setMyReaction(postId, reactionId, val) {
+      const mine = getMyReactions(postId);
+      if (val) mine[reactionId] = true; else delete mine[reactionId];
+      localStorage.setItem('reactions_' + postId, JSON.stringify(mine));
+    }
+
+    async function loadReactions(postId) {
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/post_reactions?post_id=eq.${encodeURIComponent(postId)}&select=reaction_type,count`,
+          { headers: SB_HEADERS }
+        );
+        if (res.ok) return await res.json();
+      } catch (_) {}
+      return [];
+    }
+
+    async function saveReaction(postId, reactionId, delta) {
+      /* Upsert reaction count in post_reactions table */
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/post_reactions?post_id=eq.${encodeURIComponent(postId)}&reaction_type=eq.${reactionId}`,
+        { headers: SB_HEADERS }
+      );
+      const rows = res.ok ? await res.json() : [];
+      const current = rows[0]?.count || 0;
+      const newCount = Math.max(0, current + delta);
+
+      if (rows.length) {
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/post_reactions?post_id=eq.${encodeURIComponent(postId)}&reaction_type=eq.${reactionId}`,
+          { method: 'PATCH', headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' }, body: JSON.stringify({ count: newCount }) }
+        );
+      } else {
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/post_reactions`,
+          { method: 'POST', headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' }, body: JSON.stringify({ post_id: postId, reaction_type: reactionId, count: newCount }) }
+        );
+      }
+      return newCount;
+    }
+
+    function renderReactions(postId, countsMap) {
+      const mine = getMyReactions(postId);
+      const wrap = document.getElementById('reactions-wrap');
+      wrap.innerHTML = `
+        <div class="reactions-block">
+          <div class="reactions-label">How did this post make you feel?</div>
+          <div class="reactions-row" id="reactions-row"></div>
+        </div>`;
+
+      const row = document.getElementById('reactions-row');
+      REACTION_TYPES.forEach(rt => {
+        const count   = countsMap[rt.id] || 0;
+        const reacted = !!mine[rt.id];
+        const btn     = document.createElement('button');
+        btn.className = 'reaction-btn' + (reacted ? ' reacted' : '');
+        btn.dataset.reaction = rt.id;
+        btn.innerHTML = `
+          <span class="reaction-emoji">${rt.emoji}</span>
+          <span class="reaction-count" id="rcount-${rt.id}">${count}</span>
+          <span class="reaction-name">${rt.label}</span>`;
+
+        btn.addEventListener('click', async () => {
+          const was = !!btn.classList.contains('reacted');
+          const delta = was ? -1 : 1;
+          btn.classList.toggle('reacted', !was);
+          setMyReaction(postId, rt.id, !was);
+
+          const countEl = document.getElementById('rcount-' + rt.id);
+          const newCount = Math.max(0, parseInt(countEl.textContent || '0') + delta);
+          countEl.textContent = newCount;
+
+          try { await saveReaction(postId, rt.id, delta); } catch (_) {}
+        });
+
+        row.appendChild(btn);
+      });
+    }
+
+    /* ══════════════════════════════════
+       HELPERS
+    ══════════════════════════════════ */
+    function getPostId() {
+      return new URLSearchParams(window.location.search).get('id');
+    }
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      try { return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+      catch { return dateStr; }
+    }
+    function escHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    /* ══════════════════════════════════
+       RENDER POST
+    ══════════════════════════════════ */
+    async function renderPost(post) {
+      document.title = (post.title || 'Blog Post') + ' - Olaoluwa Age Group';
+
+      /* Breadcrumb */
+      const bcTitle = document.getElementById('breadcrumb-title');
+      if (bcTitle) bcTitle.textContent = post.title || 'Post';
+
+      /* OG meta */
+      const setMeta = (id, val) => { const el = document.getElementById(id); if(el) el.setAttribute('content', val); };
+      const ogTitle = (post.title || 'Blog Post') + ' - Olaoluwa Age Group';
+      setMeta('og-title', ogTitle); setMeta('og-description', post.excerpt || '');
+      setMeta('og-image', post.image_url || ''); setMeta('og-url', window.location.href);
+      setMeta('tw-title', ogTitle); setMeta('tw-description', post.excerpt || '');
+      setMeta('tw-image', post.image_url || '');
+
+      /* Reading time */
+      const readTime = calcReadingTime(post.content || '');
+
+      /* Views */
+      const views = await fetchAndIncrementViews(post.id, post.views || 0);
+
+      /* Header */
+      document.getElementById('post-header').innerHTML = `
+        <p style="color:#d4af37;font-weight:600;margin-bottom:0.75rem;">📅 ${formatDate(post.date)}</p>
+        <h1>${escHtml(post.title)}</h1>
+        ${post.category ? `<p style="margin-top:1rem;opacity:0.85;font-size:0.95rem;">🏷 ${escHtml(post.category)}</p>` : ''}`;
+
+      /* Share URLs */
+      const _id = post.id;
+      const _shareBase = 'https://olaoluwaagegroup.vercel.app/blog-post.html?id=' + encodeURIComponent(_id);
+      const pageUrl   = encodeURIComponent(_shareBase);
+      const pageTitle = encodeURIComponent(post.title || '');
+
+      /* Build article HTML */
+      document.getElementById('post-container').innerHTML = `
+        ${post.image_url ? `<div class="blog-post-featured-image"><img src="${escHtml(post.image_url)}" alt="${escHtml(post.image_alt || post.title)}" style="width:100%;height:100%;object-fit:cover;"></div>` : ''}
+
+        <div class="author-share-block">
+          <div class="author-info">
+            <div class="author-avatar">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="7.5" r="3.5" stroke="white" stroke-width="1.6"/><path d="M4 19c0-3.866 3.134-7 7-7h0c3.866 0 7 3.134 7 7" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <div class="author-details">
+              <span class="author-by-label">Written by</span>
+              <span class="author-name-text">${escHtml(post.author || 'Olaoluwa Age Group')}</span>
+              <div class="author-date-row">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="9.5" rx="1.5" stroke="#888" stroke-width="1.2"/><path d="M4 1.5v2M9 1.5v2M1 5.5h11" stroke="#888" stroke-width="1.1" stroke-linecap="round"/></svg>
+                <span>${formatDate(post.date)}</span>
+              </div>
+            </div>
+          </div>
+          <div class="share-group">
+            <span class="share-label">Share this post</span>
+            <div class="share-buttons">
+              <a class="share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=${pageUrl}" target="_blank" rel="noopener" title="Share on Facebook">
+                <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path d="M15.12 8H13a.5.5 0 0 0-.5.5V10h2.5l-.4 2.5H12.5V19h-2.5v-6.5H8.5V10H10V8.5A3.5 3.5 0 0 1 13.5 5H15.12v3z" fill="white"/></svg>
+              </a>
+              <a class="share-btn whatsapp" href="https://wa.me/?text=${pageTitle}%20${pageUrl}" target="_blank" rel="noopener" title="Share on WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#25D366"/><path d="M17.1 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.8-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.2 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.2.2-1.3 0-.1-.2-.2-.5-.3z" fill="white"/><path d="M12 4a8 8 0 0 0-6.9 12l-1.1 4 4.1-1.1A8 8 0 1 0 12 4zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z" fill="white"/></svg>
+              </a>
+              <a class="share-btn x-twitter" href="https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}" target="_blank" rel="noopener" title="Share on X">
+                <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#000"/><path d="M13.54 10.94L17.5 6.5h-1.1l-3.44 3.8L10.24 6.5H6.5l4.15 5.74L6.5 17.5h1.1l3.63-4 2.87 4H17.5l-3.96-6.56zm-1.28 1.42-.42-.57-3.36-4.6h1.45l2.7 3.72.42.57 3.52 4.83h-1.44l-2.87-3.95z" fill="white"/></svg>
+              </a>
+              <a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}" target="_blank" rel="noopener" title="Share on LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0A66C2"/><path d="M8.5 10H7v7h1.5v-7zm-.75-1a.88.88 0 1 0 0-1.75.88.88 0 0 0 0 1.75zM17 13.2c0-1.8-.9-3.2-2.6-3.2-.8 0-1.5.4-1.9 1V10H11v7h1.5v-3.8c0-.9.5-1.7 1.4-1.7.9 0 1.6.6 1.6 1.8V17H17v-3.8z" fill="white"/></svg>
+              </a>
+              <a class="share-btn telegram" href="https://t.me/share/url?url=${pageUrl}&text=${pageTitle}" target="_blank" rel="noopener" title="Share on Telegram">
+                <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#229ED9"/><path d="M18 7.5l-2.5 11c-.2.8-.7 1-1.3.6l-3.5-2.6-1.7 1.6c-.2.2-.4.3-.8.3l.3-3.7 6.7-6c.3-.3-.1-.4-.4-.2L7 14.3 3.6 13.2c-.8-.2-.8-.8.2-1.1l13.2-5.1c.6-.2 1.2.2 1 1.5z" fill="white"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-meta-bar">
+          ${post.category ? `<span class="category-tag">${escHtml(post.category)}</span>` : ''}
+          <span class="meta-item">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="9.5" rx="1.5" stroke="#777" stroke-width="1.2"/><path d="M4 1.5v2M9 1.5v2M1 5.5h11" stroke="#777" stroke-width="1.1" stroke-linecap="round"/></svg>
+            ${formatDate(post.date)}
+          </span>
+          <span class="reading-time-badge">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            ${readTime}
+          </span>
+          <span class="views-badge">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><ellipse cx="6" cy="6" rx="5" ry="3.5" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="6" r="1.5" fill="currentColor"/></svg>
+            <span id="views-count">${views.toLocaleString()}</span> views
+          </span>
+        </div>
+
+        <article class="blog-post-content" id="article-body">
+          ${post.content || '<p>No content available.</p>'}
+        </article>
+
+        <div id="author-bio-card-wrap"></div>
+
+        <div class="blog-post-footer">
+          <a href="blog.html" class="primary-btn">← Back to All Posts</a>
+        </div>`;
+
+      /* Build TOC from article headings */
+      const articleEl = document.getElementById('article-body');
+      buildTOC(articleEl);
+
+      /* Render reactions */
+      const reactRows = await loadReactions(post.id);
+      const countsMap = {};
+      reactRows.forEach(r => { countsMap[r.reaction_type] = r.count; });
+      renderReactions(post.id, countsMap);
+    }
+
+    /* ══════════════════════════════════
+       RELATED POSTS
+    ══════════════════════════════════ */
+    function renderRelated(posts, currentId) {
+      const others = posts.filter(p => p.id !== currentId).slice(0, 4);
+      if (!others.length) return;
+      document.getElementById('related-grid').innerHTML = others.map(p => `
+        <a href="blog-post.html?id=${encodeURIComponent(p.id)}" class="related-card">
+          <div class="related-card-img">
+            ${p.image_url ? `<img src="${escHtml(p.image_url)}" alt="${escHtml(p.image_alt || p.title)}">` : '📰'}
+          </div>
+          <div class="related-card-body">
+            <div class="related-card-date">📅 ${formatDate(p.date)}</div>
+            <div class="related-card-title">${escHtml(p.title)}</div>
+          </div>
+        </a>`).join('');
+      document.getElementById('related-section').style.display = 'block';
+    }
+
+    /* ══════════════════════════════════
+       AUTHOR BIO CARD
+    ══════════════════════════════════ */
+    function renderAuthorCard(author) {
+      const wrap = document.getElementById('author-bio-card-wrap');
+      if (!wrap || !author) return;
+      const photo = author.photo_url
+        ? `<img class="author-bio-photo" src="${escHtml(author.photo_url)}" alt="${escHtml(author.name)}">`
+        : `<div class="author-bio-photo-placeholder"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="13" r="7" stroke="rgba(255,255,255,0.8)" stroke-width="1.6"/><path d="M4 32c0-7.73 6.27-14 14-14s14 6.27 14 14" stroke="rgba(255,255,255,0.8)" stroke-width="1.6" stroke-linecap="round"/></svg></div>`;
+      wrap.innerHTML = `
+        <div class="author-bio-card">
+          ${photo}
+          <div class="author-bio-text">
+            <div class="author-bio-kicker">About the Author</div>
+            <div class="author-bio-name">${escHtml(author.name)}</div>
+            ${author.bio ? `<p class="author-bio-body">${escHtml(author.bio)}</p>` : ''}
+          </div>
+        </div>`;
+    }
+
+    /* ══════════════════════════════════
+       ERROR STATE
+    ══════════════════════════════════ */
+    function showError(message) {
+      document.getElementById('breadcrumb-title').textContent = 'Not Found';
+      document.getElementById('post-header').innerHTML = `<h1 style="font-size:1.8rem;">Post Not Found</h1>`;
+      document.getElementById('post-container').innerHTML = `
+        <div class="post-error">
+          <div class="icon">📭</div>
+          <h2>Post Not Found</h2>
+          <p>${escHtml(message)}</p>
+          <a href="blog.html" class="primary-btn">← Back to Blog</a>
+        </div>`;
+      document.getElementById('toc-content').innerHTML = '<div class="toc-empty">N/A</div>';
+    }
+
+    /* ══════════════════════════════════
+       MAIN LOAD
+    ══════════════════════════════════ */
+    async function loadPost() {
+      const id = getPostId();
+      if (!id) { showError('No post ID was specified.'); return; }
+
+      try {
+        const [res, relRes] = await Promise.all([
+          fetch(`${SUPABASE_URL}/rest/v1/blog_posts?id=eq.${encodeURIComponent(id)}&status=eq.published&select=*`, { headers: SB_HEADERS }),
+          fetch(`${SUPABASE_URL}/rest/v1/blog_posts?select=id,title,date,image_url,image_alt&status=eq.published&order=date.desc&limit=5`, { headers: SB_HEADERS })
+        ]);
+
+        if (!res.ok) throw new Error('Network error');
+        const posts = await res.json();
+        if (!posts || !posts.length) { showError('This post does not exist or has been unpublished.'); return; }
+
+        await renderPost(posts[0]);
+
+        if (posts[0].author_id) {
+          fetch(`${SUPABASE_URL}/rest/v1/authors?id=eq.${encodeURIComponent(posts[0].author_id)}&select=*`, { headers: SB_HEADERS })
+            .then(r => r.ok ? r.json() : [])
+            .then(authors => { if (authors && authors.length) renderAuthorCard(authors[0]); })
+            .catch(() => {});
+        }
+
+        if (relRes.ok) {
+          const related = await relRes.json();
+          renderRelated(related, posts[0].id);
+        }
+      } catch (err) {
+        console.error('Post load error:', err);
+        showError('Could not load this post. Please try again later.');
+      }
+    }
+
+    loadPost();
+  </script>
+</body>
+</html>
