@@ -1288,16 +1288,3 @@ footer {
         grid-template-columns: 1fr;
     }
 }
-
-@media (max-width: 768px) {
-
-  /* ...your existing mobile styles... */
-
-  /* Mobile nav open state */
-  .nav-links { display: none; }
-  .nav-links.open { display: flex; flex-direction: column; }
-  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.active span:nth-child(2) { opacity: 0; }
-  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-}
