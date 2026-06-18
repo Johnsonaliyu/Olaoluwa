@@ -25,6 +25,7 @@ body {
     background: var(--cream);
     color: var(--charcoal);
     overflow-x: hidden;
+    zoom: 0.9; /* try 0.85, 0.8, 0.75 etc */
 }
 
 /* ===== NAVIGATION ===== */
