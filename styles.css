@@ -25,7 +25,6 @@ body {
     background: var(--cream);
     color: var(--charcoal);
     overflow-x: hidden;
-    zoom: 0.9;
 }
 
 /* ===== NAVIGATION ===== */
@@ -1228,11 +1227,11 @@ footer {
     }
 
     .team-grid {
-        grid-template-columns: repeat(2, 2fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .members-grid {
-        grid-template-columns: repeat(2, 3fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .contact-container {
