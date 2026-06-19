@@ -25,6 +25,7 @@ body {
     background: var(--cream);
     color: var(--charcoal);
     overflow-x: hidden;
+    zoom: 0.8;
 }
 
 /* ===== NAVIGATION ===== */
@@ -1253,7 +1254,7 @@ footer {
     }
 
     .team-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .members-grid {
@@ -1277,8 +1278,8 @@ footer {
     }
 
     .stats-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 
     .stat-number {
