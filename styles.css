@@ -17,6 +17,7 @@
 
 html {
     scroll-behavior: smooth;
+    font-size: 13px;
 }
 
 body {
@@ -24,6 +25,7 @@ body {
     background: var(--cream);
     color: var(--charcoal);
     overflow-x: hidden;
+    zoom: 0.9;
 }
 
 /* ===== NAVIGATION ===== */
@@ -577,8 +579,8 @@ body {
 }
 
 .team-photo-circle {
-    width: 190px;
-    height: 190px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--gold), var(--terracotta));
     display: flex;
@@ -1252,7 +1254,7 @@ footer {
     }
 
     .team-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .members-grid {
@@ -1276,7 +1278,7 @@ footer {
     }
 
     .stats-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
     }
 
