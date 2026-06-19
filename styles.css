@@ -579,7 +579,7 @@ body {
 }
 
 .team-photo-circle {
-    width: 188px;
+    width: 180px;
     height: 190px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--gold), var(--terracotta));
