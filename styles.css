@@ -292,7 +292,7 @@ body {
 .secondary-btn {
     background: transparent;
     color: var(--charcoal);
-    padding: 1rem 2.5rem;
+    padding: 1.6rem 2.5rem;
     border: 2px solid var(--charcoal);
     border-radius: 30px;
     text-decoration: none;
@@ -442,7 +442,7 @@ body {
     background: var(--green);
     color: white;
     border: none;
-    padding: 0.8rem 1.8rem;
+    padding: 1.6rem 2.0rem;
     border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
