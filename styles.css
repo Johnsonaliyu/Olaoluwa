@@ -226,6 +226,27 @@ body {
     animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
+.hero-banner-image {
+    width: 100%;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out both;
+}
+
+.hero-banner-image img {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+
+    /* Blend with #F5E6D3 background */
+    mix-blend-mode: multiply;
+    background-color: #F5E6D3;
+
+    /* Make unclickable */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    }
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
