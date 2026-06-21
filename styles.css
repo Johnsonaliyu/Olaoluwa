@@ -235,6 +235,7 @@ body {
     width: 100%;
     max-width: 100%;
     display: block;
+    mix-blend-mode: multiply;
 
     /* Blend with #F5E6D3 background */
     mix-blend-mode: multiply;
