@@ -228,24 +228,20 @@ body {
 .hero-banner-image {
     width: 100%;
     margin-bottom: 2rem;
-    animation: fadeInUp 0.8s ease-out both;
+    background-color: #F5E6D3;  /* match hero exactly */
+    padding: 0;
 }
 
 .hero-banner-image img {
     width: 100%;
     max-width: 100%;
     display: block;
-    mix-blend-mode: multiply;
-
-    /* Blend with #F5E6D3 background */
-    mix-blend-mode: multiply;
-    background-color: #F5E6D3;
-
-    /* Make unclickable */
+    background-color: #F5E6D3;  /* match hero exactly */
+    /* REMOVE mix-blend-mode: multiply */
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
-    }
+}
 
 @keyframes fadeInUp {
     from {
