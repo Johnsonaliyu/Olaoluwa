@@ -420,7 +420,7 @@ body {
 }
 
 .about-content {
-    background: var(--cream);
+    background: #F5E6D3;
     padding: 2.5rem;
     border-radius: 20px;
     max-width: 900px;
