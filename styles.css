@@ -185,7 +185,7 @@ body {
     align-items: center;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%);
+    background: #F5E6D3;
 }
 
 .hero::before {
