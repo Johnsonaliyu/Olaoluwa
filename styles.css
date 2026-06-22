@@ -1381,7 +1381,7 @@ footer {
     object-fit: cover;
     transition: transform 0.4s ease;
     display: block;
-    object-position: top;
+    object-position: 50% 30%;
 }
 
 .gallery-item:hover img {
