@@ -231,7 +231,13 @@ body {
     margin-bottom: 1.5rem;
     animation: fadeInUp 0.8s ease-out both;
     display: flex;
-    justify-content: center;  
+    justify-content: center;
+    animation: fadeIn 1.5s ease-in-out 0.3s both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .hero-banner-image img {
