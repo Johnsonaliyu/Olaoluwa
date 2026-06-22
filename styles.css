@@ -235,8 +235,8 @@ body {
 }
 
 .hero-banner-image img {
-    width: 100%;
-    max-width: 100%;
+    width: 115%;
+    max-width: 120%;
     display: block;
 
     /* Make unclickable */
