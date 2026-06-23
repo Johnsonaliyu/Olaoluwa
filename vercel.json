@@ -2,5 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/blog/:slug", "destination": "/api/blog-post" }
+      { "source": "/sitemap.xml", "destination": "/api/sitemap" }
   ]
 }
