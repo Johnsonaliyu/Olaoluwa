@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://olaoluwaagegroup.com.ng/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
     <loc>https://olaoluwaagegroup.com.ng/blog.html</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!--
-    Individual blog posts (e.g. /blog/your-slug) are stored in Supabase
-    and rendered dynamically via api/blog-post.js, so they aren't listed
-    here as static entries. For full SEO coverage, consider generating
-    this sitemap dynamically (a serverless function that queries the
-    blog_posts table and outputs <url> entries for each published slug).
-    Let me know if you'd like that built.
-  -->
-
+  <url>
+    <loc>https://olaoluwaagegroup.com.ng/blog-post-app.html</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
