@@ -47,9 +47,8 @@ export default async function handler(req, res) {
                 .replace(/(<meta name="twitter:description"[^>]*content=")[^"]*(")/,`$1${esc(desc)}$2`)
                 .replace(/(<meta name="twitter:image"[^>]*content=")[^"]*(")/,       `$1${esc(image)}$2`)
                 .replace(/<title>[^<]*<\/title>/,                                    `<title>${esc(title)}</title>`)
-                .replace(/<\/head>/, `  <meta name="description" content="${esc(desc)}">\n  <link rel="canonical" href="${esc(postUrl)}">\n</head>`);
                 // Canonical URL tag
-                .replace(/<\/head>/, `  <link rel="canonical" href="${esc(postUrl)}">\n</head>`);
+                .replace(/<\/head>/, `  <meta name="description" content="${esc(desc)}">\n  <link rel="canonical" href="${esc(postUrl)}">\n</head>`);
         }
     } catch (err) {
         console.error('OG injection error:', err);
