@@ -46,6 +46,31 @@
   "sameAs": []
 }
 </script>
+
+<!-- Styling for the tranlaste to Yoruba-->
+
+<style>
+#lang-toggle {
+    background: #2D5016;
+    color: white;
+    border: none;
+    padding: 0.45rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+#lang-toggle:hover {
+    background: #4E8A28;
+    transform: translateY(-2px);
+}
+</style>
     
     <!-- Open Graph / WhatsApp preview -->
 <meta property="og:type"        content="website">
@@ -170,21 +195,27 @@
         }
 </style>
 
-    <!-- Google Translate Widget -->
-<div id="google_translate_element" style="display:none;"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en',
-      includedLanguages: 'yo,en',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: false
-    }, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" 
-  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-</script>
+    <!-- Google Translate-->
+    <script>
+function triggerTranslate() {
+    // Try clicking the select dropdown Google Translate creates
+    const select = document.querySelector('#google_translate_element select');
+    if (select) {
+        select.value = 'yo';
+        select.dispatchEvent(new Event('change'));
+        return;
+    }
+
+    // If widget not ready yet, open Google Translate directly as fallback
+    const pageUrl = encodeURIComponent(window.location.href);
+    window.open(
+        'https://translate.google.com/translate?sl=en&tl=yo&u=' + pageUrl,
+        '_blank'
+    );
+}
+    </script>
+
+    
     
     <!-- Announcement Banner -->
     <div id="site-announcement"></div>
@@ -207,9 +238,10 @@
                 <span></span>
             </div>
             <ul class="nav-links" id="navLinks">
-                <button onclick="document.getElementById('google_translate_element').querySelector('select').click()" 
-  id="lang-toggle" title="Translate page"> Translate Page to Yoruba
+                <li>
+                <button onclick="triggerTranslate()" id="lang-toggle" title="Translate page"> Translate to Yoruba
                 </button>
+                </li>
                 <li><a href="#home" onclick="scrollToSection('home'); return false;">Home</a></li>
                 <li><a href="#about" onclick="scrollToSection('about'); return false;">About</a></li>
                 <li><a href="#programs" onclick="scrollToSection('programs'); return false;">Programs</a></li>
