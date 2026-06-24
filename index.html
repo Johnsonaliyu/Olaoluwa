@@ -315,35 +315,6 @@ function triggerTranslate() {
         </div>
     </section>
     
-<!-- Gallery Paused/Resume Script-->
-    <script>
-    // Gallery touch to pause/resume
-const galleryTrack = document.querySelector('.gallery-track');
-if (galleryTrack) {
-    let isPaused = false;
-
-    // Pause when touched
-    galleryTrack.addEventListener('touchstart', () => {
-        isPaused = true;
-        galleryTrack.style.animationPlayState = 'paused';
-    });
-
-    // Resume when finger lifts
-    galleryTrack.addEventListener('touchend', () => {
-        isPaused = false;
-        galleryTrack.style.animationPlayState = 'running';
-    });
-
-    // Also resume if user taps anywhere else on the page
-    document.addEventListener('touchstart', (e) => {
-        if (!galleryTrack.contains(e.target) && isPaused) {
-            isPaused = false;
-            galleryTrack.style.animationPlayState = 'running';
-        }
-    });
-}
-    </script>
-    
     <!-- Programs Section with Image Frames -->
     <section class="programs" id="programs">
         <div class="programs-container">
@@ -503,6 +474,31 @@ if (galleryTrack) {
     </div>
 </section>
 
+<!-- Gallery Paused/Resume Script-->
+<script>
+const galleryTrack = document.querySelector('.gallery-track');
+if (galleryTrack) {
+    let isPaused = false;
+
+    galleryTrack.addEventListener('touchstart', () => {
+        isPaused = true;
+        galleryTrack.style.animationPlayState = 'paused';
+    });
+
+    galleryTrack.addEventListener('touchend', () => {
+        isPaused = false;
+        galleryTrack.style.animationPlayState = 'running';
+    });
+
+    document.addEventListener('touchstart', (e) => {
+        if (!galleryTrack.contains(e.target) && isPaused) {
+            isPaused = false;
+            galleryTrack.style.animationPlayState = 'running';
+        }
+    });
+}
+</script>
+    
     <!-- Testimonials Section -->
     <section class="testimonial-section">
         <div class="testimonial-container">
