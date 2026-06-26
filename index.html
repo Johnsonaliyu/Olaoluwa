@@ -725,9 +725,14 @@ if (galleryTrack) {
                     const errText = await res.text();
                     throw new Error(errText);
                 }
-                feedback.style.cssText = 'display:block; background:#EBF2E4; color:#2D5016; border:1px solid #c5dba8; padding:0.75rem 1rem; border-radius:8px; margin-bottom:1rem; font-size:0.9rem;';
-                feedback.textContent = '✓ Message sent! We will get back to you soon.';
-                document.getElementById('contact-form').reset();
+               feedback.style.cssText = 'display:block; background:#EBF2E4; color:#2D5016; border:1px solid #c5dba8; padding:0.75rem 1rem; border-radius:8px; margin-bottom:1rem; font-size:1rem; font-weight:600;';
+            feedback.textContent = '✓ Message sent! We will get back to you soon.';
+        document.getElementById('contact-form').reset();
+
+// Hide feedback after 6 seconds
+setTimeout(() => {
+    feedback.style.display = 'none';
+}, 6000); 
             } catch (err) {
                 console.error('Contact form error:', err);
                 feedback.style.cssText = 'display:block; background:#FDEAEA; color:#B83232; border:1px solid rgba(184,50,50,0.2); padding:0.75rem 1rem; border-radius:8px; margin-bottom:1rem; font-size:0.9rem;';
