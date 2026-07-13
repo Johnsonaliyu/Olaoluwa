@@ -38,8 +38,6 @@ This site serves as the digital home for the Olaoluwa Age Group, providing infor
 └── README.md
 ```
 
-*(Adjust structure above to match the actual repo layout.)*
-
 ## Getting Started
 
 ### Prerequisites
