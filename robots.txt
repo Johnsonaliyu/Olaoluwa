@@ -1,5 +1,0 @@
-# Olaoluwa Age Group — robots.txt
-User-agent: *
-Allow: /
-
-Sitemap: https://www.olaoluwaagegroup.com.ng/sitemap.xml
