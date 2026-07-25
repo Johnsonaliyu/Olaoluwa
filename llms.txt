@@ -1,0 +1,20 @@
+# Olaoluwa Age Group
+
+> Olaoluwa Age Group is a Yoruba civic and cultural society of Owalusin descent, based in Iwaro-Oka Akoko, Ondo State, Nigeria. The group runs education, healthcare, and welfare programs for the Oka Akoko community, guided by the ọmiye spirit of unity.
+
+Olaoluwa brings together youths of Owalusin descent and long-time residents who were born, raised, or educated within the community. Members are united by shared goals in community development, social interaction, and integration, working together for the progress of Owalusin.
+
+## Pages
+
+- [Home](https://olaoluwaagegroup.com.ng/): Overview of the organization, mission, featured programs, and executive team.
+- [About](https://olaoluwaagegroup.com.ng/#about): Who Olaoluwa Age Group is, its roots in Owalusin culture, and its guiding values.
+- [Programs](https://olaoluwaagegroup.com.ng/#programs): Community initiatives including the Spelling Bee (academic competition for students), Medical Outreach (free healthcare services), and Street Games (community recreational events).
+- [Team](https://olaoluwaagegroup.com.ng/#team): Profiles of the group's executive committee, including the Chairman, Vice Chairman, General Secretary, Treasurer, and Public Relations Officer.
+- [Contact](https://olaoluwaagegroup.com.ng/#contact): Physical address in Owalusin, Iwaro-Oka Akoko, phone numbers, email, and a contact form.
+- [Blog](https://olaoluwaagegroup.com.ng/blog.html): News, updates, and community stories from Olaoluwa Age Group. Individual posts are published at https://olaoluwaagegroup.com.ng/blog/{post-slug}.
+- [Awards & Recognition](https://olaoluwaagegroup.com.ng/awards-vote.html): Community awards and public voting for outstanding members.
+
+## Notes for LLMs
+
+- The blog is updated frequently with new posts covering community events, programs, and announcements; always treat the live blog index as the current source of truth rather than a cached list of articles.
+- Contact email: info@olaoluwaagegroup.com.ng
