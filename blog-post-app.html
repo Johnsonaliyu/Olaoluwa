@@ -350,8 +350,15 @@
             <a href="/blog" class="cta-button">← Back to Blog</a>
         </div>
     </nav>
-    
-<script>
+        
+    <!-- Dynamic post header (filled by JS) -->
+    <div class="blog-post-header" id="post-header">
+        <!-- Skeleton while loading -->
+        <div class="skeleton sk-date" style="margin:0 auto 1rem;"></div>
+        <div class="skeleton sk-title"></div>
+    </div>
+
+    <script>
   atOptions = {
     'key' : '9c221a3fd7a8fc035194bd12645ebd11',
     'format' : 'iframe',
@@ -362,13 +369,6 @@
 </script>
 <script src="https://www.highperformanceformat.com/9c221a3fd7a8fc035194bd12645ebd11/invoke.js"></script>
     
-    <!-- Dynamic post header (filled by JS) -->
-    <div class="blog-post-header" id="post-header">
-        <!-- Skeleton while loading -->
-        <div class="skeleton sk-date" style="margin:0 auto 1rem;"></div>
-        <div class="skeleton sk-title"></div>
-    </div>
-
     <!-- Article content -->
     <section class="blog-post-section" id="post-section">
         <div class="blog-post-container" id="post-container">
