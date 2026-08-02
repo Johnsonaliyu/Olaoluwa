@@ -182,7 +182,7 @@ if (testimonialContainer) {
 
 // ===== COUNTDOWN TIMER =====
 function updateCountdown() {
-    const targetDate = new Date('July 31, 2026').getTime();
+    const targetDate = new Date('July 5, 2027').getTime();
     const timer = setInterval(() => {
         const now = new Date().getTime();
         const distance = targetDate - now;
