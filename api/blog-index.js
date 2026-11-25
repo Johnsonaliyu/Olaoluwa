@@ -3,7 +3,7 @@ import { join } from 'path';
 
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwiaWF0IjoxNzc2MTA5NjQzLCJleHAiOjIwOTE2ODU2NDN9.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
-const SITE_URL = 'https://olaoluwaagegroup.com.ng';
+const SITE_URL = 'https://www.olaoluwaagegroup.com.ng';
 
 function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, (character) => ({
