@@ -4,6 +4,14 @@
     { "source": "/blog", "destination": "/news", "permanent": true },
     { "source": "/blog.html", "destination": "/news", "permanent": true }
   ],
+  "functions": {
+    "api/blog-index.js": {
+      "includeFiles": "blog.html"
+    },
+    "api/blog-post.js": {
+      "includeFiles": "blog-post-app.html"
+    }
+  },
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/news-sitemap.xml", "destination": "/api/news-sitemap" },

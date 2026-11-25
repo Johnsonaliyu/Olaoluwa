@@ -255,7 +255,8 @@
                 document.getElementById('blog-grid').innerHTML = `
                     <div class="blog-notice">
                         <div class="icon">⚠️</div>
-                        <p>Could not load posts right now. Please try again later.</p>
+                        <p>Could not load posts right now. Please try again.</p>
+                        <button type="button" class="primary-btn" onclick="loadBlogPosts()">Try again</button>
                     </div>`;
             }
         }
