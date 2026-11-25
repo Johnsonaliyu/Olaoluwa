@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwiaWF0IjoxNzc2MTA5NjQzLCJleHAiOjIwOTE2ODU2NDN9.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const SITE_URL = 'https://www.olaoluwaagegroup.com.ng';
 
 function escapeHtml(value) {
@@ -39,7 +39,7 @@ export default async function handler(_req, res) {
         html = html
             .replace(/<meta name="robots"[^>]*>/, '<meta name="robots" content="index,follow,max-image-preview:large">')
             .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${description}">`)
-            .replace('</head>', `    <meta property="og:type" content="website">\n    <meta property="og:url" content="${SITE_URL}/news">\n    <meta property="og:image" content="${SITE_URL}/hero.png">\n    <meta property="og:description" content="${description}">\n    <meta name="twitter:card" content="summary_large_image">\n</head>`);
+            .replace('</head>', `    <meta property="og:type" content="website">\n    <meta property="og:url" content="${SITE_URL}/blog">\n    <meta property="og:image" content="${SITE_URL}/hero.png">\n    <meta property="og:description" content="${description}">\n    <meta name="twitter:card" content="summary_large_image">\n</head>`);
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
         res.status(200).send(html);
