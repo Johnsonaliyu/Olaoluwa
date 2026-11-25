@@ -1,6 +1,6 @@
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
-const SITE_URL = 'https://olaoluwaagegroup.com.ng';
+const SITE_URL = 'https://www.olaoluwaagegroup.com.ng';
 const NEWS_WINDOW_MS = 48 * 60 * 60 * 1000;
 
 function escapeXml(value) {

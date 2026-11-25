@@ -30,5 +30,5 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://olaoluwaagegroup.com.ng/sitemap.xml
-Sitemap: https://olaoluwaagegroup.com.ng/news-sitemap.xml
+Sitemap: https://www.olaoluwaagegroup.com.ng/sitemap.xml
+Sitemap: https://www.olaoluwaagegroup.com.ng/news-sitemap.xml
