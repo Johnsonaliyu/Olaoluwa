@@ -4,7 +4,7 @@ import { join } from 'path';
 
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
-const SITE_URL     = 'https://www.olaoluwaagegroup.com.ng';
+const SITE_URL     = process.env.SITE_URL || 'https://www.olaoluwaagegroup.com.ng';
 
 const HEADERS = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY };
 
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
                 author: { '@type': author?.name ? 'Person' : 'Organization', name: author?.name || post.author || 'Olaoluwa Age Group' },
                 publisher: { '@type': 'Organization', name: 'Olaoluwa Age Group', logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
                 mainEntityOfPage: postUrl
-            }).replace(/</g, '\\u003c');
+            }).replace(/</g, '\u003c');
 
             // ── Meta tags (title, OG, Twitter, canonical) ──
             html = html
@@ -207,11 +207,11 @@ export default async function handler(req, res) {
 // Replaces the inner content of the first <TAG ... id="ID" ...> element found,
 // correctly handling nested elements of the same tag name (e.g. nested <div>s).
 function replaceById(html, id, tag, newInner) {
-    const openRe = new RegExp(`<${tag}\\b[^>]*id="${id}"[^>]*>`, 'i');
+    const openRe = new RegExp(`<${tag}\b[^>]*id="${id}"[^>]*>`, 'i');
     const m = openRe.exec(html);
     if (!m) return html;
     const contentStart = m.index + m[0].length;
-    const tagRe = new RegExp(`<${tag}\\b[^>]*>|<\\/${tag}>`, 'gi');
+    const tagRe = new RegExp(`<${tag}\b[^>]*>|<\/${tag}>`, 'gi');
     tagRe.lastIndex = contentStart;
     let depth = 1;
     let match;
