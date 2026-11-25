@@ -1,6 +1,33 @@
 // api/blog-post.js
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import sanitizeHtml from 'sanitize-html';
+
+const ARTICLE_SANITIZER_OPTIONS = {
+    allowedTags: [
+        'a', 'b', 'blockquote', 'br', 'code', 'del', 'div', 'em', 'figcaption', 'figure', 'h1', 'h2', 'h3',
+        'h4', 'h5', 'h6', 'hr', 'i', 'img', 'li', 'ol', 'p', 'pre', 's', 'span', 'strong', 'sub', 'sup',
+        'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul'
+    ],
+    allowedAttributes: {
+        a: ['href', 'title', 'target', 'rel'],
+        img: ['src', 'alt', 'title', 'width', 'height'],
+        td: ['colspan', 'rowspan'],
+        th: ['colspan', 'rowspan', 'scope']
+    },
+    allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+    allowedSchemesByTag: { img: ['http', 'https'] },
+    allowProtocolRelative: false,
+    transformTags: {
+        a: (tagName, attributes) => ({
+            tagName,
+            attribs: {
+                ...attributes,
+                ...(attributes.target === '_blank' ? { rel: 'noopener noreferrer' } : {})
+            }
+        })
+    }
+};
 
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
@@ -45,6 +72,7 @@ export default async function handler(req, res) {
             const image     = post.image_url || `${SITE_URL}/hero.png`;
             const pageUrl   = encodeURIComponent(postUrl);
             const pageTitle = encodeURIComponent(post.title || 'Olaoluwa Age Group Blog');
+            const safeContent = sanitizeHtml(String(post.content || '<p>No content available.</p>'), ARTICLE_SANITIZER_OPTIONS);
 
             const articleSchema = JSON.stringify({
                 '@context': 'https://schema.org',
@@ -163,7 +191,7 @@ export default async function handler(req, res) {
                 </div>
 
                 <article class="blog-post-content">
-                    ${post.content || '<p>No content available.</p>'}
+                    ${safeContent}
                 </article>
 
                 <div id="author-bio-card-wrap">${authorBioCard}</div>

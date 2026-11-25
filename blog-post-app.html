@@ -426,6 +426,90 @@
             return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
 
+        const ARTICLE_ALLOWED_TAGS = new Set([
+            'a', 'b', 'blockquote', 'br', 'code', 'del', 'div', 'em', 'figcaption', 'figure', 'h1', 'h2', 'h3',
+            'h4', 'h5', 'h6', 'hr', 'i', 'img', 'li', 'ol', 'p', 'pre', 's', 'span', 'strong', 'sub', 'sup',
+            'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul'
+        ]);
+        const ARTICLE_DROP_CONTENT_TAGS = new Set(['audio', 'button', 'embed', 'form', 'iframe', 'input', 'link', 'math', 'meta', 'object', 'script', 'source', 'style', 'svg', 'template', 'video']);
+        const ARTICLE_ALLOWED_ATTRIBUTES = {
+            a: new Set(['href', 'target', 'title']),
+            img: new Set(['alt', 'height', 'src', 'title', 'width']),
+            td: new Set(['colspan', 'rowspan']),
+            th: new Set(['colspan', 'rowspan', 'scope'])
+        };
+
+        function safeArticleUrl(value, tagName) {
+            try {
+                const url = new URL(value, window.location.origin);
+                const allowedProtocols = tagName === 'img'
+                    ? ['http:', 'https:']
+                    : ['http:', 'https:', 'mailto:', 'tel:'];
+                return allowedProtocols.includes(url.protocol) ? url.href : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function sanitizeArticleHtml(markup) {
+            const parsed = new DOMParser().parseFromString(String(markup || ''), 'text/html');
+            const output = document.createElement('div');
+
+            function cleanNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.nodeValue || '');
+                if (node.nodeType !== Node.ELEMENT_NODE) return null;
+
+                const tagName = node.tagName.toLowerCase();
+                if (ARTICLE_DROP_CONTENT_TAGS.has(tagName)) return null;
+
+                const children = Array.from(node.childNodes).map(cleanNode).filter(Boolean);
+                if (!ARTICLE_ALLOWED_TAGS.has(tagName)) {
+                    const fragment = document.createDocumentFragment();
+                    children.forEach((child) => fragment.appendChild(child));
+                    return fragment;
+                }
+
+                const safeElement = document.createElement(tagName);
+                const allowedAttributes = ARTICLE_ALLOWED_ATTRIBUTES[tagName] || new Set();
+                for (const attribute of allowedAttributes) {
+                    const value = node.getAttribute(attribute);
+                    if (value === null) continue;
+
+                    if (attribute === 'href' || attribute === 'src') {
+                        const safeUrl = safeArticleUrl(value, tagName);
+                        if (safeUrl) safeElement.setAttribute(attribute, safeUrl);
+                        continue;
+                    }
+                    if (attribute === 'target') {
+                        if (value === '_blank') safeElement.setAttribute(attribute, value);
+                        continue;
+                    }
+                    if (['width', 'height', 'colspan', 'rowspan'].includes(attribute)) {
+                        if (/^\d{1,4}$/.test(value)) safeElement.setAttribute(attribute, value);
+                        continue;
+                    }
+                    if (attribute === 'scope') {
+                        if (['row', 'col', 'rowgroup', 'colgroup'].includes(value)) safeElement.setAttribute(attribute, value);
+                        continue;
+                    }
+                    safeElement.setAttribute(attribute, value);
+                }
+
+                if (tagName === 'a' && safeElement.getAttribute('target') === '_blank') {
+                    safeElement.setAttribute('rel', 'noopener noreferrer');
+                }
+                if (tagName === 'img' && !safeElement.hasAttribute('src')) return null;
+                children.forEach((child) => safeElement.appendChild(child));
+                return safeElement;
+            }
+
+            Array.from(parsed.body.childNodes).forEach((node) => {
+                const clean = cleanNode(node);
+                if (clean) output.appendChild(clean);
+            });
+            return output.innerHTML;
+        }
+
         function renderPost(post) {
             /* ── Page title ── */
             document.title = (post.title || 'Blog Post') + ' - Olaoluwa Age Group';
@@ -542,7 +626,7 @@
                 </div>
 
                 <article class="blog-post-content">
-                    ${post.content || '<p>No content available.</p>'}
+                    ${sanitizeArticleHtml(post.content || '<p>No content available.</p>')}
                 </article>
 
                 <div id="author-bio-card-wrap"></div>
@@ -673,22 +757,6 @@
 
         loadPost();
 
-        // ── Hamburger menu ──
-        const hamburger = document.getElementById('hamburger');
-        const navLinks  = document.getElementById('navLinks');
-        if (hamburger && navLinks) {
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                hamburger.classList.toggle('active');
-            });
-            // Close menu when a link is tapped
-            navLinks.querySelectorAll('a').forEach(a => {
-                a.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    hamburger.classList.remove('active');
-                });
-            });
-        }
     </script>
   </body>
 </html>
