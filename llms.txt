@@ -11,7 +11,7 @@ Olaoluwa brings together youths of Owalusin descent and long-time residents who 
 - [Programs](https://olaoluwaagegroup.com.ng/#programs): Community initiatives including the Spelling Bee (academic competition for students), Medical Outreach (free healthcare services), and Street Games (community recreational events).
 - [Team](https://olaoluwaagegroup.com.ng/#team): Profiles of the group's executive committee, including the Chairman, Vice Chairman, General Secretary, Treasurer, and Public Relations Officer.
 - [Contact](https://olaoluwaagegroup.com.ng/#contact): Physical address in Owalusin, Iwaro-Oka Akoko, phone numbers, email, and a contact form.
-- [News](https://www.olaoluwaagegroup.com.ng/news): News, updates, and community stories from Olaoluwa Age Group. Individual posts are published at https://www.olaoluwaagegroup.com.ng/blog/{post-slug}. Published news is discoverable in the XML sitemap at https://www.olaoluwaagegroup.com.ng/sitemap.xml.
+- [News](https://olaoluwaagegroup.com.ng/news): News, updates, and community stories from Olaoluwa Age Group. Individual posts are published at https://olaoluwaagegroup.com.ng/blog/{post-slug}. Published news is discoverable in the XML sitemap at https://olaoluwaagegroup.com.ng/sitemap.xml.
 - [Awards & Recognition](https://olaoluwaagegroup.com.ng/awards-vote.html): Community awards and public voting for outstanding members.
 
 ## Notes for LLMs
