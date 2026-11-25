@@ -4,7 +4,7 @@ import { join } from 'path';
 
 const SUPABASE_URL = 'https://dupnvmizssjdqqxunvwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cG52bWl6c3NqZHFxeHVudnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDk2NDMsImV4cCI6MjA5MTY4NTY0M30.WKUVX_WnAZnZ6ca6Tl8-oQC2i-N7exaaaRkA6FCMYeo';
-const SITE_URL     = 'https://olaoluwaagegroup.com.ng';
+const SITE_URL     = 'https://www.olaoluwaagegroup.com.ng';
 
 const HEADERS = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY };
 
@@ -42,9 +42,22 @@ export default async function handler(req, res) {
             const postUrl   = `${SITE_URL}/blog/${slug}`;
             const title     = (post.title || 'Olaoluwa Age Group Blog') + ' — Olaoluwa Age Group';
             const desc      = post.excerpt || 'Read the latest news from the Olaoluwa Age Group community.';
-            const image     = post.image_url || `${SITE_URL}/og-default.jpg`;
+            const image     = post.image_url || `${SITE_URL}/hero.png`;
             const pageUrl   = encodeURIComponent(postUrl);
             const pageTitle = encodeURIComponent(post.title || 'Olaoluwa Age Group Blog');
+
+            const articleSchema = JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'NewsArticle',
+                headline: post.title || 'Olaoluwa Age Group News',
+                description: desc,
+                image: post.image_url ? [post.image_url] : [`${SITE_URL}/hero.png`],
+                datePublished: post.date || undefined,
+                dateModified: post.updated_at || post.date || undefined,
+                author: { '@type': author?.name ? 'Person' : 'Organization', name: author?.name || post.author || 'Olaoluwa Age Group' },
+                publisher: { '@type': 'Organization', name: 'Olaoluwa Age Group', logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
+                mainEntityOfPage: postUrl
+            }).replace(/</g, '\\u003c');
 
             // ── Meta tags (title, OG, Twitter, canonical) ──
             html = html
@@ -55,8 +68,11 @@ export default async function handler(req, res) {
                 .replace(/(<meta name="twitter:title"[^>]*content=")[^"]*(")/,       `$1${esc(title)}$2`)
                 .replace(/(<meta name="twitter:description"[^>]*content=")[^"]*(")/,`$1${esc(desc)}$2`)
                 .replace(/(<meta name="twitter:image"[^>]*content=")[^"]*(")/,       `$1${esc(image)}$2`)
-                .replace(/<title>[^<]*<\/title>/,                                    `<title>${esc(title)}</title>`)
-                .replace(/<\/head>/, `  <meta name="description" content="${esc(desc)}">\n  <link rel="canonical" href="${esc(postUrl)}">\n</head>`);
+                .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
+                .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${esc(desc)}">`)
+                .replace(/<meta name="robots"[^>]*>/, '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">')
+                .replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${esc(postUrl)}">`)
+                .replace('</head>', `    <script type="application/ld+json">${articleSchema}</script>\n</head>`);
 
             // ── Header (date, title, category) ──
             html = replaceById(html, 'post-header', 'div', `

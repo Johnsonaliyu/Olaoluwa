@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/blog", "destination": "/news", "permanent": true },
+    { "source": "/blog.html", "destination": "/news", "permanent": true }
+  ],
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/news-sitemap.xml", "destination": "/api/news-sitemap" },
+    { "source": "/news", "destination": "/api/blog-index" },
     { "source": "/blog/:slug", "destination": "/api/blog-post" }
   ]
 }
