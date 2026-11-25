@@ -1118,13 +1118,40 @@ footer {
 }
 
 .blog-post-content {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #555;
+    max-width: 72ch;
+    margin-inline: auto;
+    color: #3f463a;
+    font-size: clamp(1.15rem, 1.08rem + 0.35vw, 1.3rem);
+    line-height: 1.9;
+    overflow-wrap: anywhere;
 }
 
 .blog-post-content p {
-    margin-bottom: 1.5rem;
+    margin: 0 0 1.5rem;
+}
+
+.blog-post-content h2,
+.blog-post-content h3,
+.blog-post-content h4 {
+    color: var(--charcoal);
+    line-height: 1.35;
+    margin: 2rem 0 0.85rem;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+    margin: 0 0 1.5rem 1.5rem;
+    padding-left: 0.5rem;
+}
+
+.blog-post-content li {
+    margin-bottom: 0.55rem;
+}
+
+.blog-post-content a {
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
 }
 
 .blog-post-content h3 {
