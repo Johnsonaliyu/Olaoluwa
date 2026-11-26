@@ -543,29 +543,33 @@ if (galleryTrack) {
     </section>
 
     <!-- Countdown Section -->
-    <section class="countdown-section">
+    <section class="countdown-section" aria-labelledby="countdown-title">
         <div class="countdown-container">
-            <div class="section-header" style="margin-bottom: 0;">
-                <h2 style="color: white;">Countdown to our Oka Day Program</h2>
-                <p style="color: rgba(255, 249, 240, 0.8);">August 5, 2027</p>
-            </div>
-            <div class="countdown-grid">
-                <div class="countdown-box">
-                    <div class="countdown-number" id="countdown-days">0</div>
-                    <div class="countdown-label">Days</div>
+            <div class="countdown-panel">
+                <div class="countdown-flag countdown-flag-top" aria-hidden="true"></div>
+                <div class="countdown-content">
+                    <h2 class="countdown-title" id="countdown-title">Save the Date</h2>
+                    <p class="countdown-event">Oka Day Program · August 5, 2027</p>
+                    <div class="countdown-grid" role="group" aria-label="Time until Oka Day">
+                        <div class="countdown-box" role="group" aria-label="Days remaining">
+                            <div class="countdown-number" id="countdown-days" aria-hidden="true">00</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-box" role="group" aria-label="Hours remaining">
+                            <div class="countdown-number" id="countdown-hours" aria-hidden="true">00</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-box" role="group" aria-label="Minutes remaining">
+                            <div class="countdown-number" id="countdown-minutes" aria-hidden="true">00</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-box" role="group" aria-label="Seconds remaining">
+                            <div class="countdown-number" id="countdown-seconds" aria-hidden="true">00</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="countdown-hours">0</div>
-                    <div class="countdown-label">Hours</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="countdown-minutes">0</div>
-                    <div class="countdown-label">Minutes</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="countdown-seconds">0</div>
-                    <div class="countdown-label">Seconds</div>
-                </div>
+                <div class="countdown-flag countdown-flag-bottom" aria-hidden="true"></div>
             </div>
         </div>
     </section>

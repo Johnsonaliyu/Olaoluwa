@@ -183,25 +183,42 @@ if (testimonialContainer) {
 // ===== COUNTDOWN TIMER =====
 function updateCountdown() {
     const targetDate = new Date('August 5, 2027').getTime();
-    const timer = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+    const timer = setInterval(renderCountdown, 1000);
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById('countdown-days').innerText = days;
-        document.getElementById('countdown-hours').innerText = hours;
-        document.getElementById('countdown-minutes').innerText = minutes;
-        document.getElementById('countdown-seconds').innerText = seconds;
-
-        if (distance < 0) {
+    function renderCountdown() {
+        const distance = targetDate - Date.now();
+        if (distance <= 0) {
             clearInterval(timer);
-            document.querySelector('.countdown-container').innerText = 'Event is live!';
+            document.querySelector('.countdown-content').textContent = 'The event is live!';
+            return;
         }
-    }, 1000);
+
+        const values = [
+            { id: 'countdown-days', value: Math.floor(distance / (1000 * 60 * 60 * 24)), label: 'days' },
+            { id: 'countdown-hours', value: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), label: 'hours' },
+            { id: 'countdown-minutes', value: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), label: 'minutes' },
+            { id: 'countdown-seconds', value: Math.floor((distance % (1000 * 60)) / 1000), label: 'seconds' }
+        ];
+
+        values.forEach(({ id, value, label }) => {
+            const display = document.getElementById(id);
+            if (!display) return;
+
+            const digits = String(value).padStart(2, '0');
+            if (display.dataset.value === digits) return;
+            display.dataset.value = digits;
+            display.closest('.countdown-box')?.setAttribute('aria-label', `${value} ${label} remaining`);
+            display.replaceChildren(...Array.from(digits, (digit) => {
+                const card = document.createElement('span');
+                card.className = 'countdown-digit';
+                card.setAttribute('aria-hidden', 'true');
+                card.textContent = digit;
+                return card;
+            }));
+        });
+    }
+
+    renderCountdown();
 }
 
 // Initialize countdown on page load
