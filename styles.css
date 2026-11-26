@@ -1120,7 +1120,7 @@ footer {
 .blog-post-content {
     max-width: 65ch;
     margin-inline: auto;
-    color: #24221f;
+    color: #000000;
     font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(1.22rem, 1.18rem + 0.42vw, 1.48rem);
     line-height: 1.6;
@@ -1134,7 +1134,7 @@ footer {
 .blog-post-content h2,
 .blog-post-content h3,
 .blog-post-content h4 {
-    color: var(--charcoal);
+    color: #000000;
     line-height: 1.35;
     margin: 2rem 0 0.85rem;
 }
@@ -1158,7 +1158,7 @@ footer {
 .blog-post-content h3 {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
-    color: var(--charcoal);
+    color: #000000;
     margin: 2.5rem 0 1rem 0;
 }
 
